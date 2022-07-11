@@ -17,6 +17,7 @@ Written using Python, which is suitable for operating systems, e.g., Windows/Lin
     pip install --upgrade Bgolearn
 
 ## Running / 运行
+### Ref.https://github.com/Bin-Cao/Bgolearn/blob/main/Template/demo.ipynb
 
 ```
 import Bgolearn.BGOsampling as BGOS 
