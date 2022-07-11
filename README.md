@@ -1,5 +1,6 @@
 # Python package - Bgolearn 
-## [Bgolearn] 
+## [Bgolearn] ![Screen Shot 2022-07-11 at 9 13 28 AM](https://user-images.githubusercontent.com/86995074/178176016-8a79db81-fcfb-4af0-9b1c-aa4e6a113b5e.png)
+
 ## Version 1, Jul, 2022（ A Bayesian global optimization package for material design）
 
 
