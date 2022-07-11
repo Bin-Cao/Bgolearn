@@ -1,7 +1,8 @@
 # Python package - Bgolearn 
 ![Screen Shot 2022-07-11 at 9 13 28 AM](https://user-images.githubusercontent.com/86995074/178176016-8a79db81-fcfb-4af0-9b1c-aa4e6a113b5e.png)
 
-## （ A Bayesian global optimization package for material design 为材料设计而开发！）Version 1, Jul, 2022
+## 为材料设计而开发！
+## （ A Bayesian global optimization package for material design ）Version 1, Jul, 2022
 
 
 Reference paper : V. Picheny, T. Wagner, and D. Ginsbourger. “A Benchmark of Kriging-Based Infill Criteria for Noisy Optimization”. In: Structural and Multidisciplinary Optimization 48.3 (Sept. 2013), pp. 607–626. issn: 1615-1488. 
