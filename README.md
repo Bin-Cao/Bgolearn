@@ -46,22 +46,32 @@ model.EI()
 
 ## Utility Function 效用函数: 
 + Expected Improvement 
+
         model.EI()
 + Expected improvement with “plugin”
+
         model.EI_plugin()
 + Augmented Expected Improvement 
+
         model.Augmented_EI(alpha = 1, tao = 0)
 + Expected Quantile Improvement 
+
         model.EQI(beta = 0.5,tao_new = 0)
+        
 + Reinterpolation Expected Improvement
+
         model.Reinterpolation_EI()
 + Upper confidence bound
+
         model.UCB(alpha=1)
 + Probability of Improvement
+
         model.PoI(tao = 0)
 + Predictive Entropy Search
+
         model.PES(sam_num = 500)
 + Knowledge Gradient
+
         model.KD(MC_num = 500)
 
 ## About / 更多
