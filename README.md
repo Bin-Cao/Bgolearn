@@ -19,7 +19,7 @@ Written using Python, which is suitable for operating systems, e.g., Windows/Lin
 ## Running / 运行
 ### Ref.https://github.com/Bin-Cao/Bgolearn/blob/main/Template/demo.ipynb
 
-```
+\```javascript
 import Bgolearn.BGOsampling as BGOS 
 
 data = pd.read_csv('data.csv')
@@ -45,7 +45,7 @@ Bgolearn = BGOS.Bgolearn()
 model = Bgolearn.fit(Kriging_model,data_matrix,Measured_response,virtual_samples,opt_num = 3,min_search = True)
 # Expected Improvement 
 model.EI()
-```
+\```
 
 ## Utility Function 效用函数: 
 + Expected Improvement 
