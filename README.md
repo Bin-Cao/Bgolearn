@@ -49,8 +49,10 @@ class Kriging_model(object):
 
 
 Bgolearn = BGOS.Bgolearn()
+
 # min_search = False:  searching the global maximum
 model = Bgolearn.fit(Kriging_model,data_matrix,Measured_response,virtual_samples,opt_num = 3,min_search = True)
+
 # Expected Improvement 
 model.EI()
 ```
