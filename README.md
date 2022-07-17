@@ -1,6 +1,6 @@
 
 [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
-# Python package - Bgolearn 
+# Python package - Bgolearn （V1.05）
 
 
 
