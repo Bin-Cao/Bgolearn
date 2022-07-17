@@ -10,7 +10,7 @@ y=0.013X^4-0.25X^3+1.61X^2-4.1X+8+ N(0,0.2^2)
 **With noise level sigma = 0.2** 
 
 
-
+## dataset within noise 
 x	| y	 | noise |	obs.
 ---|---|---|---
 0.5| 6.3220625|0.172663617|	6.494726117
@@ -25,3 +25,7 @@ x	| y	 | noise |	obs.
 9|	4.553|	-0.081231073|	4.471768927
 9.5|	5.8945625|	-0.149121946|	5.745440554
 10|	8|	-0.325742852|	7.674257148
+
+
+
+X=7.6, X=7.7, X=7.8 are treated as the global optimals which are satisfied our requirements.
