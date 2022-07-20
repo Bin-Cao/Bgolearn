@@ -67,9 +67,14 @@ model.EI()
 + 3:Augmented Expected Improvement 
 
         model.Augmented_EI(alpha = 1, tao = 0)
+        :param alpha: tradeoff coefficient, default 1
+        :param tao: noise standard deviation, default 0
 + 4:Expected Quantile Improvement 
 
         model.EQI(beta = 0.5,tao_new = 0)
+        :param beta: beta quantile number, default 0.5
+        :param tao: noise standard deviation, default 0
+
         
 + 5:Reinterpolation Expected Improvement
 
@@ -77,15 +82,19 @@ model.EI()
 + 6:Upper confidence bound
 
         model.UCB(alpha=1)
+        :param alpha: tradeoff coefficient, default 1
 + 7:Probability of Improvement
 
         model.PoI(tao = 0)
+        :param tao: improvement ratio (>=0) , default 0
 + 8:Predictive Entropy Search
 
         model.PES(sam_num = 500)
+        :param sam_num: number of optimal drawn from p(x*|D), default 500
 + 9:Knowledge Gradient
 
         model.KD(MC_num = 500)
+        :param MC_num: number of Monte carlo, default 500
 
 ## About / 更多
 Maintained by Bin Cao. Please feel free to open issues in the Github or contact Bin Cao
