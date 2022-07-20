@@ -261,16 +261,16 @@ class Global_max(object):
         return PES_list
     
 
-    def KD(self,MC_num = 500):
+    def Knowledge_G(self,MC_num = 50):
         """
-        :param MC_num: number of Monte carlo,  default 500
+        :param MC_num: number of Monte carlo,  default 50
         """
         current_max = self.virtual_samples_mean.max()
         KD_list = []
         vir_num = len(self.virtual_samples)
         for i in range(vir_num):
             x_value = self.virtual_samples[i]
-            MC_batch_min = 0
+            MC_batch_max = 0
             for j in range(MC_num):
                 y_value = np.random.normal(loc = self.virtual_samples_mean[i],scale = self.virtual_samples_std[i])
                 archive_sample_x = copy.deepcopy(self.data_matrix)

@@ -1,6 +1,6 @@
 
 [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
-# Python package - Bgolearn （V1.05）
+# Python package - Bgolearn 
 
 
 
@@ -93,8 +93,8 @@ model.EI()
         :param sam_num: number of optimal drawn from p(x*|D), default 500
 + 9:Knowledge Gradient
 
-        model.KD(MC_num = 500)
-        :param MC_num: number of Monte carlo, default 500
+        model.Knowledge_G(MC_num = 50)
+        :param MC_num: number of Monte carlo, default 50
 
 ## About / 更多
 Maintained by Bin Cao. Please feel free to open issues in the Github or contact Bin Cao

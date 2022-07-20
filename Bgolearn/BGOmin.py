@@ -259,9 +259,9 @@ class Global_min(object):
         return PES_list
     
 
-    def KD(self,MC_num = 500):
+    def Knowledge_G(self,MC_num = 50):
         """
-        :param MC_num: number of Monte carlo,  default 500
+        :param MC_num: number of Monte carlo,  default 50
         """
         current_min = self.virtual_samples_mean.min()
         KD_list = []
