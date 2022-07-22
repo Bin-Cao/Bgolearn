@@ -1,5 +1,4 @@
 
-## Provided by Tian Yuan, and Cao Bin
 ## Function :
 
 ```math

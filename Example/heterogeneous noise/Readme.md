@@ -1,4 +1,3 @@
-## Provided by Tian Yuan, and Cao Bin
 
 ## Function :
 
@@ -7,7 +6,7 @@ y=0.013X^4-0.25X^3+1.61X^2-4.1X+8+ N(0,noisestd ^2)
 ```
 
 
-**With different noise level in column : noise_std ** 
+**With different noise level in column : noise_std** 
 
 
 ## dataset within Heterogeneous noise 
