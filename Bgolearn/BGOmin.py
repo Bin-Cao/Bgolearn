@@ -229,7 +229,7 @@ class Global_min(object):
         # ref. paper: Predictive Entropy Search for Efficient Global Optimization of Black-box Functions
         Entropy_y_ori = 0.5*np.log(2*np.pi*np.e*(self.virtual_samples_std**2))
     
-        # defined Monte carlo
+        # defined Monte carol
         Entropy_y_conditional = np.zeros(len(self.virtual_samples))
         for i in range(sam_num):   
             sample_x, sample_y = self.Thompson_sampling()
@@ -261,7 +261,7 @@ class Global_min(object):
 
     def Knowledge_G(self,MC_num = 50):
         """
-        :param MC_num: number of Monte carlo,  default 50
+        :param MC_num: number of Monte carol,  default 50
         """
         current_min = self.virtual_samples_mean.min()
         KD_list = []
@@ -282,7 +282,7 @@ class Global_min(object):
                 MC_batch_min += post_mean.min()
                 MC_times = i * MC_num + j+1
                 if MC_times % 2000 == 0:
-                    print('The {num}-th Monte carlo simulation'.format(num = MC_times))
+                    print('The {num}-th Monte carol simulation'.format(num = MC_times))
             MC_result = MC_batch_min / MC_num
             KD_list.append( current_min - MC_result)
         KD_list = np.array(KD_list)

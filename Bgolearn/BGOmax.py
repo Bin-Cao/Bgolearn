@@ -231,7 +231,7 @@ class Global_max(object):
         # ref. paper: Predictive Entropy Search for Efficient Global Optimization of Black-box Functions
         Entropy_y_ori = 0.5*np.log(2*np.pi*np.e*(self.virtual_samples_std**2))
     
-        # defined Monte carlo
+        # defined Monte carol
         Entropy_y_conditional = np.zeros(len(self.virtual_samples))
         for i in range(sam_num):   
             sample_x, sample_y = self.Thompson_sampling()
@@ -263,14 +263,14 @@ class Global_max(object):
 
     def Knowledge_G(self,MC_num = 50):
         """
-        :param MC_num: number of Monte carlo,  default 50
+        :param MC_num: number of Monte carol,  default 50
         """
         current_max = self.virtual_samples_mean.max()
         KD_list = []
         vir_num = len(self.virtual_samples)
         for i in range(vir_num):
             x_value = self.virtual_samples[i]
-            MC_batch_max = 0
+            MC_batch_min = 0
             for j in range(MC_num):
                 y_value = np.random.normal(loc = self.virtual_samples_mean[i],scale = self.virtual_samples_std[i])
                 archive_sample_x = copy.deepcopy(self.data_matrix)
@@ -284,7 +284,7 @@ class Global_max(object):
                 MC_batch_max += post_mean.max()
                 MC_times = i*MC_num + j+1
                 if MC_times % 2000 == 0:
-                    print('The {num}-th Monte carlo simulation'.format(num = MC_times))
+                    print('The {num}-th Monte carol simulation'.format(num = MC_times))
             MC_result = MC_batch_max / MC_num
             KD_list.append( MC_result - current_max)
         KD_list = np.array(KD_list)
