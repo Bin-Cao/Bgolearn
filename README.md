@@ -2,8 +2,8 @@
 [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
 # Python package - Bgolearn 
 
+<img width="380" alt="Screen Shot 2022-07-30 at 22 34 52" src="https://user-images.githubusercontent.com/86995074/181919110-f0751d77-1ebc-4c6c-9bcb-d0bd18c09e11.png">
 
-<img width="229" alt="Screen Shot 2022-07-30 at 22 32 04" src="https://user-images.githubusercontent.com/86995074/181919071-5e3f34df-ad49-4c45-ac26-d4daeff9f33c.png">
 
 
 ## 为材料设计而生！
