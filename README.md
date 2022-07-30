@@ -3,8 +3,7 @@
 # Python package - Bgolearn 
 
 
-
-![Screen Shot 2022-07-30 at 12 25 10](https://user-images.githubusercontent.com/86995074/181872253-c9e86264-310f-4baf-bc1c-abe772cf2876.png)
+<img width="229" alt="Screen Shot 2022-07-30 at 22 32 04" src="https://user-images.githubusercontent.com/86995074/181919071-5e3f34df-ad49-4c45-ac26-d4daeff9f33c.png">
 
 
 ## 为材料设计而生！
