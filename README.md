@@ -64,7 +64,7 @@ model.EI()
 ```javascript
 
 """
-after v1.0 
+after v1.1
 Bgolearn provides a pre-set Kriging model, default is gpr moddel from sklearn package
 
 more informations, see document
