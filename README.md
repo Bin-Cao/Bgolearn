@@ -27,7 +27,7 @@ Bgolearn guides subsequent material design based on existed experimental data. W
 ## Running / 运行
 ### Refs: see examples
 
-### before version V1.0
+### before version V1.1
 
 ```javascript
 
@@ -60,7 +60,7 @@ model = Bgolearn.fit(Kriging_model,data_matrix,Measured_response,virtual_samples
 model.EI()
 ```
 
-### version V1.0
+### version V1.1
 ```javascript
 
 """
