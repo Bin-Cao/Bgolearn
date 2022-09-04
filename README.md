@@ -25,9 +25,12 @@ Bgolearn guides subsequent material design based on existed experimental data. W
     pip install --upgrade Bgolearn
 
 ## Running / 运行
-### Ref.https://github.com/Bin-Cao/Bgolearn/blob/main/Template/demo.ipynb
+### Refs: see examples
+
+### before version V1.0
 
 ```javascript
+
 import Bgolearn.BGOsampling as BGOS 
 
 data = pd.read_csv('data.csv')
@@ -56,6 +59,35 @@ model = Bgolearn.fit(Kriging_model,data_matrix,Measured_response,virtual_samples
 # Expected Improvement 
 model.EI()
 ```
+
+### version V1.0
+```javascript
+
+"""
+after v1.0 
+Bgolearn provides a pre-set Kriging model, default is gpr moddel from sklearn package
+
+more informations, see document
+"""
+
+import Bgolearn.BGOsampling as BGOS 
+
+data = pd.read_csv('data.csv')
+data_matrix = data.iloc[:,:-1]
+Measured_response = data.iloc[:,-1]
+
+# design virtual samples
+virtual_samples = np.linspace(0,11,100)
+
+Bgolearn = BGOS.Bgolearn()
+
+# min_search = False:  searching the global maximum
+model = Bgolearn.fit(data_matrix,Measured_response,virtual_samples,Kriging_model = None, noise_std = 1e-5, opt_num = 3,min_search = True)
+
+# Expected Improvement 
+model.EI()
+```
+
 
 ## Utility Function 效用函数: 
 + 1:Expected Improvement 

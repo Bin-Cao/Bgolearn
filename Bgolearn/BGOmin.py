@@ -219,7 +219,7 @@ class Global_min(object):
             y_value = np.random.normal(loc = self.virtual_samples_mean[i],scale = self.virtual_samples_std[i])
             optimal_value_set.append(y_value)
         index = np.where(np.array(optimal_value_set)==np.array(optimal_value_set).min())[0][0]
-        return self.virtual_samples[index], optimal_value_set[index]
+        return self.virtual_samples[index], optimal_value_set[index],self.virtual_samples_std[index]
     
     def PES(self, sam_num = 500):
         """
@@ -232,7 +232,7 @@ class Global_min(object):
         # defined Monte carol
         Entropy_y_conditional = np.zeros(len(self.virtual_samples))
         for i in range(sam_num):   
-            sample_x, sample_y = self.Thompson_sampling()
+            sample_x, sample_y,sample_noise = self.Thompson_sampling()
             
             archive_sample_x = copy.deepcopy(self.data_matrix)
             archive_sample_y = copy.deepcopy(self.Measured_response)
@@ -241,7 +241,7 @@ class Global_min(object):
             archive_sample_y = np.append(archive_sample_y, sample_y)
             fea_num = len(self.data_matrix[0])
             # return a callable model
-            _, post_std = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num), archive_sample_y, self.virtual_samples)
+            _, post_std = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num), archive_sample_y, self.virtual_samples,sample_noise)
             
             Entropy_y_conditional += 0.5*np.log(2*np.pi*np.e*(post_std**2))
         estimated_Entropy_y_conditional = Entropy_y_conditional / sam_num            
@@ -278,7 +278,7 @@ class Global_min(object):
                 archive_sample_y = np.append(archive_sample_y, y_value)
                 fea_num = len(self.data_matrix[0])
                 # return a callable model
-                post_mean, _ = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num),archive_sample_y,self.virtual_samples)
+                post_mean, _ = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num),archive_sample_y,self.virtual_samples,self.virtual_samples_std[i])
                 MC_batch_min += post_mean.min()
                 MC_times = i * MC_num + j+1
                 if MC_times % 2000 == 0:
