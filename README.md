@@ -60,6 +60,7 @@ model.EI()
 ```
 
 ### after version V1.1.0
+
 ```javascript
 
 """
@@ -88,6 +89,7 @@ model.EI()
 ```
 
 ### parameters
+
 ```javascript
 
 PACKAGE: Bayesian global optimization learn .
