@@ -1,3 +1,4 @@
+import inspect
 import numpy as np
 from .BGOmax import Global_max
 from .BGOmin import Global_min
@@ -8,27 +9,28 @@ class Bgolearn(object):
     def fit(self,data_matrix, Measured_response, virtual_samples, noise_std = 1e-5, Kriging_model = None, opt_num = 1 ,min_search = True):
         
         """
-        PACKAGE: Bayesian global optimization 
+        PACKAGE: Bayesian global optimization learn .
 
         10 Jul 2022, version 1, Bin Cao, MGI, SHU, Shanghai, CHINA.
 
-        :param data_matrix: data matrix of training dataset, X 
+        :param data_matrix: data matrix of training dataset, X .
 
-        :param Measured_response: response of tarining dataset, y
+        :param Measured_response: response of tarining dataset, y.
 
-        :param virtual_samples: designed virtual samples
+        :param virtual_samples: designed virtual samples.
 
         :param noise_std: float or ndarray of shape (n_samples,), default=1e-5
                 Value added to the diagonal of the kernel matrix during fitting.
                 This can prevent a potential numerical issue during fitting, by
                 ensuring that the calculated values form a positive definite matrix.
-                It can also be interpreted as the variance of additional Gaussian
+                It can also be interpreted as the variance of additional Gaussian.
                 measurement noise on the training observations.
 
         :param Kriging_model (default None): a user defined callable Kriging model, has an attribute of <fit_pre>
                 if user isn't applied one, Bgolearn will call a pre-set Kriging model
                 atribute <fit_pre> : 
-                input -> xtrain, ytrain, xtest ; output -> predicted  mean and std of xtest
+                input -> xtrain, ytrain, xtest ; 
+                output -> predicted  mean and std of xtest
                 e.g. (take GaussianProcessRegressor in sklearn as an example):
                 class Kriging_model(object):
                     def fit_pre(self,xtrain,ytrain,xtest):
@@ -39,19 +41,20 @@ class Bgolearn(object):
                         mean,std = mdoel.predict(xtest,return_std=True)
                         return mean,std    
 
-        :param opt_num: the number of recommended candidates for next iteration, default 1 
+        :param opt_num: the number of recommended candidates for next iteration, default 1. 
 
-        :param min_search: default True -> searching the global minimum ; False -> searching the global maximum
+        :param min_search: default True -> searching the global minimum ;
+                                   False -> searching the global maximum.
 
-        :return: the recommended candidates
+        :return: the recommended candidates.
         """
-
+        
         if Kriging_model == None:
             kernel = RBF() 
             if type(noise_std) == float:
                 # call the default model;
                 class Kriging_model(object):
-                    def fit_pre(self,xtrain,ytrain,xtest,ret_std = 0.0):
+                    def fit_pre(self,xtrain,ytrain,xtest,):
                         # ret_std is a placeholder for homogenous noise
                         # instantiated mode
                         mdoel = GaussianProcessRegressor(kernel=kernel,normalize_y=True,alpha = noise_std**2).fit(xtrain,ytrain)
@@ -76,11 +79,20 @@ class Bgolearn(object):
                         mean,std = mdoel.predict(xtest,return_std=True)
                         return mean,std  
                 print('The internal model is instantiated with heterogenous noise')  
+        
+        
+        # position incluse 'self'
+        if len(inspect.getargspec(Kriging_model().fit_pre)[0]) == 5:
+            ret_noise = True
+        elif len(inspect.getargspec(Kriging_model().fit_pre)[0]) == 4:
+            ret_noise = False
+        else:
+            print('type ERROR! -ILLEGAL form of Krigging-')
 
         if min_search == True:
-            BGOmodel = Global_min(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num )
+            BGOmodel = Global_min(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise)
         elif min_search == False: 
-            BGOmodel = Global_max(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num )
+            BGOmodel = Global_max(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise)
         else:
             print('type ERROR! -opt_num-')
         return BGOmodel

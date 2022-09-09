@@ -54,17 +54,16 @@ class Kriging_model(object):
 Bgolearn = BGOS.Bgolearn()
 
 # min_search = False:  searching the global maximum
-model = Bgolearn.fit(Kriging_model,data_matrix,Measured_response,virtual_samples,opt_num = 3,min_search = True)
-
+model = Bgolearn.fit(data_matrix = data_matrix,Measured_response = Measured_response , virtual_samples = virtual_samples,Kriging_model = Kriging_model)
 # Expected Improvement 
 model.EI()
 ```
 
-### version V1.1
+### after version V1.1.0
 ```javascript
 
 """
-after v1.1
+after v1.1.0
 Bgolearn provides a pre-set Kriging model, default is gpr moddel from sklearn package
 
 more informations, see document
@@ -82,10 +81,54 @@ virtual_samples = np.linspace(0,11,100)
 Bgolearn = BGOS.Bgolearn()
 
 # min_search = False:  searching the global maximum
-model = Bgolearn.fit(data_matrix,Measured_response,virtual_samples,Kriging_model = None, noise_std = 1e-5, opt_num = 3,min_search = True)
+model = Bgolearn.fit(data_matrix = data_matrix,Measured_response = Measured_response , virtual_samples = virtual_samples)
 
 # Expected Improvement 
 model.EI()
+```
+
+### parameters
+```javascript
+
+PACKAGE: Bayesian global optimization learn .
+
+10 Jul 2022, version 1, Bin Cao, MGI, SHU, Shanghai, CHINA.
+
+:param data_matrix: data matrix of training dataset, X .
+
+:param Measured_response: response of tarining dataset, y.
+
+:param virtual_samples: designed virtual samples.
+
+:param noise_std: float or ndarray of shape (n_samples,), default=1e-5
+        Value added to the diagonal of the kernel matrix during fitting.
+        This can prevent a potential numerical issue during fitting, by
+        ensuring that the calculated values form a positive definite matrix.
+        It can also be interpreted as the variance of additional Gaussian.
+        measurement noise on the training observations.
+
+:param Kriging_model (default None): a user defined callable Kriging model, has an attribute of <fit_pre>
+        if user isn't applied one, Bgolearn will call a pre-set Kriging model
+        atribute <fit_pre> : 
+        input -> xtrain, ytrain, xtest ; 
+        output -> predicted  mean and std of xtest
+        e.g. (take GaussianProcessRegressor in sklearn as an example):
+        class Kriging_model(object):
+            def fit_pre(self,xtrain,ytrain,xtest):
+                # instantiated model
+                kernel = RBF()
+                mdoel = GaussianProcessRegressor(kernel=kernel).fit(xtrain,ytrain)
+                # defined the attribute's outputs
+                mean,std = mdoel.predict(xtest,return_std=True)
+                return mean,std    
+
+:param opt_num: the number of recommended candidates for next iteration, default 1. 
+
+:param min_search: default True -> searching the global minimum ;
+                           False -> searching the global maximum.
+
+:return: the recommended candidates.
+
 ```
 
 

@@ -8,16 +8,20 @@ def norm_des(x):
     return 1 / np.sqrt(2 * np.pi) * np.exp(- x ** 2 / 2)
 
 class Global_max(object):
-    def __init__(self,Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num = 1):
+    def __init__(self,Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise):
         self.Kriging_model = Kriging_model
         self.data_matrix = np.array(data_matrix)
         self.Measured_response = np.array(Measured_response)
         __fea_num = len(self.data_matrix[0])
         self.virtual_samples = np.array(virtual_samples).reshape(-1,__fea_num)
-        self.virtual_samples_mean, self.virtual_samples_std = self.Kriging_model().fit_pre(
-            self.data_matrix, self.Measured_response, self.virtual_samples)
-    
+        if ret_noise == 0:
+            self.virtual_samples_mean, self.virtual_samples_std = self.Kriging_model().fit_pre(
+                self.data_matrix, self.Measured_response, self.virtual_samples)
+        else:
+            self.virtual_samples_mean, self.virtual_samples_std = self.Kriging_model().fit_pre(
+                self.data_matrix, self.Measured_response, self.virtual_samples,0.0)
         self.opt_num = opt_num
+        self.ret_noise = ret_noise
         warnings.filterwarnings('ignore')
    
     
@@ -48,7 +52,10 @@ class Global_max(object):
     
     
     def EI_plugin(self,):
-        __train_ypre,_ = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
+        if self.ret_noise == 0:
+            __train_ypre,_ = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
+        else:
+            __train_ypre,_ = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix,0.0)
         cur_optimal_value = __train_ypre.max()
         print('current optimal is :', cur_optimal_value)
         EIp_list = []
@@ -78,7 +85,10 @@ class Global_max(object):
         :param tao: noise standard deviation, default 0
         """
         # cal current optimal 
-        Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
+        if self.ret_noise == 0:
+            Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
+        else:
+            Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix,0.0)
         proposal_fun_value = np.array(Pre_response_means) + alpha * np.array(Pre_response_std)
         cur_opt_index = np.random.choice(np.flatnonzero(proposal_fun_value == proposal_fun_value.max()))
         
@@ -110,7 +120,10 @@ class Global_max(object):
         :param tao: noise standard deviation, default 0
         """
         # cal current optimal 
-        Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
+        if self.ret_noise == 0:
+            Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
+        else:
+            Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix,0.0)
         q_value = np.array(Pre_response_means) + norm.ppf(beta) * np.array(Pre_response_std)
         cur_optimal_value = q_value.max()
         print('current optimal is :', cur_optimal_value)
@@ -140,12 +153,17 @@ class Global_max(object):
 
 
     def Reinterpolation_EI(self, ):
-
-        __update_y,_ = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
+        if self.ret_noise == 0: 
+            __update_y,_ = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
+        else:
+            __update_y,_ = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix,0.0)
 
         cur_optimal_value = __update_y.max()
         print('current optimal is :', cur_optimal_value)
-        __y,__std = self.Kriging_model().fit_pre(self.data_matrix,__update_y, self.virtual_samples)
+        if self.ret_noise == 0: 
+            __y,__std = self.Kriging_model().fit_pre(self.data_matrix,__update_y, self.virtual_samples)
+        else:
+            __y,__std = self.Kriging_model().fit_pre(self.data_matrix,__update_y, self.virtual_samples,0.0)
         REI_list = []
         for i in range(len(__y)):
             Var_Z = (__y[i] - cur_optimal_value)/__std[i] 
@@ -243,7 +261,10 @@ class Global_max(object):
             archive_sample_y = np.append(archive_sample_y, sample_y)
             fea_num = len(self.data_matrix[0])
             # return a callable model
-            _, post_std = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num), archive_sample_y, self.virtual_samples,sample_noise)
+            if self.ret_noise == 1: 
+                _, post_std = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num), archive_sample_y, self.virtual_samples,sample_noise)
+            else:
+                _, post_std = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num), archive_sample_y, self.virtual_samples)
             
             Entropy_y_conditional += 0.5*np.log(2*np.pi*np.e*(post_std**2))
         estimated_Entropy_y_conditional = Entropy_y_conditional / sam_num            
@@ -270,7 +291,7 @@ class Global_max(object):
         vir_num = len(self.virtual_samples)
         for i in range(vir_num):
             x_value = self.virtual_samples[i]
-            MC_batch_min = 0
+            MC_batch_max = 0
             for j in range(MC_num):
                 y_value = np.random.normal(loc = self.virtual_samples_mean[i],scale = self.virtual_samples_std[i])
                 archive_sample_x = copy.deepcopy(self.data_matrix)
@@ -280,7 +301,10 @@ class Global_max(object):
                 archive_sample_y = np.append(archive_sample_y, y_value)
                 fea_num = len(self.data_matrix[0])
                 # return a callable model
-                post_mean, _ = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num),archive_sample_y,self.virtual_samples,self.virtual_samples_std[i])
+                if self.ret_noise == 1: 
+                    post_mean, _ = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num),archive_sample_y,self.virtual_samples,self.virtual_samples_std[i])
+                else:
+                    post_mean, _ = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num),archive_sample_y,self.virtual_samples)
                 MC_batch_max += post_mean.max()
                 MC_times = i*MC_num + j+1
                 if MC_times % 2000 == 0:
