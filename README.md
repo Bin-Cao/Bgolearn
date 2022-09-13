@@ -77,7 +77,13 @@ data_matrix = data.iloc[:,:-1]
 Measured_response = data.iloc[:,-1]
 
 # design virtual samples
+# the one-dimensional virtual sample
 virtual_samples = np.linspace(0,11,100)
+
+"""
+# if the  virtual samples are multi-dimensionals
+virtual_samples = pd.read_csv('virtual_data.csv')
+"""
 
 Bgolearn = BGOS.Bgolearn()
 
