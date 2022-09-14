@@ -145,7 +145,7 @@ class Bgolearn(object):
         _results_dataset.columns = ['Y_true']
         _results_dataset['Y_pre'] = _Y_pre
 
-        V_Xmatrix = copy.deepcopy(virtual_samples)
+        V_Xmatrix = pd.DataFrame(np.array(virtual_samples))
         V_Xmatrix['Y_pre'] = V_Y_pre
         V_Xmatrix['Y_std'] = V_Y_std
 
