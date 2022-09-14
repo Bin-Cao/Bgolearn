@@ -2,6 +2,7 @@ import inspect
 import os
 import time
 import warnings
+import copy
 from tkinter import N
 import numpy as np
 import pandas as pd
@@ -91,7 +92,10 @@ class Bgolearn(object):
                         # defined the attribute's outputs
                         mean,std = mdoel.predict(xtest,return_std=True)
                         return mean,std  
-                print('The internal model is instantiated with heterogenous noise')  
+                print('The internal model is instantiated with heterogenous noise')
+        else: 
+            print('The external model is instantiated')
+            pass  
         
         
         # position incluse 'self'
@@ -113,6 +117,7 @@ class Bgolearn(object):
         pre = []
         if ret_noise == 0:
             _Y_pre, _ = Kriging_model().fit_pre(X_true , Y_true, X_true.reshape(-1,__fea_num))
+            V_Y_pre, V_Y_std = Kriging_model().fit_pre(X_true , Y_true, virtual_samples.reshape(-1,__fea_num))
             for train_index, test_index in loo.split(X_true):
                 X_train, X_test = X_true[train_index], X_true[test_index]
                 y_train, _ = Y_true[train_index], Y_true[test_index]
@@ -121,6 +126,7 @@ class Bgolearn(object):
                 warnings.filterwarnings('ignore')
         else:
             _Y_pre, _ = Kriging_model().fit_pre(X_true , Y_true, X_true.reshape(-1,__fea_num),0.0)
+            V_Y_pre, V_Y_std = Kriging_model().fit_pre(X_true , Y_true, virtual_samples.reshape(-1,__fea_num),0.0)
             for train_index, test_index in loo.split(X_true):
                 X_train, X_test = X_true[train_index], X_true[test_index]
                 y_train, _ = Y_true[train_index], Y_true[test_index]
@@ -138,6 +144,10 @@ class Bgolearn(object):
         _results_dataset = pd.DataFrame(Y_true)
         _results_dataset.columns = ['Y_true']
         _results_dataset['Y_pre'] = _Y_pre
+
+        V_Xmatrix = copy.deepcopy(virtual_samples)
+        V_Xmatrix['Y_pre'] = V_Y_pre
+        V_Xmatrix['Y_std'] = V_Y_std
 
         RMSE = np.sqrt(mean_squared_error(Y_true,Y_pre))
         MAE = mean_absolute_error(Y_true,Y_pre)
@@ -165,7 +175,10 @@ class Bgolearn(object):
 
         _results_dataset.to_csv('./Bgolearn/predictionsOnTrainingDataset_{year}.{month}.{day}_{hour}.{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
                                                                         minute=namem),encoding='utf-8-sig')
-       
+
+        V_Xmatrix.to_csv('./Bgolearn/predictionsOfVirtualSampels_{year}.{month}.{day}_{hour}.{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
+                                                                        minute=namem),encoding='utf-8-sig')
+
         if min_search == True:
             BGOmodel = Global_min(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise)
         elif min_search == False: 
