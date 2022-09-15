@@ -15,6 +15,9 @@ Reference paper : V. Picheny, T. Wagner, and D. Ginsbourger. “A Benchmark of K
 
 Written using Python, which is suitable for operating systems, e.g., Windows/Linux/MAC OS etc.
 
+![Screen Shot 2022-09-15 at 09 36 32](https://user-images.githubusercontent.com/86995074/190292997-dc7e28da-441e-4df7-ba70-9d90cf3c0469.png)
+
+
 ## Content
 Bgolearn guides subsequent material design based on existed experimental data. Which includes: 1.Expected Improvement algorithm, 2.Expected improvement with “plugin”，3.Augmented Expected Improvement，4.Expected Quantile Improvement，5.Reinterpolation Expected Improvement， 6.Upper confidence bound，7.Probability of Improvement，8.Predictive Entropy Search，9.Knowledge Gradient, a total of nine Utility Functions. Predictive Entropy Search，Knowledge Gradient are implemented based on Monte Carlo simulation.（贝叶斯优化设计，根据已有的实验数据对后续材料设计作出指导，本算法包共包括：期望最大化算法，期望最大化算法改进（考虑数据噪声），上确界方法，期望提升方法，熵搜索，知识梯度方法等在内的共计9种贝叶斯采样方法。其中熵搜索和知识梯度方法基于蒙特卡洛实现）
 
