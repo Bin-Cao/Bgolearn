@@ -15,8 +15,6 @@ Reference paper : V. Picheny, T. Wagner, and D. Ginsbourger. “A Benchmark of K
 
 Written using Python, which is suitable for operating systems, e.g., Windows/Linux/MAC OS etc.
 
-<img width="459" alt="Screen Shot 2022-09-15 at 09 39 10" src="https://user-images.githubusercontent.com/86995074/190293160-0bb4ae06-6f49-4d8e-859e-5fc7a86838d7.png">
-
 
 
 ## Content
