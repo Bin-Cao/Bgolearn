@@ -16,7 +16,7 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import  RBF
 
 class Bgolearn(object):
-    def fit(self,data_matrix, Measured_response, virtual_samples, noise_std = 1e-5, Kriging_model = None, opt_num = 1 ,min_search = True):
+    def fit(self,data_matrix, Measured_response, virtual_samples, noise_std = 1e-5, Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False,):
         
         """
         PACKAGE: Bayesian global optimization learn .
@@ -56,6 +56,8 @@ class Bgolearn(object):
         :param min_search: default True -> searching the global minimum ;
                                    False -> searching the global maximum.
 
+        :param CV_test: default False -> if True LOOCV will be applied to testing the ML model's performance
+        
         :return: the recommended candidates.
         """
         timename = time.localtime(time.time())
@@ -111,74 +113,83 @@ class Bgolearn(object):
         Y_true = np.array(Measured_response)
         __fea_num = len(X_true[0])
     
+        # test default model
+        if CV_test == False:
+            pass
 
-        loo = LeaveOneOut()
-        loo.get_n_splits(X_true)
-        pre = []
-        if ret_noise == 0:
-            _Y_pre, _ = Kriging_model().fit_pre(X_true , Y_true, X_true.reshape(-1,__fea_num))
-            V_Y_pre, V_Y_std = Kriging_model().fit_pre(X_true , Y_true, virtual_samples.reshape(-1,__fea_num))
-            for train_index, test_index in loo.split(X_true):
-                X_train, X_test = X_true[train_index], X_true[test_index]
-                y_train, _ = Y_true[train_index], Y_true[test_index]
-                Y_pre, _ = Kriging_model().fit_pre( X_train , y_train, X_test)
-                pre.append(Y_pre)
-                warnings.filterwarnings('ignore')
         else:
-            _Y_pre, _ = Kriging_model().fit_pre(X_true , Y_true, X_true.reshape(-1,__fea_num),0.0)
-            V_Y_pre, V_Y_std = Kriging_model().fit_pre(X_true , Y_true, virtual_samples.reshape(-1,__fea_num),0.0)
-            for train_index, test_index in loo.split(X_true):
-                X_train, X_test = X_true[train_index], X_true[test_index]
-                y_train, _ = Y_true[train_index], Y_true[test_index]
-                Y_pre, _ = Kriging_model().fit_pre( X_train , y_train, X_test,0.0)
-                pre.append(Y_pre)
-                warnings.filterwarnings('ignore')
+            print('Time consuming warnig')
+            print('LeaveOneOut Cross validation is applaied')
+            loo = LeaveOneOut()
+            loo.get_n_splits(X_true)
+            pre = []
+            if ret_noise == 0:
+                _Y_pre, _ = Kriging_model().fit_pre(X_true , Y_true, X_true.reshape(-1,__fea_num))
+                V_Y_pre, V_Y_std = Kriging_model().fit_pre(X_true , Y_true, virtual_samples.reshape(-1,__fea_num))
+                for train_index, test_index in loo.split(X_true):
+                    X_train, X_test = X_true[train_index], X_true[test_index]
+                    y_train, _ = Y_true[train_index], Y_true[test_index]
+                    Y_pre, _ = Kriging_model().fit_pre( X_train , y_train, X_test)
+                    pre.append(Y_pre)
+                    warnings.filterwarnings('ignore')
+            else:
+                _Y_pre, _ = Kriging_model().fit_pre(X_true , Y_true, X_true.reshape(-1,__fea_num),0.0)
+                V_Y_pre, V_Y_std = Kriging_model().fit_pre(X_true , Y_true, virtual_samples.reshape(-1,__fea_num),0.0)
+                for train_index, test_index in loo.split(X_true):
+                    X_train, X_test = X_true[train_index], X_true[test_index]
+                    y_train, _ = Y_true[train_index], Y_true[test_index]
+                    Y_pre, _ = Kriging_model().fit_pre( X_train , y_train, X_test,0.0)
+                    pre.append(Y_pre)
+                    warnings.filterwarnings('ignore')
+            
+
+
+            Y_pre = np.array(pre)
+            results_dataset = pd.DataFrame(Y_true)
+            results_dataset.columns = ['Y_true']
+            results_dataset['Y_pre'] = Y_pre
+
+            _results_dataset = pd.DataFrame(Y_true)
+            _results_dataset.columns = ['Y_true']
+            _results_dataset['Y_pre'] = _Y_pre
+
+            V_Xmatrix = pd.DataFrame(np.array(virtual_samples))
+            V_Xmatrix['Y_pre'] = V_Y_pre
+            V_Xmatrix['Y_std'] = V_Y_std
+
+            RMSE = np.sqrt(mean_squared_error(Y_true,Y_pre))
+            MAE = mean_absolute_error(Y_true,Y_pre)
+            R2 = r2_score(Y_true,Y_pre)
+
+            _RMSE = np.sqrt(mean_squared_error(Y_true,_Y_pre))
+            _MAE = mean_absolute_error(Y_true,_Y_pre)
+            _R2 = r2_score(Y_true,_Y_pre)
+
+        
+            os.makedirs('Bgolearn', exist_ok=True)
+
+            print('Fitting goodness on training dataset: \n' + str('  RMSE = %f' % _RMSE) +' '+ str('  MAE = %f' % _MAE)
+                +' '+ str('  R2 = %f' % _R2))
+
+            print('Fitting goodness of LOOCV: \n' + str('  RMSE = %f' % RMSE) +' '+ str('  MAE = %f' % MAE)
+                +' '+ str('  R2 = %f' % R2))
+
         
 
-
-        Y_pre = np.array(pre)
-        results_dataset = pd.DataFrame(Y_true)
-        results_dataset.columns = ['Y_true']
-        results_dataset['Y_pre'] = Y_pre
-
-        _results_dataset = pd.DataFrame(Y_true)
-        _results_dataset.columns = ['Y_true']
-        _results_dataset['Y_pre'] = _Y_pre
-
-        V_Xmatrix = pd.DataFrame(np.array(virtual_samples))
-        V_Xmatrix['Y_pre'] = V_Y_pre
-        V_Xmatrix['Y_std'] = V_Y_std
-
-        RMSE = np.sqrt(mean_squared_error(Y_true,Y_pre))
-        MAE = mean_absolute_error(Y_true,Y_pre)
-        R2 = r2_score(Y_true,Y_pre)
-
-        _RMSE = np.sqrt(mean_squared_error(Y_true,_Y_pre))
-        _MAE = mean_absolute_error(Y_true,_Y_pre)
-        _R2 = r2_score(Y_true,_Y_pre)
-
-    
-        os.makedirs('Bgolearn', exist_ok=True)
-
-        print('Fitting goodness on training dataset: \n' + str('  RMSE = %f' % _RMSE) +' '+ str('  MAE = %f' % _MAE)
-            +' '+ str('  R2 = %f' % _R2))
-
-        print('Fitting goodness of LOOCV: \n' + str('  RMSE = %f' % RMSE) +' '+ str('  MAE = %f' % MAE)
-            +' '+ str('  R2 = %f' % R2))
-
-      
-
-        results_dataset.to_csv('./Bgolearn/predictionsByLOOCV_{year}.{month}.{day}_{hour}.{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
-                                                                        minute=namem),encoding='utf-8-sig')
-        
+            results_dataset.to_csv('./Bgolearn/predictionsByLOOCV_{year}.{month}.{day}_{hour}.{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
+                                                                            minute=namem),encoding='utf-8-sig')
+            
 
 
-        _results_dataset.to_csv('./Bgolearn/predictionsOnTrainingDataset_{year}.{month}.{day}_{hour}.{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
-                                                                        minute=namem),encoding='utf-8-sig')
+            _results_dataset.to_csv('./Bgolearn/predictionsOnTrainingDataset_{year}.{month}.{day}_{hour}.{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
+                                                                            minute=namem),encoding='utf-8-sig')
 
-        V_Xmatrix.to_csv('./Bgolearn/predictionsOfVirtualSampels_{year}.{month}.{day}_{hour}.{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
-                                                                        minute=namem),encoding='utf-8-sig')
+            V_Xmatrix.to_csv('./Bgolearn/predictionsOfVirtualSampels_{year}.{month}.{day}_{hour}.{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
+                                                                            minute=namem),encoding='utf-8-sig')
 
+
+
+        # BGO
         if min_search == True:
             BGOmodel = Global_min(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise)
         elif min_search == False: 
