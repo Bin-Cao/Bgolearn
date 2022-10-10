@@ -137,6 +137,8 @@ PACKAGE: Bayesian global optimization learn .
 
 :param min_search: default True -> searching the global minimum ;
                            False -> searching the global maximum.
+                           
+:param CV_test: default False -> if True LOOCV will be applied to testing the ML model's performance                  
 
 :return: the recommended candidates.
 
