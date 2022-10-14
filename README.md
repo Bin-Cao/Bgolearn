@@ -127,7 +127,7 @@ model.Count()
 #### parameters of function test 
 
 ```javascript
-:param Ture_fun: the true function being evaluated. e.g.,
+:param Ture_fun: the true function be evaluated. e.g.,
         def function(X):
             X = np.array(X)
             Y = 0.013*X**4 - 0.25*X**3 + 1.61*X**2 - 4.1*X + 8
@@ -252,6 +252,8 @@ model.Count()
             e.g., 'EI','EI_plugin','Augmented_EI','EQI','Reinterpolation_EI','UCB','PoI','PES','Knowledge_G'
         : param param_one, param_two : default = None, the parametres of the UTFs, more detailes see (Utility Function): https://github.com/Bin-Cao/Bgolearn 
      
+## Update log / 日志
+Bgolearn V1.2 Oct, 2022. *Officially promoted version*. Which contains 9 Utility Functions for sampling, and 4 Evaluation Functions for evaluating the optimization efficiency of Utility Function.
 
 ## About / 更多
 Maintained by Bin Cao. Please feel free to open issues in the Github or contact Bin Cao
