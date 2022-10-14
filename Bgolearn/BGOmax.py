@@ -38,16 +38,19 @@ class Global_max(object):
        
         EI_list = np.array(EI_list)
         
+        return_x = []
         if self.opt_num == 1:
             EI_opt_index = np.random.choice(np.flatnonzero(EI_list == EI_list.max()))
             print('The next datum recomended by Expected Improvement : \n x = ', self.virtual_samples[EI_opt_index])
+            return_x.append(self.virtual_samples[EI_opt_index])
         elif type(self.opt_num) == int:
             EI_opt_index = np.argpartition(EI_list, -self.opt_num)[-self.opt_num:]
             for j in range(len(EI_opt_index)):
                 print('The {num}-th datum recomended by Expected Improvement : \n x = '.format(num =j+1), self.virtual_samples[EI_opt_index[j]])
+                return_x.append(self.virtual_samples[EI_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
-        return EI_list
+        return EI_list,np.array(return_x)
 
     
     
@@ -67,16 +70,19 @@ class Global_max(object):
        
         EIp_list = np.array(EIp_list)
         
+        return_x = []
         if self.opt_num == 1:
             EIp_opt_index = np.random.choice(np.flatnonzero(EIp_list == EIp_list.max()))
             print('The next datum recomended by Expected Improvement with plugin : \n x = ', self.virtual_samples[EIp_opt_index])
+            return_x.append(self.virtual_samples[EIp_opt_index])
         elif type(self.opt_num) == int:
             EIp_opt_index = np.argpartition(EIp_list, -self.opt_num)[-self.opt_num:]
             for j in range(len(EIp_opt_index)):
                 print('The {num}-th datum recomended by Expected Improvement with plugin : \n x = '.format(num =j+1), self.virtual_samples[EIp_opt_index[j]])
+                return_x.append(self.virtual_samples[EIp_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
-        return EIp_list
+        return EIp_list,np.array(return_x)
     
     
     def Augmented_EI(self, alpha = 1, tao = 0):
@@ -102,17 +108,20 @@ class Global_max(object):
             AEI_list.append(AEI)
         AEI_list = np.array(AEI_list)
         
+        return_x =[]
         if self.opt_num == 1:
             AEI_opt_index = np.random.choice(np.flatnonzero(AEI_list == AEI_list.max()))
             print('The next datum recomended by Augmented_EI : \n x = ', self.virtual_samples[AEI_opt_index])
+            return_x.append(self.virtual_samples[AEI_opt_index])
         elif type(self.opt_num) == int:
             AEI_opt_index = np.argpartition(AEI_list, -self.opt_num)[-self.opt_num:]
             for j in range(len(AEI_opt_index)):
                 print('The {num}-th datum recomended by Augmented_EI : \n x = '.format(num =j+1), self.virtual_samples[AEI_opt_index[j]])
+                return_x.append(self.virtual_samples[AEI_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
 
-        return AEI_list
+        return AEI_list,np.array(return_x)
 
     def EQI(self, beta = 0.5,tao_new = 0):
         """
@@ -139,17 +148,20 @@ class Global_max(object):
             EQI_list.append(EQI)
         EQI_list = np.array(EQI_list)
         
+        return_x = []
         if self.opt_num == 1:
             EQI_opt_index = np.random.choice(np.flatnonzero(EQI_list == EQI_list.max()))
             print('The next datum recomended by Expected Quantile Improvement : \n x = ', self.virtual_samples[EQI_opt_index])
+            return_x.append(self.virtual_samples[EQI_opt_index])    
         elif type(self.opt_num) == int:
             EQI_opt_index = np.argpartition(EQI_list, -self.opt_num)[-self.opt_num:]
             for j in range(len(EQI_opt_index)):
                 print('The {num}-th datum recomended by Expected Quantile Improvement : \n x = '.format(num =j+1), self.virtual_samples[EQI_opt_index[j]])
+                return_x.append(self.virtual_samples[EQI_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
 
-        return EQI_list
+        return EQI_list,np.array(return_x)
 
 
     def Reinterpolation_EI(self, ):
@@ -172,16 +184,19 @@ class Global_max(object):
        
         REI_list = np.array(REI_list)
         
+        return_x = []
         if self.opt_num == 1:
             REI_opt_index = np.random.choice(np.flatnonzero(REI_list == REI_list.max()))
             print('The next datum recomended by Reinterpolation Expected Improvement : \n x = ', self.virtual_samples[REI_opt_index])
+            return_x.append(self.virtual_samples[REI_opt_index])
         elif type(self.opt_num) == int:
             REI_opt_index = np.argpartition(REI_list, -self.opt_num)[-self.opt_num:]
             for j in range(len(REI_opt_index)):
                 print('The {num}-th datum recomended by Reinterpolation Expected Improvement : \n x = '.format(num =j+1), self.virtual_samples[REI_opt_index[j]])
+                return_x.append(self.virtual_samples[REI_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
-        return REI_list
+        return REI_list,np.array(return_x)
 
 
 
@@ -191,17 +206,20 @@ class Global_max(object):
         """
         UCB_list = np.array(self.virtual_samples_mean) + alpha * np.array(self.virtual_samples_std)
         
+        return_x = []
         if self.opt_num == 1:
             UCB_opt_index = np.random.choice(np.flatnonzero(UCB_list == UCB_list.max()))
             print('The next datum recomended by Upper confidence bound  : \n x = ', self.virtual_samples[UCB_opt_index])
+            return_x.append(self.virtual_samples[UCB_opt_index])
         elif type(self.opt_num) == int:
             UCB_opt_index = np.argpartition(UCB_list, -self.opt_num)[-self.opt_num:]
             for j in range(len(UCB_opt_index)):
                 print('The {num}-th datum recomended by Upper confidence bound : \n x = '.format(num =j+1), self.virtual_samples[UCB_opt_index[j]])
+                return_x.append(self.virtual_samples[UCB_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
 
-        return UCB_list
+        return UCB_list,np.array(return_x)
     
     def PoI(self, tao = 0):
         """
@@ -220,16 +238,19 @@ class Global_max(object):
         
             PoI_list = np.array(PoI_list)
             
+            return_x = []
             if self.opt_num == 1:
                 PoI_opt_index = np.random.choice(np.flatnonzero(PoI_list == PoI_list.max()))
                 print('The next datum recomended by Probability of Improvement  : \n x = ', self.virtual_samples[PoI_opt_index])
+                return_x.append(self.virtual_samples[PoI_opt_index])
             elif type(self.opt_num) == int:
                 PoI_opt_index = np.argpartition(PoI_list, -self.opt_num)[-self.opt_num:]
                 for j in range(len(PoI_opt_index)):
                     print('The {num}-th datum recomended by Probability of Improvement  : \n x = '.format(num =j+1), self.virtual_samples[PoI_opt_index[j]])
+                    return_x.append(self.virtual_samples[PoI_opt_index[j]])
             else:
                 print('The input para. opt_num must be an int')
-            return PoI_list
+            return PoI_list,np.array(return_x)
     
     def Thompson_sampling(self,):
         # x* is derived by searching at the vistual space 
@@ -270,16 +291,20 @@ class Global_max(object):
         estimated_Entropy_y_conditional = Entropy_y_conditional / sam_num            
         PES_list = Entropy_y_ori - estimated_Entropy_y_conditional
         
+
+        return_x = []
         if self.opt_num == 1:
             PES_opt_index = np.random.choice(np.flatnonzero(PES_list == PES_list.max()))
             print('The next datum recomended by Predictive Entropy Search  : \n x = ', self.virtual_samples[PES_opt_index])
+            return_x.append(self.virtual_samples[PES_opt_index])
         elif type(self.opt_num) == int:
             PES_opt_index = np.argpartition(PES_list, -self.opt_num)[-self.opt_num:]
             for j in range(len(PES_opt_index)):
                 print('The {num}-th datum recomended by Predictive Entropy Search  : \n x = '.format(num =j+1), self.virtual_samples[PES_opt_index[j]])
+                return_x.append(self.virtual_samples[PES_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
-        return PES_list
+        return PES_list,np.array(return_x)
     
 
     def Knowledge_G(self,MC_num = 50):
@@ -312,14 +337,18 @@ class Global_max(object):
             MC_result = MC_batch_max / MC_num
             KD_list.append( MC_result - current_max)
         KD_list = np.array(KD_list)
+        
+        return_x = []
         if self.opt_num == 1:
             KD_opt_index = np.random.choice(np.flatnonzero(KD_list == KD_list.max()))
             print('The next datum recomended by Knowledge Gradient : \n x = ', self.virtual_samples[KD_opt_index])
+            return_x.append(self.virtual_samples[KD_opt_index])
         elif type(self.opt_num) == int:
             KD_opt_index = np.argpartition(KD_list, -self.opt_num)[-self.opt_num:]
             for j in range(len(KD_opt_index)):
                 print('The {num}-th datum recomended by Knowledge Gradient : \n x = '.format(num =j+1), self.virtual_samples[KD_opt_index[j]])
+                return_x.append(self.virtual_samples[KD_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
-        return KD_list
+        return KD_list,np.array(return_x)
 

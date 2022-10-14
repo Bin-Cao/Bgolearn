@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from .BGOmax import Global_max
 from .BGOmin import Global_min
+from .BGO_eval import BGO_Efficient
 from sklearn.model_selection import LeaveOneOut
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_absolute_error
@@ -16,7 +17,7 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import  RBF
 
 class Bgolearn(object):
-    def fit(self,data_matrix, Measured_response, virtual_samples, noise_std = 1e-5, Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False,):
+    def fit(self,data_matrix, Measured_response, virtual_samples, noise_std = 1e-5, Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False, ):
         
         """
         PACKAGE: Bayesian global optimization learn .
@@ -58,7 +59,7 @@ class Bgolearn(object):
 
         :param CV_test: default False -> if True LOOCV will be applied to testing the ML model's performance
         
-        :return: the recommended candidates.
+        :return: 1 array; potential of each candidate 2 array/float; recommended candidate(s).
         """
         timename = time.localtime(time.time())
         namey, nameM, named, nameh, namem = timename.tm_year, timename.tm_mon, timename.tm_mday, timename.tm_hour, timename.tm_min
@@ -189,6 +190,7 @@ class Bgolearn(object):
 
 
 
+
         # BGO
         if min_search == True:
             BGOmodel = Global_min(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise)
@@ -197,5 +199,92 @@ class Bgolearn(object):
         else:
             print('type ERROR! -opt_num-')
         return BGOmodel
+
+    def test(self,Ture_fun, Def_Domain,noise_std = 1e-5, Kriging_model = None, opt_num = 1 ,min_search = True):
+        
+        """
+        PACKAGE: Bayesian global optimization learn .
+
+        10 Jul 2022, version 1, Bin Cao, MGI, SHU, Shanghai, CHINA.
+
+        :param Ture_fun: the true function being evaluated. e.g.,
+                def function(X):
+                    X = np.array(X)
+                    Y = 0.013*X**4 - 0.25*X**3 + 1.61*X**2 - 4.1*X + 8
+                    return Y
+
+        :param Def_Domain: discrete function Domain. e.g., Def_Domain = numpy.linspace(0,11,111)
+
+        :param Kriging_model (default None): a user defined callable Kriging model, has an attribute of <fit_pre>
+                if user isn't applied one, Bgolearn will call a pre-set Kriging model
+                atribute <fit_pre> : 
+                input -> xtrain, ytrain, xtest ; 
+                output -> predicted  mean and std of xtest
+                e.g. (take GaussianProcessRegressor in sklearn as an example):
+                class Kriging_model(object):
+                    def fit_pre(self,xtrain,ytrain,xtest):
+                        # instantiated model
+                        kernel = RBF()
+                        mdoel = GaussianProcessRegressor(kernel=kernel).fit(xtrain,ytrain)
+                        # defined the attribute's outputs
+                        mean,std = mdoel.predict(xtest,return_std=True)
+                        return mean,std    
+
+        :param opt_num: the number of recommended candidates for next iteration, default 1. 
+
+        :param min_search: default True -> searching the global minimum ;
+                                   False -> searching the global maximum.
+        """
+
+        if Kriging_model == None:
+            kernel = RBF() 
+            if type(noise_std) == float:
+                # call the default model;
+                class Kriging_model(object):
+                    def fit_pre(self,xtrain,ytrain,xtest,):
+                        # ret_std is a placeholder for homogenous noise
+                        # instantiated mode
+                        mdoel = GaussianProcessRegressor(kernel=kernel,normalize_y=True,alpha = noise_std**2).fit(xtrain,ytrain)
+                        # defined the attribute's outputs
+                        mean,std = mdoel.predict(xtest,return_std=True)
+                        return mean,std 
+                print('The internal model is instantiated with homogenous noise: %s' % noise_std)  
+                
+            elif type(noise_std) == np.ndarray:
+                # call the default model;
+                class Kriging_model(object):
+                    def fit_pre(self,xtrain,ytrain,xtest,ret_std = 0.0):
+                        # instantiated model
+                        if len(xtrain) == len(noise_std):
+                            mdoel = GaussianProcessRegressor(kernel=kernel,normalize_y=True,alpha = noise_std**2).fit(xtrain,ytrain)
+                        elif len(xtrain) == len(noise_std) + 1:
+                            new_alpha = np.append(noise_std,ret_std)
+                            mdoel = GaussianProcessRegressor(kernel=kernel,normalize_y=True,alpha = new_alpha**2).fit(xtrain,ytrain)
+                        else:
+                            print('the input data is not muached with heterogenous noise size') 
+                        # defined the attribute's outputs
+                        mean,std = mdoel.predict(xtest,return_std=True)
+                        return mean,std  
+                print('The internal model is instantiated with heterogenous noise')
+        else: 
+            print('The external model is instantiated')
+            pass  
+        
+        
+        # position incluse 'self'
+        if len(inspect.getargspec(Kriging_model().fit_pre)[0]) == 5:
+            ret_noise = True
+        elif len(inspect.getargspec(Kriging_model().fit_pre)[0]) == 4:
+            ret_noise = False
+        else:
+            print('type ERROR! -ILLEGAL form of Krigging-')
+
+
+
+        print('Evaluation is executed')
+        
+        Eval_model = BGO_Efficient(Ture_fun,Def_Domain, Kriging_model, opt_num, ret_noise,min_search)
+        return Eval_model
+      
   
 
