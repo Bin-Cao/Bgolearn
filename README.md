@@ -10,7 +10,7 @@ version : [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/
 ## （ A Bayesian global optimization package for material design ）Version 1, Jul, 2022
 
 
-Reference paper : V. Picheny, T. Wagner, and D. Ginsbourger. “A Benchmark of Kriging-Based Infill Criteria for Noisy Optimization”. In: Structural and Multidisciplinary Optimization 48.3 (Sept. 2013), pp. 607–626. issn: 1615-1488. 
+Reference paper : Shahriari B, Swersky K, Wang Z, Adams RP, De Freitas N. Taking the human out of the loop: A review of Bayesian optimization. Proceedings of the IEEE. 2015 Dec 10;104(1):148-75.
 
 
 Written using Python, which is suitable for operating systems, e.g., Windows/Linux/MAC OS etc.
