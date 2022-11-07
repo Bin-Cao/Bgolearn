@@ -23,7 +23,7 @@ Written using Python, which is suitable for operating systems, e.g., Windows/Lin
     pip install --upgrade Bgolearn
 
 ## Running / 运行
-    see document ()
+    see document [Bgolearn](https://bgolearn.netlify.app)
      
 ## Update log / 日志
 Bgolearn V1.2 Oct, 2022. *Officially promoted version*. Which contains 9 Utility Functions for sampling, and 4 Evaluation Functions for evaluating the optimization efficiency of Utility Function.
