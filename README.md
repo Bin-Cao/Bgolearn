@@ -33,6 +33,11 @@ Bgolearn V1.2 Oct, 2022. *Officially promoted version*. Which contains 9 Utility
 
 Bgolearn V1.3 Nov, 2022. *add classification task*
 
+
+## References / 参考文献
+
+.. [1] V. Picheny, T. Wagner, and D. Ginsbourger. “A Benchmark of Kriging-Based Infill Criteria for Noisy Optimization”. In: Structural and Multidisciplinary Optimization 48.3 (Sept. 2013), pp. 607–626. issn: 1615-1488.
+
 ## About / 更多
 Maintained by Bin Cao. Please feel free to open issues in the Github or contact Bin Cao
 (bcao@shu.edu.cn) in case of any problems/comments/suggestions in using the code. 
