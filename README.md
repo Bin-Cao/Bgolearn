@@ -21,7 +21,10 @@ Cite :
 
 ## Installing / 安装
     pip install Bgolearn 
-
+    
+## Checking / 查看
+    pip show Bgolearn 
+    
 ## Updating / 更新
     pip install --upgrade Bgolearn
 
