@@ -1,4 +1,4 @@
-🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 !
+🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks !
 
 Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
 # Python package - Bgolearn 
