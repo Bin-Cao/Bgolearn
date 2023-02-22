@@ -1,3 +1,4 @@
+🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 !
 
 Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
 # Python package - Bgolearn 
@@ -8,7 +9,6 @@ Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.o
 
 ## 为材料设计而生！
 ## （ A Bayesian global optimization package for material design ）Version 1, Jul, 2022
-Please star to promote open source projects
 
 Written using Python, which is suitable for operating systems, e.g., Windows/Linux/MAC OS etc.
 
