@@ -33,7 +33,7 @@ Bgolearn V1.3 Nov, 2022. *add classification task*
 
 
 ## References / 参考文献
-[papers](https://github.com/Bin-Cao/Bgolearn/tree/main/Refs)
+See : [papers](https://github.com/Bin-Cao/Bgolearn/tree/main/Refs)
 
 ## About / 更多
 Maintained by Bin Cao. Please feel free to open issues in the Github or contact Bin Cao
