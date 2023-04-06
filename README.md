@@ -10,6 +10,8 @@ Written using Python, which is suitable for operating systems, e.g., Windows/Lin
 
 ![Screen Shot 2022-09-17 at 12 54 38](https://user-images.githubusercontent.com/86995074/190841124-bed27a60-4ec4-43c7-affd-37767408663b.png)
 
+## document
+see [Bgolearn link](https://bgolearn.netlify.app)
 
 Cite : 
 + Zhang Tong-yi, Cao Bin, Wang Yuanhao, Tian Yuan, Sun Sheng, Liu Nianhong. Bayesian global optimization package for material design [2022SR1481726], 2022, Software copyright, GitHub : github.com/Bin-Cao/Bgolearn.
@@ -23,8 +25,7 @@ Cite :
 ## Updating / 更新
     pip install --upgrade Bgolearn
 
-## Running / 运行
-see document [Bgolearn](https://bgolearn.netlify.app)
+
      
 ## Update log / 日志
 Bgolearn V1.2 Oct, 2022. *Officially promoted version*. Which contains 9 Utility Functions for sampling, and 4 Evaluation Functions for evaluating the optimization efficiency of Utility Function.
