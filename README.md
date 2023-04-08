@@ -4,7 +4,7 @@ Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.o
 # Python package - Bgolearn 
 
 ## Package Document
-see [Bgolearn link](https://bgolearn.netlify.app)
+see 📒 [Bgolearn link](https://bgolearn.netlify.app)
 
 ## 为材料设计而生！
 ## （ A Bayesian global optimization package for material design ）Version 1, Jul, 2022
