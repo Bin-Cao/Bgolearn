@@ -3,6 +3,9 @@
 Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
 # Python package - Bgolearn 
 
+## Package Document
+see [Bgolearn link](https://bgolearn.netlify.app)
+
 ## 为材料设计而生！
 ## （ A Bayesian global optimization package for material design ）Version 1, Jul, 2022
 
@@ -10,8 +13,7 @@ Written using Python, which is suitable for operating systems, e.g., Windows/Lin
 
 ![Screen Shot 2022-09-17 at 12 54 38](https://user-images.githubusercontent.com/86995074/190841124-bed27a60-4ec4-43c7-affd-37767408663b.png)
 
-## Package Document
-see [Bgolearn link](https://bgolearn.netlify.app)
+
 
 Cite : 
 + Zhang Tong-yi, Cao Bin, Wang Yuanhao, Tian Yuan, Sun Sheng, Liu Nianhong. Bayesian global optimization package for material design [2022SR1481726], 2022, Software copyright, GitHub : github.com/Bin-Cao/Bgolearn.
