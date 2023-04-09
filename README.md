@@ -3,7 +3,7 @@
 Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
 # Python package - Bgolearn 
 
-## Package Document
+## Package Document / 手册
 see 📒 [Bgolearn](https://bgolearn.netlify.app) (Click to view）
 
 
