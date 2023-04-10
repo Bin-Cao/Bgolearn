@@ -99,8 +99,8 @@ class BGO_Efficient(object):
             (Search minimum)if current optimal <= (1+tol) * global optimal, this trail treats as coveraged.
             (Search maximum)if current optimal >= (1-tol) * global optimal, this trail treats as coveraged.
         
-        : param ini_nb: int, default = None present of the total number of definition domian,
-            the number of initial sampled training data.
+        : param ini_nb: int, default = None,the number of initial sampled training data. 
+            If ini_nb = None, ini_nb = 0.01*total number of Def_Domain is applied 
         
         : param UTFs: string, default = 'EI', the evaluated acaquisition function.
             e.g., 'EI','EI_plugin','Augmented_EI','EQI','Reinterpolation_EI','UCB','PoI','PES','Knowledge_G'
@@ -196,8 +196,8 @@ class BGO_Efficient(object):
         
         : param threshold: float, default = 0.05, the coverage critera of normalized OC value.
         
-        : param ini_nb: int, default = None present of the total number of definition domian,
-            the number of initial sampled training data.
+        : param ini_nb: int, default = None,the number of initial sampled training data. 
+            If ini_nb = None, ini_nb = 0.01*total number of Def_Domain is applied
         
         : param UTFs: string, default = 'EI', the evaluated acaquisition function.
             e.g., 'EI','EI_plugin','Augmented_EI','EQI','Reinterpolation_EI','UCB','PoI','PES','Knowledge_G'
@@ -304,8 +304,8 @@ class BGO_Efficient(object):
 
         : param num_bins: int, default = 20, the number of bins in the histogram
 
-        : param ini_nb: int, default = None present of the total number of definition domian,
-            the number of initial sampled training data.
+        : param ini_nb: int, default = None,the number of initial sampled training data. 
+            If ini_nb = None, ini_nb = 0.01*total number of Def_Domain is applied
 
         : param UTFs: string, default = 'EI', the evaluated acaquisition function.
             e.g., 'EI','EI_plugin','Augmented_EI','EQI','Reinterpolation_EI','UCB','PoI','PES','Knowledge_G'
@@ -477,8 +477,8 @@ class BGO_Efficient(object):
             (Search minimum)if current optimal <= (1+tol) * global optimal, this trail treats as coveraged.
             (Search maximum)if current optimal >= (1-tol) * global optimal, this trail treats as coveraged.
         
-        : param ini_nb: int, default = None present of the total number of definition domian,
-            the number of initial sampled training data.
+        : param ini_nb: int, default = None,the number of initial sampled training data. 
+            If ini_nb = None, ini_nb = 0.01*total number of Def_Domain is applied
         
         : param UTFs: string, default = 'EI', the evaluated acaquisition function.
             e.g., 'EI','EI_plugin','Augmented_EI','EQI','Reinterpolation_EI','UCB','PoI','PES','Knowledge_G'

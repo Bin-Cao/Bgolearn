@@ -59,14 +59,13 @@ def Classifier_selection(Classifier):
 
 
 
-
 class Bgolearn(object):
-    def fit(self,data_matrix, Measured_response, virtual_samples, Mission ='Regression', Classifier = 'GaussianProcess',noise_std = 1e-5, Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False, ):
+    def fit(self,data_matrix, Measured_response, virtual_samples, Mission ='Regression', Classifier = 'GaussianProcess',noise_std = 0.01, Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False, ):
         
         """
         PACKAGE: Bayesian global optimization learn .
 
-        10 Jul 2022, version 1, Bin Cao, MGI, SHU, Shanghai, CHINA.
+        6 Apr 2023, version 1.4, Bin Cao, ZheJiang LAB, Hangzhou, CHINA. (MGI, SHU, Shanghai, CHINA).
 
         :param data_matrix: data matrix of training dataset, X .
 
@@ -86,7 +85,7 @@ class Bgolearn(object):
                 'SVM' --> Support Vector Machine Classifier
                 'RandomForest' --> Random Forest Classifier
 
-        :param noise_std: float or ndarray of shape (n_samples,), default=1e-5
+        :param noise_std: float or ndarray of shape (n_samples,), default=0.01
                 Value added to the diagonal of the kernel matrix during fitting.
                 This can prevent a potential numerical issue during fitting, by
                 ensuring that the calculated values form a positive definite matrix.
@@ -295,8 +294,6 @@ class Bgolearn(object):
                 results_dataset.to_csv('./Bgolearn/predictionsBy{name}_{year}.{month}.{day}_{hour}.{minute}.csv'.format(name=docu_name(CV_test),year=namey, month=nameM, day=named, hour=nameh,
                                                                                 minute=namem),encoding='utf-8-sig')
                 
-
-
                 _results_dataset.to_csv('./Bgolearn/predictionsOnTrainingDataset_{year}.{month}.{day}_{hour}.{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
                                                                                 minute=namem),encoding='utf-8-sig')
 
@@ -322,8 +319,8 @@ class Bgolearn(object):
         """
         PACKAGE: Bayesian global optimization learn .
 
-        10 Jul 2022, version 1, Bin Cao, MGI, SHU, Shanghai, CHINA.
-
+        6 Apr 2023, version 1.4, Bin Cao, ZheJiang LAB, Hangzhou, CHINA. (MGI, SHU, Shanghai, CHINA).
+        
         :param Ture_fun: the true function being evaluated. e.g.,
                 def function(X):
                     X = np.array(X)

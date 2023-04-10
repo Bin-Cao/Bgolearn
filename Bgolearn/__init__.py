@@ -1,9 +1,10 @@
 
-print(' Bgolearn : A Bayesian global optimization package \n 10 Jul 2022, version 1, Bin Cao, MGI, SHU, Shanghai, CHINA.')
+print(' Bgolearn : A Bayesian global optimization package \n 6 Apr 2023, version 1.4, Bin Cao, ZheJiang LAB, Hangzhou, CHINA. (MGI, SHU, Shanghai, CHINA).')
 
-__version__ = '1.1'
+__version__ = '1.5'
 __description__ = 'A Bayesian global optimization package'
-__author__ = 'Bin Cao'
-__author_email__ = 'baco@shu.edu.cn'
+__documents__ = 'https://bgolearn.netlify.app/'
+__author__ = 'Bin CAO'
+__author_email__ = 'binjacobcao@gmail.com'
 __url__ = 'https://github.com/Bin-Cao/Bgolearn'
 
