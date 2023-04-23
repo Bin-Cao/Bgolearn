@@ -2,8 +2,6 @@ import inspect
 import os
 import time
 import warnings
-import copy
-from tkinter import N
 import numpy as np
 import pandas as pd
 from .BGOmax import Global_max
@@ -11,7 +9,6 @@ from .BGOmin import Global_min
 from .BGOclf import Boundary
 from .BGO_eval import BGO_Efficient
 from sklearn.model_selection import LeaveOneOut
-from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error
