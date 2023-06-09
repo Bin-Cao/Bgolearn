@@ -16,48 +16,8 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import  RBF, WhiteKernel
 from sklearn.model_selection import KFold
 
-
-def Bgo_KFold(x_train, y_train,cv):
-    x_train = np.array(x_train)
-    y_train = np.array(y_train)
-    kfolder = KFold(n_splits=cv, shuffle=True,random_state=0)
-    kfold = kfolder.split(x_train, y_train)
-    return kfold
-
-def docu_name(CV_test):
-    if CV_test == 'LOOCV':
-        return 'LOOCV'
-    elif type(CV_test) == int:
-        return '{}-CVs'.format(CV_test)
-    else:
-        print('type error')
-
-
-def Classifier_selection(Classifier):
-    if Classifier == 'GaussianProcess':
-        from sklearn.gaussian_process import GaussianProcessClassifier 
-        model = GaussianProcessClassifier(kernel= 1*RBF(1.0) ,random_state=0)
-    elif Classifier == 'LogisticRegression':
-        from sklearn.linear_model import LogisticRegression
-        model = LogisticRegression(random_state=0,class_weight='balanced',multi_class='multinomial')
-    elif Classifier == 'NaiveBayes':
-        from sklearn.naive_bayes import GaussianNB
-        model = GaussianNB()
-    elif Classifier == 'SVM':
-        from sklearn.svm import SVC
-        model = SVC(probability=True)
-    elif Classifier == 'RandomForest':
-        from sklearn.ensemble import RandomForestClassifier
-        model = RandomForestClassifier(max_depth=4,random_state=0)
-    else :
-        print('type ERROR! -Classifier-')
-    return model
-
-
-
-
 class Bgolearn(object):
-    def fit(self,data_matrix, Measured_response, virtual_samples, Mission ='Regression', Classifier = 'GaussianProcess',noise_std = 0.01, Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False, ):
+    def fit(self,data_matrix, Measured_response, virtual_samples, Mission ='Regression', Classifier = 'GaussianProcess',noise_std = None, Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False, ):
         
         """
         PACKAGE: Bayesian global optimization learn .
@@ -82,12 +42,15 @@ class Bgolearn(object):
                 'SVM' --> Support Vector Machine Classifier
                 'RandomForest' --> Random Forest Classifier
 
-        :param noise_std: float or ndarray of shape (n_samples,), default=0.01
+        :param noise_std: float or ndarray of shape (n_samples,), default=None
                 Value added to the diagonal of the kernel matrix during fitting.
                 This can prevent a potential numerical issue during fitting, by
                 ensuring that the calculated values form a positive definite matrix.
                 It can also be interpreted as the variance of additional Gaussian.
                 measurement noise on the training observations.
+
+                if noise_std is not None, a noise value will be estimated by maximum likelihood
+                on training dataset.
 
         :param Kriging_model (default None): a user defined callable Kriging model, has an attribute of <fit_pre>
                 if user isn't applied one, Bgolearn will call a pre-set Kriging model
@@ -132,13 +95,28 @@ class Bgolearn(object):
                 print('GaussianProcess; LogisticRegression;NaiveBayes;SVM;RandomForest')
 
 
-
-
         elif Mission == 'Regression':
         
             if Kriging_model == None:
-                kernel = RBF() + WhiteKernel()
-                if type(noise_std) == float:
+                kernel = 1 * RBF() 
+                if noise_std == None:
+                    # call the default model;
+                    class Kriging_model(object):
+                        def fit_pre(self,xtrain,ytrain,xtest,):
+                            # estimating Noise Level of training dataset
+                            noise_ker = WhiteKernel(noise_level_bounds=(0.001,0.5))
+                            GPr = GaussianProcessRegressor(kernel= 1 * RBF()+noise_ker,normalize_y=True).fit(xtrain,ytrain)
+                            noise_level = np.exp(GPr.kernel_.theta[1])
+        
+                            # ret_std is a placeholder for homogenous noise
+                            # instantiated mode
+                            mdoel = GaussianProcessRegressor(kernel=kernel,normalize_y=True,alpha = noise_level).fit(xtrain,ytrain)
+                            # defined the attribute's outputs
+                            mean,std = mdoel.predict(xtest,return_std=True)
+                            return mean,std 
+                    print('The internal model is instantiated with optimized homogenous noise')  
+
+                elif type(noise_std) == float:
                     # call the default model;
                     class Kriging_model(object):
                         def fit_pre(self,xtrain,ytrain,xtest,):
@@ -149,7 +127,7 @@ class Bgolearn(object):
                             mean,std = mdoel.predict(xtest,return_std=True)
                             return mean,std 
                     print('The internal model is instantiated with homogenous noise: %s' % noise_std)  
-                    
+                
                 elif type(noise_std) == np.ndarray:
                     # call the default model;
                     class Kriging_model(object):
@@ -403,3 +381,39 @@ class Bgolearn(object):
       
   
 
+
+def Bgo_KFold(x_train, y_train,cv):
+    x_train = np.array(x_train)
+    y_train = np.array(y_train)
+    kfolder = KFold(n_splits=cv, shuffle=True,random_state=0)
+    kfold = kfolder.split(x_train, y_train)
+    return kfold
+
+def docu_name(CV_test):
+    if CV_test == 'LOOCV':
+        return 'LOOCV'
+    elif type(CV_test) == int:
+        return '{}-CVs'.format(CV_test)
+    else:
+        print('type error')
+
+
+def Classifier_selection(Classifier):
+    if Classifier == 'GaussianProcess':
+        from sklearn.gaussian_process import GaussianProcessClassifier 
+        model = GaussianProcessClassifier(kernel= 1*RBF(1.0) ,random_state=0)
+    elif Classifier == 'LogisticRegression':
+        from sklearn.linear_model import LogisticRegression
+        model = LogisticRegression(random_state=0,class_weight='balanced',multi_class='multinomial')
+    elif Classifier == 'NaiveBayes':
+        from sklearn.naive_bayes import GaussianNB
+        model = GaussianNB()
+    elif Classifier == 'SVM':
+        from sklearn.svm import SVC
+        model = SVC(probability=True)
+    elif Classifier == 'RandomForest':
+        from sklearn.ensemble import RandomForestClassifier
+        model = RandomForestClassifier(max_depth=4,random_state=0)
+    else :
+        print('type ERROR! -Classifier-')
+    return model
