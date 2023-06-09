@@ -36,9 +36,9 @@ Cite :
 
      
 ## Update log / 日志
-Bgolearn V1.2 Oct, 2022. *Officially promoted version*. Which contains 9 Utility Functions for sampling, and 4 Evaluation Functions for evaluating the optimization efficiency of Utility Function.
+Before version 2.1, it belonged to function building
 
-Bgolearn V1.3 Nov, 2022. *add classification task*
+Bgolearn V2.1.1 Jun 9, 2023. *para noise_std* By default, the built-in Gaussian process model estimates the noise of the input data set by maximum likelihood, and builds a more Luban model on this basis
 
 
 ## References / 参考文献
