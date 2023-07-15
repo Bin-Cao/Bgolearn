@@ -10,6 +10,8 @@
 
 🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks !
 
+if you have any questions or need help, you are welcome to contact me
+
 Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
 # Python package - Bgolearn 
 
@@ -21,8 +23,8 @@ Written using Python, which is suitable for operating systems, e.g., Windows/Lin
 
 
 
-Cite : 
-+ Zhang Tong-yi, Cao Bin, Wang Yuanhao, Tian Yuan, Sun Sheng, Liu Nianhong. Bayesian global optimization package for material design [2022SR1481726], 2022, Software copyright, GitHub : github.com/Bin-Cao/Bgolearn.
+## Cite : 
++ Zhang Tong-yi, Cao Bin, Wang Yuanhao, Tian Yuan, Sun Sheng. Bayesian global optimization package for material design [2022SR1481726], 2022, Software copyright, GitHub : github.com/Bin-Cao/Bgolearn.
 
 ## Installing / 安装
     pip install Bgolearn 
@@ -36,7 +38,7 @@ Cite :
 
      
 ## Update log / 日志
-Before version 2.1, it belonged to function building
+Before version 2.1, function building
 
 Bgolearn V2.1.1 Jun 9, 2023. *para noise_std* By default, the built-in Gaussian process model estimates the noise of the input dataset by maximum likelihood, and yields in a more robust model.
 
