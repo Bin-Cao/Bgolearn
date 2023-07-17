@@ -23,7 +23,7 @@ Written using Python, which is suitable for operating systems, e.g., Windows/Lin
 
 
 
-## Cite : 
+If you are using this code, please cite:
 + Zhang Tong-yi, Cao Bin, Wang Yuanhao, Tian Yuan, Sun Sheng. Bayesian global optimization package for material design [2022SR1481726], 2022, Software copyright, GitHub : github.com/Bin-Cao/Bgolearn.
 
 ## Installing / 安装
