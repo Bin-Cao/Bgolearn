@@ -14,9 +14,11 @@ if you have any questions or need help, you are welcome to contact me
 
 Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
 
-![plot](https://github.com/Bin-Cao/Bgolearn/assets/86995074/b56d8d3a-26d5-451c-bf4b-9ad2c2e29298)
+
 
 # Python package - Bgolearn 
+
+![plot](https://github.com/Bin-Cao/Bgolearn/assets/86995074/b56d8d3a-26d5-451c-bf4b-9ad2c2e29298)
 
 ## Package Document / 手册
 see 📒 [Bgolearn](https://bgolearn.netlify.app) (Click to view）
