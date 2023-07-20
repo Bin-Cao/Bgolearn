@@ -16,9 +16,10 @@ Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.o
 
 
 
+
 # Python package - Bgolearn 
 
-![plot](https://github.com/Bin-Cao/Bgolearn/assets/86995074/b56d8d3a-26d5-451c-bf4b-9ad2c2e29298)
+![plot](https://github.com/Bin-Cao/Bgolearn/assets/86995074/ed1f23a2-27d3-4b4f-bd3a-775cabb3769a)
 
 ## Package Document / 手册
 see 📒 [Bgolearn](https://bgolearn.netlify.app) (Click to view）
