@@ -18,6 +18,8 @@ Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.o
 
 
 # Python package - Bgolearn 
+
+**No gradient** information is used
 ![plot](https://github.com/Bin-Cao/Bgolearn/assets/86995074/d4e43900-eadb-4ddf-af46-0208314de41a)
 
 
