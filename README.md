@@ -18,8 +18,8 @@ Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.o
 
 
 # Python package - Bgolearn 
+![plot](https://github.com/Bin-Cao/Bgolearn/assets/86995074/d4e43900-eadb-4ddf-af46-0208314de41a)
 
-![plot](https://github.com/Bin-Cao/Bgolearn/assets/86995074/ed1f23a2-27d3-4b4f-bd3a-775cabb3769a)
 
 ## Package Document / 手册
 see 📒 [Bgolearn](https://bgolearn.netlify.app) (Click to view）
