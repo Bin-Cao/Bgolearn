@@ -1,4 +1,4 @@
-##Please install Bgolearn by pip
+## Please install Bgolearn by pip
 
 ## Command Line：
     pip install Bgolearn
