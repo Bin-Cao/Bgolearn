@@ -78,7 +78,7 @@ See : [papers](https://github.com/Bin-Cao/Bgolearn/tree/main/Refs)
 
 ## About / 更多
 Maintained by Bin Cao. Please feel free to open issues in the Github or contact Bin Cao
-(bcao@shu.edu.cn) in case of any problems/comments/suggestions in using the code. 
+(bcao686@connect.hkust-gz.edu.cn) in case of any problems/comments/suggestions in using the code. 
 
 ## Contributing / 共建
 Contribution and suggestions are always welcome. In addition, we are also looking for research collaborations. You can submit issues for suggestions, questions, bugs, and feature requests, or submit pull requests to contribute directly. You can also contact the authors for research collaboration.
