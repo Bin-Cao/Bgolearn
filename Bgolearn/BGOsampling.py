@@ -4,10 +4,12 @@ import time
 import warnings
 import numpy as np
 import pandas as pd
+import copy
 from .BGOmax import Global_max
 from .BGOmin import Global_min
 from .BGOclf import Boundary
 from .BGO_eval import BGO_Efficient
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import LeaveOneOut
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_absolute_error
@@ -20,9 +22,32 @@ class Bgolearn(object):
     def fit(self,data_matrix, Measured_response, virtual_samples, Mission ='Regression', Classifier = 'GaussianProcess',noise_std = None, Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False, ):
         
         """
-        PACKAGE: Bayesian global optimization learn .
+        ================================================================
+        PACKAGE: Bayesian global optimization-learn (Bgolearn) .
+        ================================================================
+        Thank you for choosing Bgolearn for material design. 
+        Bgolearn is developed to facilitate the application of machine learning in research.
+        Bgolearn is designed for optimizing single-target material properties. 
+        If you need to perform multi-target optimization, here are two important reminders:
 
-        6 Apr 2023, version 1.4, Bin Cao, ZheJiang LAB, Hangzhou, CHINA. (MGI, SHU, Shanghai, CHINA).
+        1. Multi-tasks can be converted into a single task using domain knowledge. 
+        For example, you can use a weighted linear combination in the simplest situation. That is, y = w*y1 + y2...
+
+        2. Multi-tasks can be optimized using Pareto fronts. 
+        Bgolearn will return two arrays based on your dataset: 
+        the first array is a evaluation score for each virtual sample, 
+        while the second array is the recommended data considering only the current optimized target.
+
+        The first array is crucial for multi-task optimization. 
+        For instance, in a two-task optimization scenario, you can evaluate each candidate twice for the two separate targets. 
+        Then, plot the score of target 1 for each sample on the x-axis and the score of target 2 on the y-axis. 
+        The trade-off consideration is to select the data located in the front of the banana curve.
+
+        I am delighted to invite you to participate in the development of Bgolearn. 
+        If you have any issues or suggestions, please feel free to contact me at binjacobcao@gmail.com.
+        ================================================================
+
+        Bin Cao, Advanced Materials Thrust, Hong Kong University of Science and Technology (Guangzhou).
 
         :param data_matrix: data matrix of training dataset, X .
 
@@ -79,6 +104,17 @@ class Bgolearn(object):
         :return: 1: array; potential of each candidate. 2: array/float; recommended candidate(s).
 
         """
+
+        # Fit and transform the input data matrix
+        virtual_samples = preprocess_data(virtual_samples)
+        data_matrix = preprocess_data(data_matrix)
+        Measured_response = preprocess_data(Measured_response)
+
+        row_features = copy.deepcopy(virtual_samples)
+        scaler = MinMaxScaler()
+        virtual_samples = scaler.fit_transform(virtual_samples)
+        data_matrix = scaler.transform(data_matrix)
+
         timename = time.localtime(time.time())
         namey, nameM, named, nameh, namem = timename.tm_year, timename.tm_mon, timename.tm_mday, timename.tm_hour, timename.tm_min
 
@@ -88,7 +124,7 @@ class Bgolearn(object):
             if type(Classifier) == str:
                 model = Classifier_selection(Classifier)
                 print(model)
-                BGOmodel = Boundary(model,data_matrix, Measured_response, virtual_samples, opt_num)
+                BGOmodel = Boundary(model,data_matrix, Measured_response, row_features, opt_num, virtual_samples)
                 return BGOmodel
             else:
                 print('Type Error! Classifier should be one of the following:')
@@ -150,9 +186,9 @@ class Bgolearn(object):
             
             
             # position incluse 'self'
-            if len(inspect.getargspec(Kriging_model().fit_pre)[0]) == 5:
+            if len(inspect.getfullargspec(Kriging_model().fit_pre)[0]) == 5:
                 ret_noise = True
-            elif len(inspect.getargspec(Kriging_model().fit_pre)[0]) == 4:
+            elif len(inspect.getfullargspec(Kriging_model().fit_pre)[0]) == 4:
                 ret_noise = False
             else:
                 print('type ERROR! -ILLEGAL form of Krigging-')
@@ -280,9 +316,9 @@ class Bgolearn(object):
 
             # BGO
             if min_search == True:
-                BGOmodel = Global_min(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise)
+                BGOmodel = Global_min(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise,row_features)
             elif min_search == False: 
-                BGOmodel = Global_max(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise)
+                BGOmodel = Global_max(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise,row_features)
             else:
                 print('type ERROR! -opt_num-')
             return BGOmodel
@@ -294,7 +330,7 @@ class Bgolearn(object):
         """
         PACKAGE: Bayesian global optimization learn .
 
-        6 Apr 2023, version 1.4, Bin Cao, ZheJiang LAB, Hangzhou, CHINA. (MGI, SHU, Shanghai, CHINA).
+        6 Apr 2023, version 1.4, Bin Cao, ZheJiang LAB, Hangzhou, CHINA.
         
         :param Ture_fun: the true function being evaluated. e.g.,
                 def function(X):
@@ -361,27 +397,20 @@ class Bgolearn(object):
                 print('The internal model is instantiated with heterogenous noise')
         else: 
             print('The external model is instantiated')
-           
-        
         
         # position incluse 'self'
-        if len(inspect.getargspec(Kriging_model().fit_pre)[0]) == 5:
+        if len(inspect.getfullargspec(Kriging_model().fit_pre)[0]) == 5:
             ret_noise = True
-        elif len(inspect.getargspec(Kriging_model().fit_pre)[0]) == 4:
+        elif len(inspect.getfullargspec(Kriging_model().fit_pre)[0]) == 4:
             ret_noise = False
         else:
             print('type ERROR! -ILLEGAL form of Krigging-')
-
-
 
         print('Evaluation is executed')
         
         Eval_model = BGO_Efficient(Ture_fun,Def_Domain, Kriging_model, opt_num, ret_noise,min_search)
         return Eval_model
       
-  
-
-
 def Bgo_KFold(x_train, y_train,cv):
     x_train = np.array(x_train)
     y_train = np.array(y_train)
@@ -396,7 +425,6 @@ def docu_name(CV_test):
         return '{}-CVs'.format(CV_test)
     else:
         print('type error')
-
 
 def Classifier_selection(Classifier):
     if Classifier == 'GaussianProcess':
@@ -417,3 +445,13 @@ def Classifier_selection(Classifier):
     else :
         print('type ERROR! -Classifier-')
     return model
+
+
+def preprocess_data(data):
+    if isinstance(data, np.ndarray):
+        if data.ndim == 1:
+            data = np.reshape(data, (-1, 1))
+    elif isinstance(data, list):
+        data = np.array(data).reshape(-1, 1)
+    data = np.array(data)
+    return data
