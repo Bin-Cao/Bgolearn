@@ -26,7 +26,7 @@ Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.o
 ## Package Document / 手册
 see 📒 [Bgolearn](https://bgolearn.netlify.app) (Click to view）
 
-见 📒 [中文手册](https://mp.weixin.qq.com/s/y-i_2ixbtJOv-nEYDu9THg) (Click to view）
+见 📒 [中文说明](https://mp.weixin.qq.com/s/y-i_2ixbtJOv-nEYDu9THg) (Click to view）
 
 Written using Python, which is suitable for operating systems, e.g., Windows/Linux/MAC OS etc.
 
