@@ -10,6 +10,11 @@
 
 🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks !
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Bin-Cao/Bgolearn&type=Date)](https://star-history.com/#Bin-Cao/Bgolearn&Date)
+
+
 if you have any questions or need help, you are welcome to contact me
 
 Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
