@@ -9,6 +9,10 @@
 
 
 🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks !
+## links
+
+- https://www.wheelodex.org/projects/bgolearn/
+- https://pypi.tuna.tsinghua.edu.cn/simple/bgolearn/
 
 ## Star History
 
