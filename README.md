@@ -40,7 +40,36 @@ see 📒 [Bgolearn](https://bgolearn.netlify.app) (Click to view）
 
 Written using Python, which is suitable for operating systems, e.g., Windows/Linux/MAC OS etc.
 
+## Template 
+``` javascript
+# import BGOsampling after installation 
+# 安装后, 通过此命令调用BGOsampling类
+import Bgolearn.BGOsampling as BGOS
 
+# import your dataset (Samples have been characterized)
+# 导入研究的数据集(已经表征过的样本)
+data = pd.read_csv('data.csv') 
+# features 
+x = data.iloc[:,:-1]
+# response / target 
+y = data.iloc[:,-1]
+
+# virtual samples which have same feature dimension with x
+# 设计的虚拟样本, 与x具有相同的维度
+vs = pd.read_csv('virtual_data.csv') 
+
+# instantiate class
+# 实例化类 Bgolearn
+Bgolearn = BGOS.Bgolearn() 
+
+# Pass parameters to the function
+# 传入参数
+Mymodel = Bgolearn.fit(data_matrix = x, Measured_response = y, virtual_samples = vs)
+
+# derive the result by EI
+# 通过EI导出结果
+Mymodel.EI()
+```
 
 If you are using this code, please cite:
     
