@@ -13,7 +13,7 @@
 
 - https://www.wheelodex.org/projects/bgolearn/
 - https://pypi.tuna.tsinghua.edu.cn/simple/bgolearn/
-- [user account](https://pypistats.org/packages/bgolearn)
+- [user count](https://pypistats.org/packages/bgolearn)
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Bin-Cao/Bgolearn&type=Date)](https://star-history.com/#Bin-Cao/Bgolearn&Date)
