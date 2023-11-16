@@ -14,10 +14,8 @@
 - https://www.wheelodex.org/projects/bgolearn/
 - https://pypi.tuna.tsinghua.edu.cn/simple/bgolearn/
 - [user count](https://pypistats.org/packages/bgolearn)
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Bin-Cao/Bgolearn&type=Date)](https://star-history.com/#Bin-Cao/Bgolearn&Date)
-
+## Download History
+![WechatIMG4661](https://github.com/Bin-Cao/Bgolearn/assets/86995074/591e26b4-c8c3-4a17-ae8b-b3bcf9237514)
 
 
 if you have any questions or need help, you are welcome to contact me
