@@ -7,14 +7,15 @@
 </h1>
 
 
-
 🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks !
 ## links
 
 - https://www.wheelodex.org/projects/bgolearn/
 - https://pypi.tuna.tsinghua.edu.cn/simple/bgolearn/
 - [user count](https://pypistats.org/packages/bgolearn)
-## Download History
+
+
+## Download History （- Nov16，2023）
 ![WechatIMG4661](https://github.com/Bin-Cao/Bgolearn/assets/86995074/591e26b4-c8c3-4a17-ae8b-b3bcf9237514)
 
 
