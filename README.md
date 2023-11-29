@@ -17,6 +17,32 @@
 - [user count](https://pypistats.org/packages/bgolearn)
 
 
+### for regression
+- 1.Expected Improvement algorith (期望提升函数)
+
+- 2.Expected improvement with “plugin” (有“plugin”的期望提升函数)
+
+- 3.Augmented Expected Improvement (增广期望提升函数)
+
+- 4.Expected Quantile Improvement (期望分位提升函数)
+
+- 5.Reinterpolation Expected Improvement (重插值期望提升函数)
+
+- 6.Upper confidence bound (高斯上确界函数)
+
+- 7.Probability of Improvement (概率提升函数)
+
+- 8.Predictive Entropy Search (预测熵搜索函数)
+
+- 9.Knowledge Gradient (知识梯度函数)
+
+###  for classification
+- 1.Least Confidence (欠信度函数)
+
+- 2.Margin Sampling (边界函数)
+
+- 3.Entropy-based approach (熵索函数)
+
 ## Download History （- Nov16，2023）
 ![WechatIMG4661](https://github.com/Bin-Cao/Bgolearn/assets/86995074/591e26b4-c8c3-4a17-ae8b-b3bcf9237514)
 
