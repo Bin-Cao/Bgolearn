@@ -120,6 +120,8 @@ Bgolearn V2.1.1 Jun 9, 2023. *para noise_std* By default, the built-in Gaussian 
 
 
 ## Multi-task design
+    pip install BgoKit 
+    
 ``` javascript
 from BgoKit import ToolKit
 # vs is the virtual samples
