@@ -124,6 +124,7 @@ Bgolearn V2.1.1 Jun 9, 2023. *para noise_std* By default, the built-in Gaussian 
 from BgoKit import ToolKit
 # vs is the virtual samples
 # score_1,score_2 are output of Bgolearn
+# score_1, _= Mymodel_1.EI() ; score_2, _= Mymodel_2.EI()
 
 Model = ToolKit.MultiOpt(vs,[score_1,score_2])
 Model.BiSearch()
