@@ -118,6 +118,18 @@ Before version 2.0, function building
 
 Bgolearn V2.1.1 Jun 9, 2023. *para noise_std* By default, the built-in Gaussian process model estimates the noise of the input dataset by maximum likelihood, and yields in a more robust model.
 
+
+``` javascript
+from BgoKit import ToolKit
+# vs is the virtual samples
+# score_1,score_2 are output of Bgolearn
+
+Model = ToolKit.MultiOpt(vs,[score_1,score_2])
+Model.BiSearch()
+Model.plot_distribution()
+See : [Link]([https://github.com/Bin-Cao/Bgolearn/tree/main/Refs](https://github.com/Bin-Cao/Bgolearn/blob/main/Template/%E4%B8%AD%E6%96%87%E7%A4%BA%E4%BE%8B/%E5%A4%9A%E7%9B%AE%E6%A0%87%E5%AE%9E%E7%8E%B0/%E5%A4%9A%E7%9B%AE%E6%A0%87.ipynb))
+```
+
 ``` javascript
 Thank you for choosing Bgolearn for material design. 
 Bgolearn is developed to facilitate the application of machine learning in research.
@@ -134,14 +146,6 @@ For example, you can use a weighted linear combination in the simplest situation
 Bgolearn will return two arrays based on your dataset: 
 the first array is a evaluation score for each virtual sample, 
 while the second array is the recommended data considering only the current optimized target.
-
-from BgoKit import ToolKit
-Model = ToolKit.MultiOpt(vs,[score_1,score_2])
-Model.BiSearch()
-Model.plot_distribution()
-See : [Link]([https://github.com/Bin-Cao/Bgolearn/tree/main/Refs](https://github.com/Bin-Cao/Bgolearn/blob/main/Template/%E4%B8%AD%E6%96%87%E7%A4%BA%E4%BE%8B/%E5%A4%9A%E7%9B%AE%E6%A0%87%E5%AE%9E%E7%8E%B0/%E5%A4%9A%E7%9B%AE%E6%A0%87.ipynb))
-
-
 
 The first array is crucial for multi-task optimization. 
 For instance, in a two-task optimization scenario, you can evaluate each candidate twice for the two separate targets. 
