@@ -119,6 +119,7 @@ Before version 2.0, function building
 Bgolearn V2.1.1 Jun 9, 2023. *para noise_std* By default, the built-in Gaussian process model estimates the noise of the input dataset by maximum likelihood, and yields in a more robust model.
 
 
+## Multi-task design
 ``` javascript
 from BgoKit import ToolKit
 # vs is the virtual samples
