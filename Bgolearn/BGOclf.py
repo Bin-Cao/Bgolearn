@@ -2,14 +2,14 @@ import warnings
 import numpy as np
 
 class Boundary(object):
-    def __init__(self,model,data_matrix, Measured_response, virtual_samples, opt_num):
+    def __init__(self,model,data_matrix, Measured_response, virtual_samples, opt_num, scale_virtual_samples):
         warnings.filterwarnings('ignore')
         self.model = model
         self.data_matrix = np.array(data_matrix)
         self.Measured_response = np.array(Measured_response)
         __fea_num = len(self.data_matrix[0])
         self.virtual_samples = np.array(virtual_samples).reshape(-1,__fea_num)
-        self.probs = model.fit(data_matrix, Measured_response).predict_proba(self.virtual_samples)
+        self.probs = model.fit(data_matrix, Measured_response).predict_proba(scale_virtual_samples)
         self.opt_num = opt_num
         
 

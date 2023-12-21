@@ -1,0 +1,83 @@
+#------------------------------------------------------------------------------
+#$Date: 2023-03-26 11:09:57 +0300 (Sun, 26 Mar 2023) $
+#$Revision: 282068 $
+#$URL: file:///home/coder/svn-repositories/cod/cif/9/01/11/9011118.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/. The original data for this entry
+# were provided the American Mineralogist Crystal Structure Database,
+# http://rruff.geo.arizona.edu/AMS/amcsd.php
+#
+# The file may be used within the scientific community so long as
+# proper attribution is given to the journal article from which the
+# data were obtained.
+#
+data_9011118
+loop_
+_publ_author_name
+'Fairhurst, C. W.'
+'Cohen, J. B.'
+_publ_section_title
+;
+ The crystal structure of two compounds found in dental amalgam: Ag2Hg3 and
+ Ag3Sn
+;
+_journal_name_full               'Acta Crystallographica, Section B'
+_journal_page_first              371
+_journal_page_last               378
+_journal_paper_doi               10.1107/S0567740872002432
+_journal_volume                  28
+_journal_year                    1972
+_chemical_compound_source        Synthetic
+_chemical_formula_structural     Ag3Sn
+_chemical_formula_sum            'Ag3 Sn'
+_space_group_IT_number           59
+_symmetry_space_group_name_Hall  '-P 2ab 2a'
+_symmetry_space_group_name_H-M   'P m m n :2'
+_cell_angle_alpha                90
+_cell_angle_beta                 90
+_cell_angle_gamma                90
+_cell_length_a                   5.968
+_cell_length_b                   4.7802
+_cell_length_c                   5.1843
+_cell_volume                     147.899
+_database_code_amcsd             0009426
+_exptl_crystal_density_diffrn    9.932
+_cod_original_sg_symbol_H-M      'P m m n'
+_cod_database_code               9011118
+_amcsd_formula_title             Ag3Sn
+loop_
+_space_group_symop_operation_xyz
+x,y,z
+x,1/2-y,z
+-x,1/2+y,-z
+1/2-x,y,z
+1/2+x,-y,-z
+1/2+x,1/2+y,-z
+1/2-x,1/2-y,z
+-x,-y,-z
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_U_11
+_atom_site_aniso_U_22
+_atom_site_aniso_U_33
+_atom_site_aniso_U_12
+_atom_site_aniso_U_13
+_atom_site_aniso_U_23
+Ag1 0.01624 0.01042 0.01362 0.00000 -0.01207 0.00000
+Ag2 0.01985 0.00544 0.01729 0.00000 0.00000 0.00000
+Sn 0.00072 0.00868 0.00953 0.00000 0.00000 0.00000
+loop_
+_atom_site_label
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+Ag1 0.00000 0.25000 -0.33690
+Ag2 0.25000 0.75000 -0.17230
+Sn 0.25000 0.25000 0.16870
+loop_
+_cod_related_entry_id
+_cod_related_entry_database
+_cod_related_entry_code
+1 AMCSD 0009426

@@ -24,7 +24,7 @@ def Cal_total_area(array,length=1):
     return Total_area
 
 class BGO_Efficient(object):
-    def __init__(self,Ture_fun,Def_Domain, Kriging_model, opt_num, ret_noise,min_search):
+    def __init__(self,Ture_fun,Def_Domain, Kriging_model, opt_num, ret_noise, min_search):
         
         self.Ture_fun = Ture_fun
         self.Def_Domain = np.array(Def_Domain) 
