@@ -5,6 +5,7 @@ import warnings
 import numpy as np
 import pandas as pd
 import copy
+from typing import Union
 from .BGOmax import Global_max
 from .BGOmin import Global_min
 from .BGOclf import Boundary
@@ -19,7 +20,7 @@ from sklearn.gaussian_process.kernels import  RBF, WhiteKernel
 from sklearn.model_selection import KFold
 
 class Bgolearn(object):
-    def fit(self,data_matrix, Measured_response, virtual_samples, Mission ='Regression', Classifier = 'GaussianProcess',noise_std = None, Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False, ):
+    def fit(self,data_matrix, Measured_response, virtual_samples, Mission ='Regression', Classifier = 'GaussianProcess',noise_std = None, Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False, )-> Union[Boundary, Global_max, Global_min]:
         
         """
         ================================================================

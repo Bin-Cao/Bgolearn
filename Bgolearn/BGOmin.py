@@ -1,7 +1,8 @@
-import copy
+import copy, os
 import warnings
 import numpy as np
 from scipy.stats import norm
+import multiprocess as mp
 
 # cal norm prob.
 def norm_des(x):
@@ -24,6 +25,7 @@ class Global_min(object):
         self.ret_noise = ret_noise
         self.row_features = row_features
         warnings.filterwarnings('ignore')
+        os.environ["PYTHONWARNINGS"] = "ignore"
    
     
     
@@ -299,36 +301,50 @@ class Global_min(object):
             print('The input para. opt_num must be an int')
         return PES_list,np.array(return_x)
     
-
-    def Knowledge_G(self,MC_num = 50):
+    def __Knowledge_G_per_sample(self, func_bytes:bytes, MC_num:int, virtual_samples, v_sample_mean, v_sample_std, archive_sample_x, archive_sample_y, x_value, fea_num, ret_noise):
+        MC_batch_min = 0
+        for _ in range(MC_num):
+            # generate y value
+            y_value = np.random.normal(loc = v_sample_mean, scale = v_sample_std)
+            # update the sample x and sample y
+            archive_sample_x[-len(x_value):] = x_value
+            if isinstance(y_value, float):
+                archive_sample_y[-1] = y_value
+            elif isinstance(y_value, np.ndarray):
+                archive_sample_y[-len(y_value):] = y_value
+            # calculate the post mean
+            if ret_noise == True:
+                # return a callable model
+                post_mean, _ = func_bytes.fit_pre(archive_sample_x.reshape(-1, fea_num), archive_sample_y, virtual_samples, v_sample_std)
+            else:
+                post_mean, _ = func_bytes.fit_pre(archive_sample_x.reshape(-1, fea_num), archive_sample_y, virtual_samples)
+            MC_batch_min += post_mean.min()
+        return MC_batch_min
+    
+    def Knowledge_G(self,MC_num = 50, Proc_num:int=None):
         """
         :param MC_num: number of Monte carol,  default 50
+        :param Proc_num: number of Processor,  default None (0)
         """
         current_min = self.virtual_samples_mean.min()
         KD_list = []
-        vir_num = len(self.virtual_samples)
-        for i in range(vir_num):
-            x_value = self.virtual_samples[i]
-            MC_batch_min = 0
-            for j in range(MC_num):
-                y_value = np.random.normal(loc = self.virtual_samples_mean[i],scale = self.virtual_samples_std[i])
-                archive_sample_x = copy.deepcopy(self.data_matrix)
-                archive_sample_y = copy.deepcopy(self.Measured_response)
-                
-                archive_sample_x = np.append(archive_sample_x, x_value)
-                archive_sample_y = np.append(archive_sample_y, y_value)
-                fea_num = len(self.data_matrix[0])
-                if self.ret_noise == True:
-                    # return a callable model
-                    post_mean, _ = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num),archive_sample_y,self.virtual_samples,self.virtual_samples_std[i])
-                else:
-                    post_mean, _ = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num),archive_sample_y,self.virtual_samples)
-                MC_batch_min += post_mean.min()
-                MC_times = i * MC_num + j+1
-                if MC_times % 2000 == 0:
-                    print('The {num}-th Monte carol simulation'.format(num = MC_times))
-            MC_result = MC_batch_min / MC_num
-            KD_list.append( current_min - MC_result)
+        fea_num = len(self.data_matrix[0])
+        archive_sample_x = np.append(self.data_matrix[:], self.virtual_samples[0])
+        archive_sample_y = np.append(self.Measured_response[:], self.virtual_samples_mean[0])
+        K_model = self.Kriging_model()
+        results = []
+        if not Proc_num:
+            for x_value, v_sample_mean, v_sample_std in zip(self.virtual_samples, self.virtual_samples_mean, self.virtual_samples_std):
+                MC_batch_min= self.__Knowledge_G_per_sample(K_model, MC_num, self.virtual_samples, v_sample_mean, v_sample_std, archive_sample_x, archive_sample_y, x_value, fea_num, self.ret_noise)
+                MC_result = MC_batch_min / MC_num
+                KD_list.append( current_min - MC_result)
+        else:
+            with mp.get_context("spawn").Pool(Proc_num) as pool:
+                results=[pool.apply_async(self.__Knowledge_G_per_sample, args=(K_model, MC_num, self.virtual_samples, v_sample_mean, v_sample_std, archive_sample_x, archive_sample_y, x_value, fea_num, self.ret_noise)) for x_value, v_sample_mean, v_sample_std in zip(self.virtual_samples, self.virtual_samples_mean, self.virtual_samples_std)]
+                for idx, rst in enumerate(results):
+                    MC_batch_min = rst.get()
+                    MC_result = MC_batch_min / MC_num
+                    KD_list.append( current_min - MC_result)
         KD_list = np.array(KD_list)
 
         return_x = []
