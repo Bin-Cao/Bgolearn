@@ -9,6 +9,10 @@
 
 🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks !
 
+If you are using this code, please cite:
+    
+    Zhang Tong-yi, Cao Bin, Wang Yuanhao, Tian Yuan, Sun Sheng. Bayesian global optimization package for material design [2022SR1481726], 2022, Software copyright, GitHub : github.com/Bin-Cao/Bgolearn.
+    
 ## links
 ![Screenshot 2023-11-16 at 11 23 35](https://github.com/Bin-Cao/Bgolearn/assets/86995074/cd0d24e4-06db-45f7-b6d6-12750fa8b819)
 
@@ -98,9 +102,7 @@ Mymodel = Bgolearn.fit(data_matrix = x, Measured_response = y, virtual_samples =
 Mymodel.EI()
 ```
 
-If you are using this code, please cite:
-    
-    Zhang Tong-yi, Cao Bin, Wang Yuanhao, Tian Yuan, Sun Sheng. Bayesian global optimization package for material design [2022SR1481726], 2022, Software copyright, GitHub : github.com/Bin-Cao/Bgolearn.
+
 
 ## Installing / 安装
     pip install Bgolearn 
