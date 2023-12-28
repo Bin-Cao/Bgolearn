@@ -10,6 +10,7 @@
 🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks !
 
 If you are using this code, please cite:
++ patent
     
     Cao Bin, Zhang Tong-yi, Wang Yuanhao, Tian Yuan, Sun Sheng. Bayesian global optimization package for material design [2022SR1481726], 2022, Software copyright, GitHub : github.com/Bin-Cao/Bgolearn.
     
