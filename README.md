@@ -11,7 +11,7 @@
 
 If you are using this code, please cite:
     
-    Zhang Tong-yi, Cao Bin, Wang Yuanhao, Tian Yuan, Sun Sheng. Bayesian global optimization package for material design [2022SR1481726], 2022, Software copyright, GitHub : github.com/Bin-Cao/Bgolearn.
+    Cao Bin, Zhang Tong-yi, Wang Yuanhao, Tian Yuan, Sun Sheng. Bayesian global optimization package for material design [2022SR1481726], 2022, Software copyright, GitHub : github.com/Bin-Cao/Bgolearn.
     
 ## links
 ![Screenshot 2023-11-16 at 11 23 35](https://github.com/Bin-Cao/Bgolearn/assets/86995074/cd0d24e4-06db-45f7-b6d6-12750fa8b819)
