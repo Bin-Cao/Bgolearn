@@ -126,7 +126,7 @@ class BGO_Efficient(object):
                 for j in range(Max_inter):
                     # Max_inter = 500 is an enough large number
                     BGO_mdoel = Global_min(self.Kriging_model,train_X, train_Y, self.Def_Domain, 
-                            self.opt_num, self.ret_noise)
+                            self.opt_num, self.ret_noise,self.Def_Domain)
                     _, return_x = self.Call(BGO_mdoel, UTFs, param_one, param_two)
                     new_X = return_x
                     new_Y = self.Ture_fun(new_X)
@@ -157,7 +157,7 @@ class BGO_Efficient(object):
                 for j in range(Max_inter):
                     # Max_inter = 500 is a enough large number
                     BGO_mdoel = Global_max(self.Kriging_model,train_X, train_Y, self.Def_Domain, 
-                            self.opt_num, self.ret_noise)
+                            self.opt_num, self.ret_noise,self.Def_Domain)
                     _, return_x = self.Call(BGO_mdoel, UTFs, param_one, param_two)
                     new_X = return_x
                     new_Y = self.Ture_fun(new_X)
@@ -225,7 +225,7 @@ class BGO_Efficient(object):
                     Iter += 1
                     # Max_inter = 500 is a enough large number
                     BGO_mdoel = Global_min(self.Kriging_model,train_X, train_Y, self.Def_Domain, 
-                            self.opt_num, self.ret_noise)
+                            self.opt_num, self.ret_noise,self.Def_Domain)
                     _, return_x = self.Call(BGO_mdoel, UTFs, param_one, param_two)
                     new_X = return_x
                     new_Y = self.Ture_fun(new_X)
@@ -258,7 +258,7 @@ class BGO_Efficient(object):
                     Iter +=1
                     # Max_inter = 500 is a enough large number
                     BGO_mdoel = Global_max(self.Kriging_model,train_X, train_Y, self.Def_Domain, 
-                            self.opt_num, self.ret_noise)
+                            self.opt_num, self.ret_noise,self.Def_Domain)
                     _, return_x = self.Call(BGO_mdoel, UTFs, param_one, param_two)
                     new_X = return_x
                     new_Y = self.Ture_fun(new_X)
@@ -340,7 +340,7 @@ class BGO_Efficient(object):
                 for j in range(Max_inter):
                     # Max_inter = 500 is a enough large number
                     BGO_mdoel = Global_min(self.Kriging_model,train_X, train_Y, self.Def_Domain, 
-                            self.opt_num, self.ret_noise)
+                            self.opt_num, self.ret_noise,self.Def_Domain)
                     _, return_x = self.Call(BGO_mdoel, UTFs, param_one, param_two)
                     new_X = return_x
                     new_Y = self.Ture_fun(new_X)
@@ -364,7 +364,7 @@ class BGO_Efficient(object):
                 for j in range(Max_inter):
                     # Max_inter = 500 is a enough large number
                     BGO_mdoel = Global_min(self.Kriging_model,train_X, train_Y, self.Def_Domain, 
-                            self.opt_num, self.ret_noise)
+                            self.opt_num, self.ret_noise,self.Def_Domain)
                     _, return_x = self.Call(BGO_mdoel, Ref_UTFs, param_one, param_two)
                     new_X = return_x
                     new_Y = self.Ture_fun(new_X)
@@ -398,7 +398,7 @@ class BGO_Efficient(object):
                 for j in range(Max_inter):
                     # Max_inter = 500 is a enough large number
                     BGO_mdoel = Global_max(self.Kriging_model,train_X, train_Y, self.Def_Domain, 
-                            self.opt_num, self.ret_noise)
+                            self.opt_num, self.ret_noise,self.Def_Domain)
                     _, return_x = self.Call(BGO_mdoel, UTFs, param_one, param_two)
                     new_X = return_x
                     new_Y = self.Ture_fun(new_X)
@@ -422,7 +422,7 @@ class BGO_Efficient(object):
                 for j in range(Max_inter):
                     # Max_inter = 500 is a enough large number
                     BGO_mdoel = Global_max(self.Kriging_model,train_X, train_Y, self.Def_Domain, 
-                            self.opt_num, self.ret_noise)
+                            self.opt_num, self.ret_noise,self.Def_Domain)
                     _, return_x = self.Call(BGO_mdoel, Ref_UTFs, param_one, param_two)
                     new_X = return_x
                     new_Y = self.Ture_fun(new_X)
@@ -505,7 +505,7 @@ class BGO_Efficient(object):
                 for j in range(Max_inter):
                     # Max_inter is the threshold
                     BGO_mdoel = Global_min(self.Kriging_model,train_X, train_Y, self.Def_Domain,
-                            self.opt_num, self.ret_noise)
+                            self.opt_num, self.ret_noise,self.Def_Domain)
                     _, return_x = self.Call(BGO_mdoel, UTFs, param_one, param_two)
                     new_X = return_x
                     new_Y = self.Ture_fun(new_X)
@@ -534,7 +534,7 @@ class BGO_Efficient(object):
                 for j in range(Max_inter):
                     # Max_inter is the threshold
                     BGO_mdoel = Global_max(self.Kriging_model, train_X, train_Y, self.Def_Domain,
-                                           self.opt_num, self.ret_noise)
+                                           self.opt_num, self.ret_noise,self.Def_Domain)
                     _, return_x = self.Call(BGO_mdoel, UTFs, param_one, param_two)
                     new_X = return_x
                     new_Y = self.Ture_fun(new_X)

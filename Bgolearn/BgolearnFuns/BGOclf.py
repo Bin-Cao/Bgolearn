@@ -14,6 +14,9 @@ class Boundary(object):
         
 
     def Least_cfd(self,):
+        """
+        Least Confidence
+        """
         Lc = []
         for i in range(len(self.probs)):
             max_pro = np.array(self.probs[i]).max()
@@ -35,6 +38,9 @@ class Boundary(object):
         return LcValue,np.array(return_x)
 
     def Margin_S(self,):
+        """
+        Margin Sampling
+        """
         Margin = []
         for i in range(len(self.probs)):
             targ_list = list(self.probs[i])
@@ -61,6 +67,9 @@ class Boundary(object):
 
 
     def Entropy(self,):
+        """
+        Entropy-based approach
+        """
         Entropy_value = []
         for i in range(len(self.probs)):
             Etp = 0

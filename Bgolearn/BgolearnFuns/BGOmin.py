@@ -1,12 +1,11 @@
-import copy, os
+import copy,os
 import warnings
 import numpy as np
+import pandas as pd
 from scipy.stats import norm
 import multiprocess as mp
+import multiprocessing
 
-# cal norm prob.
-def norm_des(x):
-    return 1 / np.sqrt(2 * np.pi) * np.exp(- x ** 2 / 2)
 
 class Global_min(object):
     def __init__(self,Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise, row_features):
@@ -28,8 +27,10 @@ class Global_min(object):
         os.environ["PYTHONWARNINGS"] = "ignore"
    
     
-    
     def EI(self,):
+        """
+        Expected Improvement algorith
+        """
         cur_optimal_value = self.Measured_response.min()
         print('current optimal is :', cur_optimal_value)
         EI_list = []
@@ -44,17 +45,22 @@ class Global_min(object):
         if self.opt_num == 1:
             EI_opt_index = np.random.choice(np.flatnonzero(EI_list == EI_list.max()))
             print('The next datum recomended by Expected Improvement : \n x = ', self.row_features[EI_opt_index])
+            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EI_opt_index])
             return_x.append(self.row_features[EI_opt_index])
         elif type(self.opt_num) == int:
-            EI_opt_index = np.argpartition(EI_list, -self.opt_num)[-self.opt_num:]
+            EI_opt_index = np.argsort(EI_list)[-self.opt_num:][::-1]  
             for j in range(len(EI_opt_index)):
                 print('The {num}-th datum recomended by Expected Improvement : \n x = '.format(num =j+1), self.row_features[EI_opt_index[j]])
+                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EI_opt_index[j]])
                 return_x.append(self.row_features[EI_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
         return EI_list, np.array(return_x)
 
     def EI_plugin(self,):
+        """
+        Expected improvement with “plugin”
+        """
         if self.ret_noise == 0:
             __train_ypre,_ = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
         else:
@@ -74,11 +80,13 @@ class Global_min(object):
         if self.opt_num == 1:
             EIp_opt_index = np.random.choice(np.flatnonzero(EIp_list == EIp_list.max()))
             print('The next datum recomended by Expected Improvement with plugin : \n x = ', self.row_features[EIp_opt_index])
+            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EIp_opt_index])
             return_x.append(self.row_features[EIp_opt_index])    
         elif type(self.opt_num) == int:
-            EIp_opt_index = np.argpartition(EIp_list, -self.opt_num)[-self.opt_num:]
+            EIp_opt_index = np.argsort(EIp_list)[-self.opt_num:][::-1]  
             for j in range(len(EIp_opt_index)):
                 print('The {num}-th datum recomended by Expected Improvement with plugin : \n x = '.format(num =j+1), self.row_features[EIp_opt_index[j]])
+                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EIp_opt_index[j]])
                 return_x.append(self.row_features[EIp_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
@@ -87,6 +95,7 @@ class Global_min(object):
     
     def Augmented_EI(self, alpha = 1, tao = 0):
         """
+        Augmented Expected Improvement
         :param alpha: tradeoff coefficient, default 1
         :param tao: noise standard deviation, default 0
         """
@@ -112,11 +121,13 @@ class Global_min(object):
         if self.opt_num == 1:
             AEI_opt_index = np.random.choice(np.flatnonzero(AEI_list == AEI_list.max()))
             print('The next datum recomended by Augmented_EI : \n x = ', self.row_features[AEI_opt_index])
+            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[AEI_opt_index])
             return_x.append(self.row_features[AEI_opt_index])
         elif type(self.opt_num) == int:
-            AEI_opt_index = np.argpartition(AEI_list, -self.opt_num)[-self.opt_num:]
+            AEI_opt_index = np.argsort(AEI_list)[-self.opt_num:][::-1]  
             for j in range(len(AEI_opt_index)):
                 print('The {num}-th datum recomended by Augmented_EI : \n x = '.format(num =j+1), self.row_features[AEI_opt_index[j]])
+                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[AEI_opt_index[j]])
                 return_x.append(self.row_features[AEI_opt_index[j]]) 
         else:
             print('The input para. opt_num must be an int')
@@ -125,6 +136,7 @@ class Global_min(object):
 
     def EQI(self, beta = 0.5,tao_new = 0):
         """
+        Expected Quantile Improvement
         :param beta: beta quantile number, default 0.5
         :param tao: noise standard deviation, default 0
         """
@@ -152,11 +164,13 @@ class Global_min(object):
         if self.opt_num == 1:
             EQI_opt_index = np.random.choice(np.flatnonzero(EQI_list == EQI_list.max()))
             print('The next datum recomended by Expected Quantile Improvement : \n x = ', self.row_features[EQI_opt_index])
+            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EQI_opt_index])
             return_x.append(self.row_features[EQI_opt_index])
         elif type(self.opt_num) == int:
-            EQI_opt_index = np.argpartition(EQI_list, -self.opt_num)[-self.opt_num:]
+            EQI_opt_index = np.argsort(EQI_list)[-self.opt_num:][::-1]   
             for j in range(len(EQI_opt_index)):
                 print('The {num}-th datum recomended by Expected Quantile Improvement : \n x = '.format(num =j+1), self.row_features[EQI_opt_index[j]])
+                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EQI_opt_index[j]])
                 return_x.append(self.row_features[EQI_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
@@ -164,6 +178,9 @@ class Global_min(object):
         return EQI_list,np.array(return_x)
 
     def Reinterpolation_EI(self, ):
+        """
+        Reinterpolation Expected Improvement
+        """
         if self.ret_noise == 0: 
             __update_y,_ = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
         else:
@@ -187,11 +204,13 @@ class Global_min(object):
         if self.opt_num == 1:
             REI_opt_index = np.random.choice(np.flatnonzero(REI_list == REI_list.max()))
             print('The next datum recomended by Reinterpolation Expected Improvement : \n x = ', self.row_features[REI_opt_index])
+            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[REI_opt_index])
             return_x.append(self.row_features[REI_opt_index])
         elif type(self.opt_num) == int:
-            REI_opt_index = np.argpartition(REI_list, -self.opt_num)[-self.opt_num:]
+            REI_opt_index = np.argsort(REI_list)[-self.opt_num:][::-1]  
             for j in range(len(REI_opt_index)):
                 print('The {num}-th datum recomended by Reinterpolation Expected Improvement : \n x = '.format(num =j+1), self.row_features[REI_opt_index[j]])
+                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[REI_opt_index[j]])
                 return_x.append(self.row_features[REI_opt_index[j]]) 
         else:
             print('The input para. opt_num must be an int')
@@ -199,6 +218,7 @@ class Global_min(object):
 
     def UCB(self, alpha=1):
         """
+        Upper confidence bound 
         :param alpha: tradeoff coefficient, default 1
         """
         UCB_list = np.array(self.virtual_samples_mean) - alpha * np.array(self.virtual_samples_std)
@@ -207,11 +227,13 @@ class Global_min(object):
         if self.opt_num == 1:
             UCB_opt_index = np.random.choice(np.flatnonzero(UCB_list == UCB_list.min()))
             print('The next datum recomended by Upper confidence bound  : \n x = ', self.row_features[UCB_opt_index])
+            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[UCB_opt_index])
             return_x.append(self.row_features[UCB_opt_index])    
         elif type(self.opt_num) == int:
-            UCB_opt_index = np.argpartition(UCB_list, self.opt_num)[:self.opt_num]
+            UCB_opt_index = np.argsort(UCB_list)[:self.opt_num]
             for j in range(len(UCB_opt_index)):
                 print('The {num}-th datum recomended by Upper confidence bound : \n x = '.format(num =j+1), self.row_features[UCB_opt_index[j]])
+                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[UCB_opt_index[j]])
                 return_x.append(self.row_features[UCB_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
@@ -220,6 +242,7 @@ class Global_min(object):
     
     def PoI(self, tao = 0):
         """
+        Probability of Improvement
         :param tao: improvement ratio (>=0) , default 0
         """
         if tao < 0:
@@ -238,11 +261,13 @@ class Global_min(object):
             if self.opt_num == 1:
                 PoI_opt_index = np.random.choice(np.flatnonzero(PoI_list == PoI_list.max()))
                 print('The next datum recomended by Probability of Improvement  : \n x = ', self.row_features[PoI_opt_index])
+                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[PoI_opt_index])
                 return_x.append(self.row_features[PoI_opt_index])
             elif type(self.opt_num) == int:
-                PoI_opt_index = np.argpartition(PoI_list, -self.opt_num)[-self.opt_num:]
+                PoI_opt_index = np.argsort(PoI_list)[-self.opt_num:][::-1]   
                 for j in range(len(PoI_opt_index)):
                     print('The {num}-th datum recomended by Probability of Improvement  : \n x = '.format(num =j+1), self.row_features[PoI_opt_index[j]])
+                    print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[PoI_opt_index[j]])
                     return_x.append(self.row_features[PoI_opt_index[j]])
             else:
                 print('The input para. opt_num must be an int')
@@ -260,6 +285,7 @@ class Global_min(object):
     
     def PES(self, sam_num = 500):
         """
+        Predictive Entropy Search
         :param sam_num: number of optimal drawn from p(x*|D), D is support set, default 500
         """
         # sam_num: number of optimal drawn from p(x*|D),D is support set
@@ -291,16 +317,19 @@ class Global_min(object):
         if self.opt_num == 1:
             PES_opt_index = np.random.choice(np.flatnonzero(PES_list == PES_list.max()))
             print('The next datum recomended by Predictive Entropy Search  : \n x = ', self.row_features[PES_opt_index])
+            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[PES_opt_index])
             return_x.append(self.row_features[PES_opt_index])
         elif type(self.opt_num) == int:
-            PES_opt_index = np.argpartition(PES_list, -self.opt_num)[-self.opt_num:]
+            PES_opt_index = np.argsort(PES_list)[-self.opt_num:][::-1]   
             for j in range(len(PES_opt_index)):
                 print('The {num}-th datum recomended by Predictive Entropy Search  : \n x = '.format(num =j+1), self.row_features[PES_opt_index[j]])
+                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[PES_opt_index[j]])
                 return_x.append(self.row_features[PES_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
         return PES_list,np.array(return_x)
     
+  
     def __Knowledge_G_per_sample(self, func_bytes:bytes, MC_num:int, virtual_samples, v_sample_mean, v_sample_std, archive_sample_x, archive_sample_y, x_value, fea_num, ret_noise):
         MC_batch_min = 0
         for _ in range(MC_num):
@@ -321,10 +350,23 @@ class Global_min(object):
             MC_batch_min += post_mean.min()
         return MC_batch_min
     
-    def Knowledge_G(self,MC_num = 50, Proc_num:int=None):
+    def Knowledge_G(self,MC_num = 1, Proc_num:int=None):
         """
-        :param MC_num: number of Monte carol,  default 50
-        :param Proc_num: number of Processor,  default None (0)
+        Calculate the Knowledge Gradient for Bayesian optimization.
+
+        :param MC_num: Number of Monte Carlo simulations, default 1. (1-10)
+        :param Proc_num: Number of processors, default None (0) for single process.
+        :return: Knowledge Gradient values and recommended data points.
+
+        for windows operating systems, please ensures that the code inside the if __name__ == '__main__': 
+        e.g.,
+        import multiprocessing as mp
+        if __name__ == '__main__':
+            # Freeze support for Windows
+            mp.freeze_support()
+
+            # Call your function
+            Mymodel.Knowledge_G(MC_num=100,Proc_num=6)
         """
         current_min = self.virtual_samples_mean.min()
         KD_list = []
@@ -333,31 +375,54 @@ class Global_min(object):
         archive_sample_y = np.append(self.Measured_response[:], self.virtual_samples_mean[0])
         K_model = self.Kriging_model()
         results = []
+        i = 0
         if not Proc_num:
+            print('Execution using a single process')
             for x_value, v_sample_mean, v_sample_std in zip(self.virtual_samples, self.virtual_samples_mean, self.virtual_samples_std):
                 MC_batch_min= self.__Knowledge_G_per_sample(K_model, MC_num, self.virtual_samples, v_sample_mean, v_sample_std, archive_sample_x, archive_sample_y, x_value, fea_num, self.ret_noise)
                 MC_result = MC_batch_min / MC_num
                 KD_list.append( current_min - MC_result)
+                i += 1
+                print('The Monte Carlo simulation has been performed {num} times.'.format(num = i * MC_num))
         else:
+
+            # Call this function at the beginning of your script
+            setup_multiprocessing()
+            print('Execution using multiple processes, processes num = {},'.format(Proc_num) )
             with mp.get_context("spawn").Pool(Proc_num) as pool:
                 results=[pool.apply_async(self.__Knowledge_G_per_sample, args=(K_model, MC_num, self.virtual_samples, v_sample_mean, v_sample_std, archive_sample_x, archive_sample_y, x_value, fea_num, self.ret_noise)) for x_value, v_sample_mean, v_sample_std in zip(self.virtual_samples, self.virtual_samples_mean, self.virtual_samples_std)]
                 for idx, rst in enumerate(results):
                     MC_batch_min = rst.get()
                     MC_result = MC_batch_min / MC_num
                     KD_list.append( current_min - MC_result)
+                    i += 1
+                    print('The Monte Carlo simulation has been performed {num} times.'.format(num = i * MC_num))
         KD_list = np.array(KD_list)
 
         return_x = []
         if self.opt_num == 1:
             KD_opt_index = np.random.choice(np.flatnonzero(KD_list == KD_list.max()))
             print('The next datum recomended by Knowledge Gradient : \n x = ', self.row_features[KD_opt_index])
+            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[KD_opt_index])
             return_x.append(self.row_features[KD_opt_index])
         elif type(self.opt_num) == int:
             KD_opt_index = np.argpartition(KD_list, -self.opt_num)[-self.opt_num:]
             for j in range(len(KD_opt_index)):
                 print('The {num}-th datum recomended by Knowledge Gradient : \n x = '.format(num =j+1), self.row_features[KD_opt_index[j]])
+                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[KD_opt_index[j]])
                 return_x.append(self.row_features[KD_opt_index[j]])
         else:
             print('The input para. opt_num must be an int')
         return KD_list,np.array(return_x)
+    
 
+def setup_multiprocessing():
+    if multiprocessing.get_start_method() != 'fork':
+        try:
+            multiprocessing.set_start_method('fork')
+        except RuntimeError:
+            print('\'fork\' method not available, using the default')
+
+# cal norm prob.
+def norm_des(x):
+    return 1 / np.sqrt(2 * np.pi) * np.exp(- x ** 2 / 2)

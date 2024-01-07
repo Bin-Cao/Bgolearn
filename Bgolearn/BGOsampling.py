@@ -1,15 +1,18 @@
 import inspect
 import os
 import time
+from typing import Any
 import warnings
 import numpy as np
 import pandas as pd
 import copy
-from typing import Union
-from .BGOmax import Global_max
-from .BGOmin import Global_min
-from .BGOclf import Boundary
-from .BGO_eval import BGO_Efficient
+import datetime
+from art import text2art
+from sklearn.utils import resample
+from .BgolearnFuns.BGOmax import Global_max
+from .BgolearnFuns.BGOmin import Global_min
+from .BgolearnFuns.BGOclf import Boundary
+from .BgolearnFuns.BGO_eval import BGO_Efficient
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import LeaveOneOut
 from sklearn.metrics import r2_score
@@ -18,19 +21,49 @@ from sklearn.metrics import mean_squared_error
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import  RBF, WhiteKernel
 from sklearn.model_selection import KFold
+from sklearn.svm import SVR
+from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor
+from sklearn.neural_network import MLPRegressor
 
 class Bgolearn(object):
-    def fit(self,data_matrix, Measured_response, virtual_samples, Mission ='Regression', Classifier = 'GaussianProcess',noise_std = None, Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False, )-> Union[Boundary, Global_max, Global_min]:
+    def __init__(self) -> None:
+        os.makedirs('Bgolearn', exist_ok=True)
+        
+        now = datetime.datetime.now()
+        formatted_date_time = now.strftime('%Y-%m-%d %H:%M:%S')
+        print(text2art("Bgolearn"))
+        print('Package Name : Bgolearn')
+        print('Author : Bin CAO, HKUST(GZ)')
+        print('Intro : https://bgolearn.netlify.app/')
+        print('URL : https://github.com/Bin-Cao/Bgolearn')
+        print("Citation Format Suggestion:")
+        print('[Bin CAO et al]. "Active learning accelerates the discovery of high strength and high ductility lead-free solder alloys", [2023], [DOI : http://dx.doi.org/10.2139/ssrn.4686075].')
+        print('Executed on :',formatted_date_time, ' | Have a great day.')  
+        print('='*80)
+
+
+    def fit(self,data_matrix, Measured_response, virtual_samples, Mission ='Regression', Classifier = 'GaussianProcess',noise_std = None, Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False, Dynamic_W = False,seed=42):
         
         """
         ================================================================
-        PACKAGE: Bayesian global optimization-learn (Bgolearn) .
+        PACKAGE: Bayesian global optimization-learn (Bgolearn) package .
+        Author: Bin CAO <binjacobcao@gmail.com> 
+        Guangzhou Municipal Key Laboratory of Materials Informatics, Advanced Materials Thrust,
+        Hong Kong University of Science and Technology (Guangzhou), Guangzhou 511400, Guangdong, China
         ================================================================
+        Please feel free to open issues in the Github :
+        https://github.com/Bin-Cao/Bgolearn
+        or 
+        contact Mr.Bin Cao (bcao686@connect.hkust-gz.edu.cn)
+        in case of any problems/comments/suggestions in using the code. 
+        ==================================================================
         Thank you for choosing Bgolearn for material design. 
         Bgolearn is developed to facilitate the application of machine learning in research.
-        Bgolearn is designed for optimizing single-target material properties. 
-        If you need to perform multi-target optimization, here are two important reminders:
 
+        Bgolearn is designed for optimizing single-target material properties. 
+        The BgoKit package is being developed to facilitate multi-task design.
+
+        If you need to perform multi-target optimization, here are two kind reminders:
         1. Multi-tasks can be converted into a single task using domain knowledge. 
         For example, you can use a weighted linear combination in the simplest situation. That is, y = w*y1 + y2...
 
@@ -47,8 +80,9 @@ class Bgolearn(object):
         I am delighted to invite you to participate in the development of Bgolearn. 
         If you have any issues or suggestions, please feel free to contact me at binjacobcao@gmail.com.
         ================================================================
-
-        Bin Cao, Advanced Materials Thrust, Hong Kong University of Science and Technology (Guangzhou).
+        Reference : 
+        document : https://bgolearn.netlify.app/
+        ================================================================
 
         :param data_matrix: data matrix of training dataset, X .
 
@@ -78,12 +112,19 @@ class Bgolearn(object):
                 if noise_std is not None, a noise value will be estimated by maximum likelihood
                 on training dataset.
 
-        :param Kriging_model (default None): a user defined callable Kriging model, has an attribute of <fit_pre>
+        :param Kriging_model (default None):
+                str, Kriging_model = 'SVM', 'RF', 'AdaB', 'MLP'
+                The  machine learning models will be implemented: Support Vector Machine (SVM), 
+                Random Forest(RF), AdaBoost(AdaB), and Multi-Layer Perceptron (MLP).
+                The estimation uncertainity will be determined by Boostsrap sampling.
+            or  
+                a user defined callable Kriging model, has an attribute of <fit_pre>
                 if user isn't applied one, Bgolearn will call a pre-set Kriging model
                 atribute <fit_pre> : 
                 input -> xtrain, ytrain, xtest ; 
                 output -> predicted  mean and std of xtest
-                e.g. (take GaussianProcessRegressor in sklearn as an example):
+
+                e.g. (take GaussianProcessRegressor in sklearn):
                 class Kriging_model(object):
                     def fit_pre(self,xtrain,ytrain,xtest):
                         # instantiated model
@@ -92,6 +133,20 @@ class Bgolearn(object):
                         # defined the attribute's outputs
                         mean,std = mdoel.predict(xtest,return_std=True)
                         return mean,std    
+
+                e.g. (MultiModels estimations):
+                class Kriging_model(object):
+                    def fit_pre(self,xtrain,ytrain,xtest):
+                        # instantiated model
+                        pre_1 = SVR(C=10).fit(xtrain,ytrain).predict(xtest) # model_1
+                        pre_2 = SVR(C=50).fit(xtrain,ytrain).predict(xtest) # model_2
+                        pre_3 = SVR(C=80).fit(xtrain,ytrain).predict(xtest) # model_3
+                        model_1 , model_2 , model_3  can be changed to any ML models you desire
+                        # defined the attribute's outputs
+                        stacked_array = np.vstack((pre_1,pre_2,pre_3))
+                        means = np.mean(stacked_array, axis=0)
+                        std = np.sqrt(np.var(stacked_array), axis=0)
+                        return mean, std    
 
         :param opt_num: the number of recommended candidates for next iteration, default 1. 
 
@@ -105,11 +160,17 @@ class Bgolearn(object):
         :return: 1: array; potential of each candidate. 2: array/float; recommended candidate(s).
 
         """
-
+        
         # Fit and transform the input data matrix
+        Xname = data_matrix.columns
         virtual_samples = preprocess_data(virtual_samples)
         data_matrix = preprocess_data(data_matrix)
         Measured_response = preprocess_data(Measured_response)
+        if Dynamic_W == False :
+            pass
+        elif Dynamic_W == True :
+            data_matrix, Measured_response = Resampling(data_matrix,Measured_response,min_search,seed )
+
 
         row_features = copy.deepcopy(virtual_samples)
         scaler = MinMaxScaler()
@@ -181,6 +242,14 @@ class Bgolearn(object):
                             mean,std = mdoel.predict(xtest,return_std=True)
                             return mean,std  
                     print('The internal model is instantiated with heterogenous noise')
+            elif type(Kriging_model) == str:
+                model_type = Kriging_model
+                class Kriging_model(object):
+                    def fit_pre(self,xtrain,ytrain,xtest,):
+                        mean,std = Bgolearn_model(xtrain,ytrain,xtest,model_type)
+                        return mean,std 
+                print('The internal model is assigned')
+
             else: 
                 print('The external model is instantiated')
                 pass  
@@ -292,9 +361,6 @@ class Bgolearn(object):
                 _MAE = mean_absolute_error(Y_true,_Y_pre)
                 _R2 = r2_score(Y_true,_Y_pre)
 
-            
-                os.makedirs('Bgolearn', exist_ok=True)
-
                 print('Fitting goodness on training dataset: \n' + str('  RMSE = %f' % _RMSE) +' '+ str('  MAE = %f' % _MAE)
                     +' '+ str('  R2 = %f' % _R2))
 
@@ -303,17 +369,25 @@ class Bgolearn(object):
 
             
 
-                results_dataset.to_csv('./Bgolearn/predictionsBy{name}_{year}.{month}.{day}_{hour}.{minute}.csv'.format(name=docu_name(CV_test),year=namey, month=nameM, day=named, hour=nameh,
+                results_dataset.to_csv('./Bgolearn/predictions{name}_{year}_{month}_{day}_{hour}_{minute}.csv'.format(name=docu_name(CV_test),year=namey, month=nameM, day=named, hour=nameh,
                                                                                 minute=namem),encoding='utf-8-sig')
                 
-                _results_dataset.to_csv('./Bgolearn/predictionsOnTrainingDataset_{year}.{month}.{day}_{hour}.{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
+                _results_dataset.to_csv('./Bgolearn/predictionsOnTrainingDataset_{year}_{month}_{day}_{hour}_{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
                                                                                 minute=namem),encoding='utf-8-sig')
 
-                V_Xmatrix.to_csv('./Bgolearn/predictionsOfVirtualSampels_{year}.{month}.{day}_{hour}.{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
+                V_Xmatrix.to_csv('./Bgolearn/predictionsOfVirtualSampels_{year}_{month}_{day}_{hour}_{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
                                                                                 minute=namem),encoding='utf-8-sig')
 
 
+            
 
+            
+            arv_vs = pd.DataFrame(np.array(virtual_samples))
+            arv_vs.columns = Xname
+            pre,_ = Kriging_model().fit_pre(data_matrix, Measured_response, virtual_samples)
+            arv_vs['Y'] = np.array(pre)
+            arv_vs.to_csv('./Bgolearn/PredictionsByBgolearn_{year}_{month}_{day}_{hour}_{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
+                                                                                minute=namem), encoding='utf-8-sig')
 
             # BGO
             if min_search == True:
@@ -331,8 +405,6 @@ class Bgolearn(object):
         """
         PACKAGE: Bayesian global optimization learn .
 
-        6 Apr 2023, version 1.4, Bin Cao, ZheJiang LAB, Hangzhou, CHINA.
-        
         :param Ture_fun: the true function being evaluated. e.g.,
                 def function(X):
                     X = np.array(X)
@@ -456,3 +528,51 @@ def preprocess_data(data):
         data = np.array(data).reshape(-1, 1)
     data = np.array(data)
     return data
+
+
+def Bgolearn_model(xtrain,ytrain,xtest,Kriging_model):
+    models = {
+    'SVM': SVR(),
+    'RF': RandomForestRegressor(),
+    'AdaB': AdaBoostRegressor(),
+    'MLP': MLPRegressor()
+    }   
+    try:
+        Bgo_model = models[Kriging_model]
+        print('Bgolearn model : ', Bgo_model)
+    except:
+        print('Type Error: Kriging_model, please check your input of param Kriging_model')
+
+    all_predictions = []
+    for _ in range(10):
+        # Perform Bootstrap sampling
+        X_bootstrap, y_bootstrap = resample(xtrain, ytrain)
+        predictions = Bgo_model.fit(X_bootstrap, y_bootstrap).predict(xtest)
+        # Store the predictions
+        all_predictions.append(predictions)
+
+    # Convert the list of predictions to a NumPy array for easier calculations
+    all_predictions = np.array(all_predictions)
+    # Calculate mean and standard deviation across the samples
+    mean = np.mean(all_predictions, axis=0)
+    std = np.std(all_predictions, axis=0)
+    return mean, std
+
+def Resampling(data_matrix,Measured_response,min_search,seed_):
+    
+    np.random.seed(seed_)
+    max_value = max(Measured_response)
+    min_value = min(Measured_response)
+    prob = (Measured_response - min_value) / (max_value - min_value)
+    if min_search == True:
+        prob = 1 - prob
+    cdf = np.cumsum(prob)
+    cdf_ = cdf / cdf[-1]
+    uniform_samples = np.random.random_sample(len(Measured_response))
+    bootstrap_idx = cdf_.searchsorted(uniform_samples, side='right')
+    # searchsorted returns a scalar
+    bootstrap_idx = np.array(bootstrap_idx, copy=False)
+    print('Importance resampling is APPLIED','\n')
+
+    
+    return data_matrix[bootstrap_idx], Measured_response[bootstrap_idx]
