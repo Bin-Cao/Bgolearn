@@ -13,11 +13,8 @@ If you are using this code, please cite:
 
 + paper
 
-    Cao, Bin and Su, Tianhao and Yu, Shuting and Li, Tianyuan and Zhang, Taolue and Dong, Ziqiang and Zhang, Tong-Yi, Active Learning Accelerates the Discovery of High Strength and High Ductility Lead-Free Solder Alloys. Available at SSRN: https://ssrn.com/abstract=4686075 or http://dx.doi.org/10.2139/ssrn.4686075
+    Cao, Bin and Su, Tianhao and Yu, Shuting and Li, Tianyuan and Zhang, Taolue and Dong, Ziqiang and Zhang, Tong-Yi, Active Learning Accelerates the Discovery of High Strength and High Ductility Lead-Free Solder Alloys. Available at SSRN: https://ssrn.com/abstract=4686075 or http://dx.doi.org/10.2139/ssrn.4686075. [GitHub : github.com/Bin-Cao/Bgolearn.]
 
-+ patent
-    
-    Cao Bin, Zhang Tong-yi, Wang Yuanhao, Tian Yuan, Sun Sheng. Bayesian global optimization package for material design [2022SR1481726], 2022, GitHub : github.com/Bin-Cao/Bgolearn.
 
 
 ## links
