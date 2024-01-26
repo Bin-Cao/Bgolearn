@@ -9,7 +9,7 @@
 
 🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks ! For inquiries or assistance, please don't hesitate to contact us at bcao686@connect.hkust-gz.edu.cn (Dr. CAO Bin).
 
-**Bgolearn** has been implemented in the well-known machine learning platform [MLMD](http://123.60.55.8/). 
+**Bgolearn** has been implemented in the machine learning platform [MLMD](http://123.60.55.8/). 
 
 
 ## cite:
