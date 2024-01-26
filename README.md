@@ -7,17 +7,17 @@
 </h1>
 
 
-🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks !
+🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks ! For inquiries or assistance, please don't hesitate to contact us at bcao686@connect.hkust-gz.edu.cn (Dr. CAO Bin).
 
-If you are using this code, please cite:
-+ patent
-    
-    Cao Bin, Zhang Tong-yi, Wang Yuanhao, Tian Yuan, Sun Sheng. Bayesian global optimization package for material design [2022SR1481726], 2022, GitHub : github.com/Bin-Cao/Bgolearn.
+**Bgolearn** has been implemented in the well-known machine learning platform [MLMD](http://123.60.55.8/). 
 
-+ paper
 
-    Cao, Bin and Su, Tianhao and Yu, Shuting and Li, Tianyuan and Zhang, Taolue and Dong, Ziqiang and Zhang, Tong-Yi, Active Learning Accelerates the Discovery of High Strength and High Ductility Lead-Free Solder Alloys. Available at SSRN: https://ssrn.com/abstract=4686075 or http://dx.doi.org/10.2139/ssrn.4686075
-    
+## cite:
+
+    Cao, Bin and Su, Tianhao and Yu, Shuting and Li, Tianyuan and Zhang, Taolue and Dong, Ziqiang and Zhang, Tong-Yi, Active Learning Accelerates the Discovery of High Strength and High Ductility Lead-Free Solder Alloys. Available at SSRN: https://ssrn.com/abstract=4686075 or http://dx.doi.org/10.2139/ssrn.4686075. [GitHub : github.com/Bin-Cao/Bgolearn.]
+
+
+
 ## links
 ![Screenshot 2023-11-16 at 11 23 35](https://github.com/Bin-Cao/Bgolearn/assets/86995074/cd0d24e4-06db-45f7-b6d6-12750fa8b819)
 
