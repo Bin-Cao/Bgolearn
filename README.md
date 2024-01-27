@@ -11,6 +11,7 @@
 
 **Bgolearn** has been implemented in the machine learning platform [MLMD](http://123.60.55.8/). 
 
+The **video of Bgolearn** has been uploaded to the BiliBili platform : [Location](https://www.bilibili.com/video/BV1Ae411J76z/?spm_id_from=333.999.0.0&vd_source=773e0c92141f498497cfafd0112fc146).
 
 ## cite:
 
