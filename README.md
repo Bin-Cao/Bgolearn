@@ -14,10 +14,10 @@
 The **video of Bgolearn** has been uploaded to platforms : [BiliBili](https://www.bilibili.com/video/BV1Ae411J76z/?spm_id_from=333.999.0.0&vd_source=773e0c92141f498497cfafd0112fc146). [YouTube](https://www.youtube.com/watch?v=MSG6wcBol64&t=48s).
 
 ## cite:
-
+1:
     Cao, Bin and Su, Tianhao and Yu, Shuting and Li, Tianyuan and Zhang, Taolue and Dong, Ziqiang and Zhang, Tong-Yi, Active Learning Accelerates the Discovery of High Strength and High Ductility Lead-Free Solder Alloys. Available at SSRN: https://ssrn.com/abstract=4686075 or http://dx.doi.org/10.2139/ssrn.4686075. [GitHub : github.com/Bin-Cao/Bgolearn.]
 
-
+2:
     Ma, J.*, Cao, B.*, Dong, S. et al. MLMD: a programming-free AI platform to predict and design materials. npj Comput Mater 10, 59 (2024). https://doi.org/10.1038/s41524-024-01243-4
 
 
