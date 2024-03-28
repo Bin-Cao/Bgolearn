@@ -30,7 +30,6 @@ The **video of Bgolearn** has been uploaded to platforms : [BiliBili](https://ww
 - https://pypi.tuna.tsinghua.edu.cn/simple/bgolearn/
 - [user count](https://pypistats.org/packages/bgolearn)
 
-
 ### for regression
 - 1.Expected Improvement algorith (期望提升函数)
 
@@ -64,8 +63,6 @@ The **video of Bgolearn** has been uploaded to platforms : [BiliBili](https://ww
 if you have any questions or need help, you are welcome to contact me
 
 Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
-
-
 
 
 # Python package - Bgolearn 
@@ -122,12 +119,10 @@ Mymodel.EI()
     pip install --upgrade Bgolearn
 
 
-     
 ## Update log / 日志
 Before version 2.0, function building
 
 Bgolearn V2.1.1 Jun 9, 2023. *para noise_std* By default, the built-in Gaussian process model estimates the noise of the input dataset by maximum likelihood, and yields in a more robust model.
-
 
 ## Multi-task design
     pip install BgoKit 
@@ -146,10 +141,8 @@ See : [Link](https://github.com/Bin-Cao/Bgolearn/blob/main/Template/%E4%B8%AD%E6
 <img src="https://github.com/Bin-Cao/Bgolearn/assets/86995074/41c90c29-364c-47cc-aefe-4433f7d93e23" alt="1" width="300" height="300">
 
 
-
-
 ``` javascript
-Thank you for choosing Bgolearn for material design. 
+Thank you for choosing Bgolearn for materials design. 
 Bgolearn is developed to facilitate the application of machine learning in research.
 Bgolearn is designed for optimizing single-target material properties.
 The BgoKit package is being developed to facilitate multi-task design.
