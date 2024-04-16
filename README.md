@@ -11,14 +11,16 @@
 
 **Bgolearn** has been implemented in the machine learning platform [MLMD](http://123.60.55.8/). 
 
+**Bgolearn Code** : [here](https://colab.research.google.com/drive/1OSc-phxm7QLOm8ceGJiIMGGz9riuwP6Q?usp=sharing)
+
 The **video of Bgolearn** has been uploaded to platforms : [BiliBili](https://www.bilibili.com/video/BV1Ae411J76z/?spm_id_from=333.999.0.0&vd_source=773e0c92141f498497cfafd0112fc146). [YouTube](https://www.youtube.com/watch?v=MSG6wcBol64&t=48s).
 
-## cite:
+## cite
 1:
     Cao, Bin and Su, Tianhao and Yu, Shuting and Li, Tianyuan and Zhang, Taolue and Dong, Ziqiang and Zhang, Tong-Yi, Active Learning Accelerates the Discovery of High Strength and High Ductility Lead-Free Solder Alloys. Available at SSRN: https://ssrn.com/abstract=4686075 or http://dx.doi.org/10.2139/ssrn.4686075. [GitHub : github.com/Bin-Cao/Bgolearn.]
 
 2:
-    Ma, J.∔, Cao, B.∔, Dong, S. et al. MLMD: a programming-free AI platform to predict and design materials. npj Comput Mater 10, 59 (2024). https://doi.org/10.1038/s41524-024-01243-4
+    Ma, J.∔, Cao, B.∔, Dong, S, Tian, Y, Wang, M, Xiong, J, Sun, S. et al. MLMD: a programming-free AI platform to predict and design materials. npj Comput Mater 10, 59 (2024). https://doi.org/10.1038/s41524-024-01243-4
 
 
 ## links
@@ -27,7 +29,6 @@ The **video of Bgolearn** has been uploaded to platforms : [BiliBili](https://ww
 - https://www.wheelodex.org/projects/bgolearn/
 - https://pypi.tuna.tsinghua.edu.cn/simple/bgolearn/
 - [user count](https://pypistats.org/packages/bgolearn)
-
 
 ### for regression
 - 1.Expected Improvement algorith (期望提升函数)
@@ -62,8 +63,6 @@ The **video of Bgolearn** has been uploaded to platforms : [BiliBili](https://ww
 if you have any questions or need help, you are welcome to contact me
 
 Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
-
-
 
 
 # Python package - Bgolearn 
@@ -110,8 +109,6 @@ Mymodel = Bgolearn.fit(data_matrix = x, Measured_response = y, virtual_samples =
 Mymodel.EI()
 ```
 
-
-
 ## Installing / 安装
     pip install Bgolearn 
     
@@ -122,12 +119,10 @@ Mymodel.EI()
     pip install --upgrade Bgolearn
 
 
-     
 ## Update log / 日志
 Before version 2.0, function building
 
 Bgolearn V2.1.1 Jun 9, 2023. *para noise_std* By default, the built-in Gaussian process model estimates the noise of the input dataset by maximum likelihood, and yields in a more robust model.
-
 
 ## Multi-task design
     pip install BgoKit 
@@ -146,10 +141,8 @@ See : [Link](https://github.com/Bin-Cao/Bgolearn/blob/main/Template/%E4%B8%AD%E6
 <img src="https://github.com/Bin-Cao/Bgolearn/assets/86995074/41c90c29-364c-47cc-aefe-4433f7d93e23" alt="1" width="300" height="300">
 
 
-
-
 ``` javascript
-Thank you for choosing Bgolearn for material design. 
+Thank you for choosing Bgolearn for materials design. 
 Bgolearn is developed to facilitate the application of machine learning in research.
 Bgolearn is designed for optimizing single-target material properties.
 The BgoKit package is being developed to facilitate multi-task design.
