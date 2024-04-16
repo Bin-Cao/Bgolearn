@@ -9,60 +9,10 @@
 
 🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks ! For inquiries or assistance, please don't hesitate to contact us at bcao686@connect.hkust-gz.edu.cn (Dr. CAO Bin).
 
-**Bgolearn** has been implemented in the machine learning platform [MLMD](http://123.60.55.8/). 
-
-**Bgolearn Code** : [here](https://colab.research.google.com/drive/1OSc-phxm7QLOm8ceGJiIMGGz9riuwP6Q?usp=sharing)
-
-The **video of Bgolearn** has been uploaded to platforms : [BiliBili](https://www.bilibili.com/video/BV1Ae411J76z/?spm_id_from=333.999.0.0&vd_source=773e0c92141f498497cfafd0112fc146). [YouTube](https://www.youtube.com/watch?v=MSG6wcBol64&t=48s).
-
-## cite
-1:
-    Cao, Bin and Su, Tianhao and Yu, Shuting and Li, Tianyuan and Zhang, Taolue and Dong, Ziqiang and Zhang, Tong-Yi, Active Learning Accelerates the Discovery of High Strength and High Ductility Lead-Free Solder Alloys. Available at SSRN: https://ssrn.com/abstract=4686075 or http://dx.doi.org/10.2139/ssrn.4686075. [GitHub : github.com/Bin-Cao/Bgolearn.]
-
-2:
-    Ma, J.∔, Cao, B.∔, Dong, S, Tian, Y, Wang, M, Xiong, J, Sun, S. et al. MLMD: a programming-free AI platform to predict and design materials. npj Comput Mater 10, 59 (2024). https://doi.org/10.1038/s41524-024-01243-4
+**Bgolearn** has been implemented in the machine learning platform [MLMD](http://123.60.55.8/). **Bgolearn Code** : [here](https://colab.research.google.com/drive/1OSc-phxm7QLOm8ceGJiIMGGz9riuwP6Q?usp=sharing) The **video of Bgolearn** has been uploaded to platforms : [BiliBili](https://www.bilibili.com/video/BV1Ae411J76z/?spm_id_from=333.999.0.0&vd_source=773e0c92141f498497cfafd0112fc146). [YouTube](https://www.youtube.com/watch?v=MSG6wcBol64&t=48s).
 
 
-## links
 ![Screenshot 2023-11-16 at 11 23 35](https://github.com/Bin-Cao/Bgolearn/assets/86995074/cd0d24e4-06db-45f7-b6d6-12750fa8b819)
-
-- https://www.wheelodex.org/projects/bgolearn/
-- https://pypi.tuna.tsinghua.edu.cn/simple/bgolearn/
-- [user count](https://pypistats.org/packages/bgolearn)
-
-### for regression
-- 1.Expected Improvement algorith (期望提升函数)
-
-- 2.Expected improvement with “plugin” (有“plugin”的期望提升函数)
-
-- 3.Augmented Expected Improvement (增广期望提升函数)
-
-- 4.Expected Quantile Improvement (期望分位提升函数)
-
-- 5.Reinterpolation Expected Improvement (重插值期望提升函数)
-
-- 6.Upper confidence bound (高斯上确界函数)
-
-- 7.Probability of Improvement (概率提升函数)
-
-- 8.Predictive Entropy Search (预测熵搜索函数)
-
-- 9.Knowledge Gradient (知识梯度函数)
-
-###  for classification
-- 1.Least Confidence (欠信度函数)
-
-- 2.Margin Sampling (边界函数)
-
-- 3.Entropy-based approach (熵索函数)
-
-## Download History （- Nov16，2023）
-![WechatIMG4661](https://github.com/Bin-Cao/Bgolearn/assets/86995074/591e26b4-c8c3-4a17-ae8b-b3bcf9237514)
-
-
-if you have any questions or need help, you are welcome to contact me
-
-Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
 
 
 # Python package - Bgolearn 
@@ -71,12 +21,16 @@ Source code: [![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.o
 ![plot](https://github.com/Bin-Cao/Bgolearn/assets/86995074/d4e43900-eadb-4ddf-af46-0208314de41a)
 
 
-## Package Document / 手册
-see 📒 [Bgolearn](https://bgolearn.netlify.app) (Click to view）
 
-见 📒 [中文说明](https://mp.weixin.qq.com/s/y-i_2ixbtJOv-nEYDu9THg) (Click to view）
+## Installing / 安装
+    pip install Bgolearn 
+    
+## Checking / 查看
+    pip show Bgolearn 
+    
+## Updating / 更新
+    pip install --upgrade Bgolearn
 
-Written using Python, which is suitable for operating systems, e.g., Windows/Linux/MAC OS etc.
 
 ## Template 
 ``` javascript
@@ -109,21 +63,6 @@ Mymodel = Bgolearn.fit(data_matrix = x, Measured_response = y, virtual_samples =
 Mymodel.EI()
 ```
 
-## Installing / 安装
-    pip install Bgolearn 
-    
-## Checking / 查看
-    pip show Bgolearn 
-    
-## Updating / 更新
-    pip install --upgrade Bgolearn
-
-
-## Update log / 日志
-Before version 2.0, function building
-
-Bgolearn V2.1.1 Jun 9, 2023. *para noise_std* By default, the built-in Gaussian process model estimates the noise of the input dataset by maximum likelihood, and yields in a more robust model.
-
 ## Multi-task design
     pip install BgoKit 
     
@@ -141,34 +80,14 @@ See : [Link](https://github.com/Bin-Cao/Bgolearn/blob/main/Template/%E4%B8%AD%E6
 <img src="https://github.com/Bin-Cao/Bgolearn/assets/86995074/41c90c29-364c-47cc-aefe-4433f7d93e23" alt="1" width="300" height="300">
 
 
-``` javascript
-Thank you for choosing Bgolearn for materials design. 
-Bgolearn is developed to facilitate the application of machine learning in research.
-Bgolearn is designed for optimizing single-target material properties.
-The BgoKit package is being developed to facilitate multi-task design.
 
+## cite
+1:
+    Cao B., Su T, Yu S, Li T, Zhang T, Zhang J, Dong Z, Zhang Ty. Active learning accelerates the discovery of high strength and high ductility lead-free solder alloys, Materials & Design, 2024, 112921, ISSN 0264-1275, https://doi.org/10.1016/j.matdes.2024.112921.
 
-If you need to perform multi-target optimization, here are two important reminders:
+2:
+    Ma J.∔, Cao B.∔, Dong S, Tian Y, Wang M, Xiong J, Sun S. MLMD: a programming-free AI platform to predict and design materials. npj Comput Mater 10, 59 (2024). https://doi.org/10.1038/s41524-024-01243-4
 
-1. Multi-tasks can be converted into a single task using domain knowledge. 
-For example, you can use a weighted linear combination in the simplest situation. That is, y = w*y1 + y2...
-
-2. Multi-tasks can be optimized using Pareto fronts. 
-Bgolearn will return two arrays based on your dataset: 
-the first array is a evaluation score for each virtual sample, 
-while the second array is the recommended data considering only the current optimized target.
-
-The first array is crucial for multi-task optimization. 
-For instance, in a two-task optimization scenario, you can evaluate each candidate twice for the two separate targets. 
-Then, plot the score of target 1 for each sample on the x-axis and the score of target 2 on the y-axis. 
-The trade-off consideration is to select the data located in the front of the banana curve.
-
-I am delighted to invite you to participate in the development of Bgolearn. 
-If you have any issues or suggestions, please feel free to contact me at binjacobcao@gmail.com.
-```
-
-## References / 参考文献
-See : [papers](https://github.com/Bin-Cao/Bgolearn/tree/main/Refs)
 
 ## About / 更多
 Maintained by Bin Cao. Please feel free to open issues in the Github or contact Bin Cao
@@ -176,3 +95,31 @@ Maintained by Bin Cao. Please feel free to open issues in the Github or contact 
 
 ## Contributing / 共建
 Contribution and suggestions are always welcome. In addition, we are also looking for research collaborations. You can submit issues for suggestions, questions, bugs, and feature requests, or submit pull requests to contribute directly. You can also contact the authors for research collaboration.
+
+
+### for regression
+- 1.Expected Improvement algorith (期望提升函数)
+
+- 2.Expected improvement with “plugin” (有“plugin”的期望提升函数)
+
+- 3.Augmented Expected Improvement (增广期望提升函数)
+
+- 4.Expected Quantile Improvement (期望分位提升函数)
+
+- 5.Reinterpolation Expected Improvement (重插值期望提升函数)
+
+- 6.Upper confidence bound (高斯上确界函数)
+
+- 7.Probability of Improvement (概率提升函数)
+
+- 8.Predictive Entropy Search (预测熵搜索函数)
+
+- 9.Knowledge Gradient (知识梯度函数)
+
+###  for classification
+- 1.Least Confidence (欠信度函数)
+
+- 2.Margin Sampling (边界函数)
+
+- 3.Entropy-based approach (熵索函数)
+
