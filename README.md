@@ -15,33 +15,6 @@
 ![Screenshot 2023-11-16 at 11 23 35](https://github.com/Bin-Cao/Bgolearn/assets/86995074/cd0d24e4-06db-45f7-b6d6-12750fa8b819)
 
 
-### for regression
-- 1.Expected Improvement algorith (期望提升函数)
-
-- 2.Expected improvement with “plugin” (有“plugin”的期望提升函数)
-
-- 3.Augmented Expected Improvement (增广期望提升函数)
-
-- 4.Expected Quantile Improvement (期望分位提升函数)
-
-- 5.Reinterpolation Expected Improvement (重插值期望提升函数)
-
-- 6.Upper confidence bound (高斯上确界函数)
-
-- 7.Probability of Improvement (概率提升函数)
-
-- 8.Predictive Entropy Search (预测熵搜索函数)
-
-- 9.Knowledge Gradient (知识梯度函数)
-
-###  for classification
-- 1.Least Confidence (欠信度函数)
-
-- 2.Margin Sampling (边界函数)
-
-- 3.Entropy-based approach (熵索函数)
-
-
 # Python package - Bgolearn 
 
 **No gradient** information is used
@@ -122,3 +95,31 @@ Maintained by Bin Cao. Please feel free to open issues in the Github or contact 
 
 ## Contributing / 共建
 Contribution and suggestions are always welcome. In addition, we are also looking for research collaborations. You can submit issues for suggestions, questions, bugs, and feature requests, or submit pull requests to contribute directly. You can also contact the authors for research collaboration.
+
+
+### for regression
+- 1.Expected Improvement algorith (期望提升函数)
+
+- 2.Expected improvement with “plugin” (有“plugin”的期望提升函数)
+
+- 3.Augmented Expected Improvement (增广期望提升函数)
+
+- 4.Expected Quantile Improvement (期望分位提升函数)
+
+- 5.Reinterpolation Expected Improvement (重插值期望提升函数)
+
+- 6.Upper confidence bound (高斯上确界函数)
+
+- 7.Probability of Improvement (概率提升函数)
+
+- 8.Predictive Entropy Search (预测熵搜索函数)
+
+- 9.Knowledge Gradient (知识梯度函数)
+
+###  for classification
+- 1.Least Confidence (欠信度函数)
+
+- 2.Margin Sampling (边界函数)
+
+- 3.Entropy-based approach (熵索函数)
+
