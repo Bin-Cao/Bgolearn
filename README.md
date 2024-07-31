@@ -79,8 +79,9 @@ Model.plot_distribution()
 See : [Link](https://github.com/Bin-Cao/Bgolearn/blob/main/Template/%E4%B8%AD%E6%96%87%E7%A4%BA%E4%BE%8B/%E5%A4%9A%E7%9B%AE%E6%A0%87%E5%AE%9E%E7%8E%B0/%E5%A4%9A%E7%9B%AE%E6%A0%87.ipynb)
 <img src="https://github.com/Bin-Cao/Bgolearn/assets/86995074/41c90c29-364c-47cc-aefe-4433f7d93e23" alt="1" width="300" height="300">
 
-
-
+## UI
+The User Interface of the Bgolearn Platform : [**BgoFace**](https://github.com/Bgolearn/BgoFace)
+ 
 ## cite
 1:
     Cao B., Su T, Yu S, Li T, Zhang T, Zhang J, Dong Z, Zhang Ty. Active learning accelerates the discovery of high strength and high ductility lead-free solder alloys, Materials & Design, 2024, 112921, ISSN 0264-1275, https://doi.org/10.1016/j.matdes.2024.112921.
