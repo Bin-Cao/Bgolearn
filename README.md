@@ -96,7 +96,12 @@ Maintained by Bin Cao. Please feel free to open issues in the Github or contact 
 ## Contributing / 共建
 Contribution and suggestions are always welcome. In addition, we are also looking for research collaborations. You can submit issues for suggestions, questions, bugs, and feature requests, or submit pull requests to contribute directly. You can also contact the authors for research collaboration.
 
+## License and Usage
+© 2024 Bgolearn Development Team. All rights reserved.
 
+This software is provided for academic and research purposes only. Commercial use is strictly prohibited. Any violation of these terms will be subject to appropriate actions.
+
+---
 ### for regression
 - 1.Expected Improvement algorith (期望提升函数)
 
