@@ -6,10 +6,15 @@
   <br>
 </h1>
 
+**The publication utilizing Bgolearn will be promoted by the Bgolearn Team.**
+
 
 🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks ! For inquiries or assistance, please don't hesitate to contact us at bcao686@connect.hkust-gz.edu.cn (Dr. CAO Bin).
 
-**Bgolearn** has been implemented in the machine learning platform [MLMD](http://123.60.55.8/). **Bgolearn Code** : [here](https://colab.research.google.com/drive/1OSc-phxm7QLOm8ceGJiIMGGz9riuwP6Q?usp=sharing) The **video of Bgolearn** has been uploaded to platforms : [BiliBili](https://www.bilibili.com/video/BV1Ae411J76z/?spm_id_from=333.999.0.0&vd_source=773e0c92141f498497cfafd0112fc146). [YouTube](https://www.youtube.com/watch?v=MSG6wcBol64&t=48s).
++ Bgolearn has been implemented in the platform of [MLMD](http://123.60.55.8/) etc.
++ The official User Interface of the Bgolearn Platform is [BgoFace](https://github.com/Bgolearn/BgoFace).
++ Bgolearn Code : [here](https://colab.research.google.com/drive/1OSc-phxm7QLOm8ceGJiIMGGz9riuwP6Q?usp=sharing) 
++ video of Bgolearn has been uploaded to platforms : [BiliBili](https://www.bilibili.com/video/BV1Ae411J76z/?spm_id_from=333.999.0.0&vd_source=773e0c92141f498497cfafd0112fc146). [YouTube](https://www.youtube.com/watch?v=MSG6wcBol64&t=48s).
 
 
 ![Screenshot 2023-11-16 at 11 23 35](https://github.com/Bin-Cao/Bgolearn/assets/86995074/cd0d24e4-06db-45f7-b6d6-12750fa8b819)
