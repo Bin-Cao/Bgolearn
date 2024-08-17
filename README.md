@@ -6,10 +6,15 @@
   <br>
 </h1>
 
+**The publication utilizing Bgolearn will be promoted by the Bgolearn Team.**
+
 
 🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks ! For inquiries or assistance, please don't hesitate to contact us at bcao686@connect.hkust-gz.edu.cn (Dr. CAO Bin).
 
-**Bgolearn** has been implemented in the machine learning platform [MLMD](http://123.60.55.8/). **Bgolearn Code** : [here](https://colab.research.google.com/drive/1OSc-phxm7QLOm8ceGJiIMGGz9riuwP6Q?usp=sharing) The **video of Bgolearn** has been uploaded to platforms : [BiliBili](https://www.bilibili.com/video/BV1Ae411J76z/?spm_id_from=333.999.0.0&vd_source=773e0c92141f498497cfafd0112fc146). [YouTube](https://www.youtube.com/watch?v=MSG6wcBol64&t=48s).
++ Bgolearn has been implemented in the platform of [MLMD](http://123.60.55.8/) etc.
++ The official User Interface of the Bgolearn Platform is [BgoFace](https://github.com/Bgolearn/BgoFace).
++ Bgolearn Code : [here](https://colab.research.google.com/drive/1OSc-phxm7QLOm8ceGJiIMGGz9riuwP6Q?usp=sharing) 
++ video of Bgolearn has been uploaded to platforms : [BiliBili](https://www.bilibili.com/video/BV1Ae411J76z/?spm_id_from=333.999.0.0&vd_source=773e0c92141f498497cfafd0112fc146). [YouTube](https://www.youtube.com/watch?v=MSG6wcBol64&t=48s).
 
 
 ![Screenshot 2023-11-16 at 11 23 35](https://github.com/Bin-Cao/Bgolearn/assets/86995074/cd0d24e4-06db-45f7-b6d6-12750fa8b819)
@@ -79,8 +84,9 @@ Model.plot_distribution()
 See : [Link](https://github.com/Bin-Cao/Bgolearn/blob/main/Template/%E4%B8%AD%E6%96%87%E7%A4%BA%E4%BE%8B/%E5%A4%9A%E7%9B%AE%E6%A0%87%E5%AE%9E%E7%8E%B0/%E5%A4%9A%E7%9B%AE%E6%A0%87.ipynb)
 <img src="https://github.com/Bin-Cao/Bgolearn/assets/86995074/41c90c29-364c-47cc-aefe-4433f7d93e23" alt="1" width="300" height="300">
 
-
-
+## UI
+The User Interface of the Bgolearn Platform : [**BgoFace**](https://github.com/Bgolearn/BgoFace)
+ 
 ## cite
 1:
     Cao B., Su T, Yu S, Li T, Zhang T, Zhang J, Dong Z, Zhang Ty. Active learning accelerates the discovery of high strength and high ductility lead-free solder alloys, Materials & Design, 2024, 112921, ISSN 0264-1275, https://doi.org/10.1016/j.matdes.2024.112921.
@@ -96,7 +102,12 @@ Maintained by Bin Cao. Please feel free to open issues in the Github or contact 
 ## Contributing / 共建
 Contribution and suggestions are always welcome. In addition, we are also looking for research collaborations. You can submit issues for suggestions, questions, bugs, and feature requests, or submit pull requests to contribute directly. You can also contact the authors for research collaboration.
 
+## License and Usage
+© 2024 Bgolearn Development Team. All rights reserved.
 
+This software is provided for academic and research purposes only. Commercial use is strictly prohibited. Any violation of these terms will be subject to appropriate actions.
+
+---
 ### for regression
 - 1.Expected Improvement algorith (期望提升函数)
 
