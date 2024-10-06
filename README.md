@@ -151,44 +151,7 @@ Bgolearn.fit(
     Dynamic_W=False,
     seed=42,
 )
-Docstring:
-================================================================
-PACKAGE: Bayesian global optimization-learn (Bgolearn) package .
-Author: Bin CAO <binjacobcao@gmail.com> 
-Guangzhou Municipal Key Laboratory of Materials Informatics, Advanced Materials Thrust,
-Hong Kong University of Science and Technology (Guangzhou), Guangzhou 511400, Guangdong, China
-================================================================
-Please feel free to open issues in the Github :
-https://github.com/Bin-Cao/Bgolearn
-or 
-contact Mr.Bin Cao (bcao686@connect.hkust-gz.edu.cn)
-in case of any problems/comments/suggestions in using the code. 
-==================================================================
-Thank you for choosing Bgolearn for material design. 
-Bgolearn is developed to facilitate the application of machine learning in research.
 
-Bgolearn is designed for optimizing single-target material properties. 
-The BgoKit package is being developed to facilitate multi-task design.
-
-If you need to perform multi-target optimization, here are two kind reminders:
-1. Multi-tasks can be converted into a single task using domain knowledge. 
-For example, you can use a weighted linear combination in the simplest situation. That is, y = w*y1 + y2...
-
-2. Multi-tasks can be optimized using Pareto fronts. 
-Bgolearn will return two arrays based on your dataset: 
-the first array is a evaluation score for each virtual sample, 
-while the second array is the recommended data considering only the current optimized target.
-
-The first array is crucial for multi-task optimization. 
-For instance, in a two-task optimization scenario, you can evaluate each candidate twice for the two separate targets. 
-Then, plot the score of target 1 for each sample on the x-axis and the score of target 2 on the y-axis. 
-The trade-off consideration is to select the data located in the front of the banana curve.
-
-I am delighted to invite you to participate in the development of Bgolearn. 
-If you have any issues or suggestions, please feel free to contact me at binjacobcao@gmail.com.
-================================================================
-Reference : 
-document : https://bgolearn.netlify.app/
 ================================================================
 
 :param data_matrix: data matrix of training dataset, X .
