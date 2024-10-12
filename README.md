@@ -11,6 +11,8 @@
 
 🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks ! For inquiries or assistance, please don't hesitate to contact us at bcao686@connect.hkust-gz.edu.cn (Dr. CAO Bin).
 
+## code tutorial : [BiliBili](https://www.bilibili.com/video/BV1LTtLeaEZp/?spm_id_from=333.337.search-card.all.click)
+
 + Bgolearn has been implemented in the platform of [MLMD](http://123.60.55.8/) etc.
 + The official User Interface of the Bgolearn Platform is [BgoFace](https://github.com/Bgolearn/BgoFace).
 + Bgolearn Code : [here](https://colab.research.google.com/drive/1OSc-phxm7QLOm8ceGJiIMGGz9riuwP6Q?usp=sharing) 
