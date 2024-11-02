@@ -11,6 +11,8 @@
 
 🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks ! For inquiries or assistance, please don't hesitate to contact us at bcao686@connect.hkust-gz.edu.cn (Dr. CAO Bin).
 
+[View package usage statistics / download counts](https://www.pepy.tech/projects/Bgolearn)
+
 ## code tutorial : [BiliBili](https://www.bilibili.com/video/BV1LTtLeaEZp/?spm_id_from=333.337.search-card.all.click)
 
 + Bgolearn has been implemented in the platform of [MLMD](http://123.60.55.8/) etc.
