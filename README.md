@@ -9,7 +9,7 @@
 **The publication utilizing Bgolearn will be promoted by the Bgolearn Team.**
 [HomePage](http://bgolearn.caobin.asia/) 
 
-🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks ! For inquiries or assistance, please don't hesitate to contact us at bcao686@connect.hkust-gz.edu.cn (Dr. CAO Bin).
+![PyPI Downloads](https://static.pepy.tech/badge/bgolearn)🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks ! For inquiries or assistance, please don't hesitate to contact us at bcao686@connect.hkust-gz.edu.cn (Dr. CAO Bin).
 
 [View package usage statistics / download counts](https://www.pepy.tech/projects/Bgolearn)
 
