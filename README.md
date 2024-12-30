@@ -6,6 +6,10 @@
   <br>
 </h1>
 
+**We have encountered instances where papers have used the Bgolearn package but failed to cite it. We will continue to monitor such cases and will contact the respective journals to request proper citation.**
+
+
+
 **The publication utilizing Bgolearn will be promoted by the Bgolearn Team.**
 [HomePage](http://bgolearn.caobin.asia/) 
 
