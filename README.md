@@ -1,11 +1,4 @@
-
-<h1 align="center">
-  <a href=""><img src="https://user-images.githubusercontent.com/86995074/232675281-97ee5a19-b238-4d83-913c-7b0489807fa9.jpeg" alt="Bgolearn" width="150"></a>
-  <br>
-  Bgolearn | [Report](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d)
-  <br>
-</h1>
-
+## Bgolearn | [Report](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d)
 
 
 [HomePage](http://bgolearn.caobin.asia/) 
