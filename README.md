@@ -2,15 +2,12 @@
 <h1 align="center">
   <a href=""><img src="https://user-images.githubusercontent.com/86995074/232675281-97ee5a19-b238-4d83-913c-7b0489807fa9.jpeg" alt="Bgolearn" width="150"></a>
   <br>
-  Bgolearn
+  Bgolearn | [Report](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d)
   <br>
 </h1>
 
-**We have encountered instances where papers have used the Bgolearn package but failed to cite it. We will continue to monitor such cases and will contact the respective journals to request proper citation.**
 
 
-
-**The publication utilizing Bgolearn will be promoted by the Bgolearn Team.**
 [HomePage](http://bgolearn.caobin.asia/) 
 
 ![PyPI Downloads](https://static.pepy.tech/badge/bgolearn)🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks ! For inquiries or assistance, please don't hesitate to contact us at bcao686@connect.hkust-gz.edu.cn (Dr. CAO Bin).
