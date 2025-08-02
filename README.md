@@ -4,7 +4,7 @@
 
 [**🔗 Report**](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d) | [**Homepage**](http://bgolearn.caobin.asia/) | [**BgoFace UI**](https://github.com/Bgolearn/BgoFace)
 
-![PyPI Downloads](https://static.pepy.tech/badge/bgolearn)
+
 🤝🤝🤝 Please star ⭐️ this project to support open-source development! For questions or collaboration, contact: **Dr. Bin Cao** ([bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn))
 
 📊 [Usage Statistics (pepy)](https://www.pepy.tech/projects/Bgolearn)
