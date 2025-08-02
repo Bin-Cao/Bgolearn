@@ -1,136 +1,191 @@
-## Bgolearn | [Report](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d)
 
 
-[HomePage](http://bgolearn.caobin.asia/) 
+# Bgolearn
 
-![PyPI Downloads](https://static.pepy.tech/badge/bgolearn)🤝🤝🤝 Please star ⭐️ it for promoting open source projects 🌍 ! Thanks ! For inquiries or assistance, please don't hesitate to contact us at bcao686@connect.hkust-gz.edu.cn (Dr. CAO Bin).
+[**🔗 Report**](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d) | [**Homepage**](http://bgolearn.caobin.asia/) | [**BgoFace UI**](https://github.com/Bgolearn/BgoFace)
 
-[View package usage statistics / download counts](https://www.pepy.tech/projects/Bgolearn)
+![PyPI Downloads](https://static.pepy.tech/badge/bgolearn)
+🤝🤝🤝 Please star ⭐️ this project to support open-source development! For questions or collaboration, contact: **Dr. Bin Cao** ([bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn))
 
-## code tutorial : [BiliBili](https://www.bilibili.com/video/BV1LTtLeaEZp/?spm_id_from=333.337.search-card.all.click)
+📊 [Usage Statistics (pepy)](https://www.pepy.tech/projects/Bgolearn)
 
-+ Bgolearn has been implemented in the platform of [MLMD](http://123.60.55.8/) etc.
-+ The official User Interface of the Bgolearn Platform is [BgoFace](https://github.com/Bgolearn/BgoFace).
-+ Bgolearn Code : [here](https://colab.research.google.com/drive/1OSc-phxm7QLOm8ceGJiIMGGz9riuwP6Q?usp=sharing) 
-+ video of Bgolearn has been uploaded to platforms : [BiliBili](https://www.bilibili.com/video/BV1Ae411J76z/?spm_id_from=333.999.0.0&vd_source=773e0c92141f498497cfafd0112fc146). [YouTube](https://www.youtube.com/watch?v=MSG6wcBol64&t=48s).
+---
 
+## 🎓 Overview
 
-![Screenshot 2023-11-16 at 11 23 35](https://github.com/Bin-Cao/Bgolearn/assets/86995074/cd0d24e4-06db-45f7-b6d6-12750fa8b819)
+**Bgolearn** is a lightweight and extensible Python package for **Bayesian global optimization**, built for accelerating materials discovery and design. It provides out-of-the-box support for regression and classification tasks, implements various acquisition strategies, and offers a seamless pipeline for virtual screening, active learning, and multi-objective optimization.
 
+> 📦 Official PyPI: [`pip install Bgolearn`](https://pypi.org/project/Bgolearn/)
+> 🎥 Code tutorial (BiliBili): [Watch here](https://www.bilibili.com/video/BV1LTtLeaEZp)
+> 🚀 Colab Demo: [Run it online](https://colab.research.google.com/drive/1OSc-phxm7QLOm8ceGJiIMGGz9riuwP6Q?usp=sharing)
 
-# Python package - Bgolearn 
-
-**No gradient** information is used
-![plot](https://github.com/Bin-Cao/Bgolearn/assets/86995074/d4e43900-eadb-4ddf-af46-0208314de41a)
-
+---
 
 
-## Installing / 安装
-    pip install Bgolearn 
-    
-## Checking / 查看
-    pip show Bgolearn 
-    
-## Updating / 更新
-    pip install --upgrade Bgolearn
+## 📈 Download Statistics
 
+* [Bgolearn](https://pepy.tech/projects/Bgolearn?timeRange=threeMonths&category=version)
+* [BgoKit](https://pepy.tech/projects/BgoKit?timeRange=threeMonths&category=version)
+* [MultiBgolearn](https://pepy.tech/projects/multibgolearn?timeRange=threeMonths&category=version)
+---
+## ✨ Key Features
 
-## Template 
-``` javascript
-# import BGOsampling after installation 
-# 安装后, 通过此命令调用BGOsampling类
+### ✅ One-Line Installation
+
+```bash
+pip install Bgolearn
+```
+
+### ✅ Update to Latest Version
+
+```bash
+pip install --upgrade Bgolearn
+```
+
+### ✅ Quick Check
+
+```bash
+pip show Bgolearn
+```
+
+---
+
+## 🧪 Getting Started
+
+```python
 import Bgolearn.BGOsampling as BGOS
+import pandas as pd
 
-# import your dataset (Samples have been characterized)
-# 导入研究的数据集(已经表征过的样本)
-data = pd.read_csv('data.csv') 
-# features 
-x = data.iloc[:,:-1]
-# response / target 
-y = data.iloc[:,-1]
+# Load characterized dataset
+data = pd.read_csv('data.csv')
+x = data.iloc[:, :-1]   # features
+y = data.iloc[:, -1]    # response
 
-# virtual samples which have same feature dimension with x
-# 设计的虚拟样本, 与x具有相同的维度
-vs = pd.read_csv('virtual_data.csv') 
+# Load virtual samples
+vs = pd.read_csv('virtual_data.csv')
 
-# instantiate class
-# 实例化类 Bgolearn
-Bgolearn = BGOS.Bgolearn() 
+# Instantiate and run model
+Bgolearn = BGOS.Bgolearn()
+Mymodel = Bgolearn.fit(data_matrix=x, Measured_response=y, virtual_samples=vs)
 
-# Pass parameters to the function
-# 传入参数
-Mymodel = Bgolearn.fit(data_matrix = x, Measured_response = y, virtual_samples = vs)
-
-# derive the result by EI
-# 通过EI导出结果
+# Get result using Expected Improvement
 Mymodel.EI()
 ```
 
-## Multi-task design
-    pip install BgoKit 
-    
-``` javascript
-from BgoKit import ToolKit
-# vs is the virtual samples
-# score_1,score_2 are output of Bgolearn
-# score_1, _= Mymodel_1.EI() ; score_2, _= Mymodel_2.EI()
+---
 
-Model = ToolKit.MultiOpt(vs,[score_1,score_2])
+## 🔧 Multi-Objective Optimization
+
+> Install the extension toolkit:
+
+```bash
+pip install BgoKit
+```
+
+```python
+from BgoKit import ToolKit
+
+Model = ToolKit.MultiOpt(vs, [score_1, score_2])
 Model.BiSearch()
 Model.plot_distribution()
 ```
-See : [Link](https://github.com/Bin-Cao/Bgolearn/blob/main/Template/%E4%B8%AD%E6%96%87%E7%A4%BA%E4%BE%8B/%E5%A4%9A%E7%9B%AE%E6%A0%87%E5%AE%9E%E7%8E%B0/%E5%A4%9A%E7%9B%AE%E6%A0%87.ipynb)
-<img src="https://github.com/Bin-Cao/Bgolearn/assets/86995074/41c90c29-364c-47cc-aefe-4433f7d93e23" alt="1" width="300" height="300">
 
-## UI
-The User Interface of the Bgolearn Platform : [**BgoFace**](https://github.com/Bgolearn/BgoFace)
- 
-## cite
-1:
-    Cao B., Su T, Yu S, Li T, Zhang T, Zhang J, Dong Z, Zhang Ty. Active learning accelerates the discovery of high strength and high ductility lead-free solder alloys, Materials & Design, 2024, 112921, ISSN 0264-1275, https://doi.org/10.1016/j.matdes.2024.112921.
+📓 See detailed demo: [Multi-objective Example](https://github.com/Bin-Cao/Bgolearn/blob/main/Template/%E4%B8%AD%E6%96%87%E7%A4%BA%E4%BE%8B/%E5%A4%9A%E7%9B%AE%E6%A0%87%E5%AE%9E%E7%8E%B0/%E5%A4%9A%E7%9B%AE%E6%A0%87.ipynb)
 
-2:
-    Ma J.∔, Cao B.∔, Dong S, Tian Y, Wang M, Xiong J, Sun S. MLMD: a programming-free AI platform to predict and design materials. npj Comput Mater 10, 59 (2024). https://doi.org/10.1038/s41524-024-01243-4
-
-
-## About / 更多
-Maintained by Bin Cao. Please feel free to open issues in the Github or contact Bin Cao
-(bcao686@connect.hkust-gz.edu.cn) in case of any problems/comments/suggestions in using the code. 
-
-## Contributing / 共建
-Contribution and suggestions are always welcome. In addition, we are also looking for research collaborations. You can submit issues for suggestions, questions, bugs, and feature requests, or submit pull requests to contribute directly. You can also contact the authors for research collaboration.
-
-## License and Usage
-© 2024 Bgolearn Development Team. All rights reserved.
-
-This software is provided for academic and research purposes only. Commercial use is strictly prohibited. Any violation of these terms will be subject to appropriate actions.
+<img src="https://github.com/Bin-Cao/Bgolearn/assets/86995074/41c90c29-364c-47cc-aefe-4433f7d93e23" width="300" height="300">
 
 ---
-### for regression
-- 1.Expected Improvement algorith (期望提升函数)
 
-- 2.Expected improvement with “plugin” (有“plugin”的期望提升函数)
+## 🧠 Supported Algorithms
 
-- 3.Augmented Expected Improvement (增广期望提升函数)
+### 🔹 For Regression
 
-- 4.Expected Quantile Improvement (期望分位提升函数)
+* Expected Improvement (EI)
+* Augmented Expected Improvement (AEI)
+* Expected Quantile Improvement (EQI)
+* Upper Confidence Bound (UCB)
+* Probability of Improvement (PI)
+* Predictive Entropy Search (PES)
+* Knowledge Gradient (KG)
+* Reinterpolation EI (REI)
+* Expected Improvement with Plugin
 
-- 5.Reinterpolation Expected Improvement (重插值期望提升函数)
+### 🔹 For Classification
 
-- 6.Upper confidence bound (高斯上确界函数)
+* Least Confidence
+* Margin Sampling
+* Entropy-based approach
 
-- 7.Probability of Improvement (概率提升函数)
+---
 
-- 8.Predictive Entropy Search (预测熵搜索函数)
+## 🖥️ User Interface
 
-- 9.Knowledge Gradient (知识梯度函数)
+The graphical frontend of Bgolearn is developed as [**BgoFace**](https://github.com/Bgolearn/BgoFace), providing no-code access to its backend algorithms.
 
-###  for classification
-- 1.Least Confidence (欠信度函数)
+---
 
-- 2.Margin Sampling (边界函数)
+## 📚 Technical Innovations
 
-- 3.Entropy-based approach (熵索函数)
+### 🧩 Rich Bayesian Acquisition Functions
+
+Supports a broad range of acquisition strategies (EI, UCB, KG, PES, etc.) for both single and multi-objective optimization. Works well with sparse and high-dimensional datasets common in material science.
+
+### 🤝 Multi-Objective Expansion
+
+Use **BgoKit** and **MultiBgolearn** to implement Pareto optimization across multiple target properties (e.g., strength & ductility), enabling parallel evaluation across virtual samples.
+
+### 🔄 Integrated Active Learning
+
+Incorporates adaptive sampling in an active learning loop—experiment → prediction → update—to accelerate optimization using fewer experiments.
+
+---
+
+## 📌 Academic Impact
+
+### 2025
+
+1. **Nano Letters**: *Self-Driving Laboratory under UHV*
+   [Link](https://pubs.acs.org/doi/pdf/10.1021/acs.nanolett.5c02445?casa_token=DycwWKxkjjQAAAAA:_qVVZ56VuzbHDnLmJ_-8mUtHatu9S8rOXE78HHGjmNhADLlr7qr-4rPWsAuIOVide29eEy6gOfvzC3do)
+
+2. **Small**: *ML-Engineered Nanozyme System for Anti-Tumor Therapy*
+   [Link](https://onlinelibrary.wiley.com/doi/10.1002/smll.202408750?utm_source=chatgpt.com)
+
+3. **Computational Materials Science**: *Mg-Ca-Zn Alloy Optimization*
+   [Link](https://www.sciencedirect.com/science/article/pii/S0927025625000084)
+
+4. **Measurement**: *Foaming Agent Optimization in EPB Shield Construction*
+   [Link](https://www.sciencedirect.com/science/article/pii/S0263224124013940)
+
+5. **Intelligent Computing**: *Metasurface Design via Bayesian Learning*
+   [Link](https://spj.science.org/doi/pdf/10.34133/icomputing.0135)
+
+### 2024
+
+6. **Materials & Design**: *Lead-Free Solder Alloys via Active Learning*
+   [Link](https://www.sciencedirect.com/science/article/pii/S0264127524002946)
+
+7. **npj Computational Materials**: *MLMD Platform with Bgolearn Backend*
+   [Link](https://www.nature.com/articles/s41524-024-01243-4)
+
+---
+
+## 📦 License
+
+Released under the [MIT License](https://opensource.org/licenses/MIT).
+💼 Free for academic and commercial use. Please cite relevant publications if used in research.
+
+---
+
+## 🤝 Contributing & Collaboration
+
+We welcome community contributions and research collaborations:
+
+* Submit issues for bug reports, ideas, or suggestions
+* Submit pull requests for code contributions
+* Contact Bin Cao ([bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn)) for collaborations
+
+
+---
 
 
 ``` javascript
