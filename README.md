@@ -189,9 +189,9 @@ We welcome community contributions and research collaborations:
 
 ## Contributors
 
-[![Contributors](https://contrib.rocks/image?repo=Ruifeng-Tan/BatteryLife)](https://github.com/Ruifeng-Tan/BatteryLife/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=Bin-Cao/Bgolearn)](https://github.com/Bin-Cao/Bgolearn/graphs/contributors)
 
-
+---
 
 ``` javascript
 Signature:
