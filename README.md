@@ -185,7 +185,6 @@ We welcome community contributions and research collaborations:
 * Contact Bin Cao ([bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn)) for collaborations
 
 
----
 
 ## Contributors
 
