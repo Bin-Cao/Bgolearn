@@ -1,6 +1,6 @@
 
 
-# Bgolearn
+# Bgolearn [![PyPI Downloads](https://static.pepy.tech/personalized-badge/bgolearn?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/bgolearn)
 
 [**Report**](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d) | [**Homepage**](http://bgolearn.caobin.asia/) | [**BgoFace UI**](https://github.com/Bgolearn/BgoFace)
 
