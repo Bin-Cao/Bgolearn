@@ -1,26 +1,71 @@
 
-[![](https://img.shields.io/badge/PyPI-caobin-blue)](https://pypi.org/project/Bgolearn/)
-# Python package - Bgolearn 
 
+# Bgolearn
 
+**A Bayesian Global Optimization Package for Material Design**
+First released: July 2022
+Official website: [https://bgolearn.netlify.app/](https://bgolearn.netlify.app/)
 
-![Screen Shot 2022-07-11 at 9 13 28 AM](https://user-images.githubusercontent.com/86995074/178176016-8a79db81-fcfb-4af0-9b1c-aa4e6a113b5e.png)
+---
 
 ## 为材料设计而生！
-## （ A Bayesian global optimization package for material design , Jul, 2022
 
+Bgolearn is a Python-based **Bayesian Global Optimization (BGO)** toolkit designed to accelerate **material discovery and experimental design**.
+It provides a suite of efficient acquisition functions to guide the next-step experiments based on existing data, helping researchers achieve less trial and more discovery.
 
-Reference paper : V. Picheny, T. Wagner, and D. Ginsbourger. “A Benchmark of Kriging-Based Infill Criteria for Noisy Optimization”. In: Structural and Multidisciplinary Optimization 48.3 (Sept. 2013), pp. 607–626. issn: 1615-1488. 
+---
 
+## Reference
 
-Written using Python, which is suitable for operating systems, e.g., Windows/Linux/MAC OS etc.
+V. Picheny, T. Wagner, and D. Ginsbourger.
+“A Benchmark of Kriging-Based Infill Criteria for Noisy Optimization.”
+*Structural and Multidisciplinary Optimization*, 48(3), 607–626 (2013).
+ISSN: 1615-1488.
 
-## Content
-Bgolearn guides subsequent material design based on existed experimental data. Which includes: 1.Expected Improvement algorithm, 2.Expected improvement with “plugin”，3.Augmented Expected Improvement，4.Expected Quantile Improvement，5.Reinterpolation Expected Improvement， 6.Upper confidence bound，7.Probability of Improvement，8.Predictive Entropy Search，9.Knowledge Gradient, a total of nine Utility Functions. Predictive Entropy Search，Knowledge Gradient are implemented based on Monte Carlo simulation.（贝叶斯优化设计，根据已有的实验数据对后续材料设计作出指导，本算法包共包括：期望最大化算法，期望最大化算法改进（考虑数据噪声），上确界方法，期望提升方法，熵搜索，知识梯度方法等在内的共计9种贝叶斯采样方法。其中熵搜索和知识梯度方法基于蒙特卡洛实现）
+---
 
-## Installing 
-pip install Bgolearn 
+## Core Features
 
-## Updating 
+Bgolearn implements nine utility (acquisition) functions for Bayesian optimization, covering both classical and Monte Carlo–based methods:
+
+1. **Expected Improvement (EI)**
+2. **Expected Improvement with “Plugin”** (noise-handling version)
+3. **Augmented Expected Improvement (AEI)**
+4. **Expected Quantile Improvement (EQI)**
+5. **Reinterpolation Expected Improvement (REI)**
+6. **Upper Confidence Bound (UCB)**
+7. **Probability of Improvement (PI)**
+8. **Predictive Entropy Search (PES)** (Monte Carlo based)
+9. **Knowledge Gradient (KG)** (Monte Carlo based)
+
+贝叶斯全局优化算法包 Bgolearn 可基于已有实验数据对后续材料设计提供指导。
+包含 9 种采样方法：期望提升（EI）、改进期望提升（含噪声）、增强期望提升、分位期望提升、再插值期望提升、上置信界、提升概率、熵搜索与知识梯度等。
+其中熵搜索与知识梯度方法基于蒙特卡洛仿真实现。
+
+---
+
+## Installation
+
+```bash
+pip install Bgolearn
+```
+
+---
+
+## Updating
+
+```bash
 pip install --upgrade Bgolearn
+```
 
+---
+
+## Compatibility
+
+Written in Python, Bgolearn runs smoothly on Windows, Linux, and macOS.
+
+---
+
+## Citation
+
+If you use Bgolearn in your research, please cite the corresponding paper once available or link to this repository.

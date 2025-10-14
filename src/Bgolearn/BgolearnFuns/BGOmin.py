@@ -1,4 +1,23 @@
-import copy,os
+"""
+BGO Minimization Module
+
+This module implements Bayesian Global Optimization for minimization problems.
+It provides various acquisition functions including Expected Improvement (EI),
+Upper Confidence Bound (UCB), Probability of Improvement (PoI), and others
+specifically designed for finding global minima.
+
+Key Features:
+- Multiple acquisition functions for minimization
+- Parallel processing support for efficiency
+- Noise handling capabilities
+- Comprehensive uncertainty quantification
+
+Author: Bin Cao
+Institution: Hong Kong University of Science and Technology (Guangzhou)
+"""
+
+import copy
+import os
 import warnings
 import numpy as np
 import pandas as pd
@@ -8,43 +27,100 @@ import multiprocessing
 
 
 class Global_min(object):
-    def __init__(self,Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise, row_features):
+    """
+    Bayesian Global Optimization for Minimization Problems
+
+    This class implements various acquisition functions for finding global minima
+    using Bayesian optimization principles. It supports different acquisition
+    strategies and handles uncertainty quantification through surrogate models.
+
+    Attributes:
+        Kriging_model: Surrogate model for predictions
+        data_matrix: Training feature matrix
+        Measured_response: Training response values
+        virtual_samples: Candidate points for evaluation
+        virtual_samples_mean: Predicted means for virtual samples
+        virtual_samples_std: Predicted standard deviations for virtual samples
+        opt_num: Number of optimal candidates to recommend
+        ret_noise: Noise handling flag
+        row_features: Original feature values before preprocessing
+    """
+
+    def __init__(self, Kriging_model, data_matrix, Measured_response, virtual_samples, opt_num, ret_noise, row_features):
+        """
+        Initialize the Global_min optimizer.
+
+        Args:
+            Kriging_model: Surrogate model with fit_pre method
+            data_matrix: Training feature matrix
+            Measured_response: Training response values
+            virtual_samples: Candidate points for optimization
+            opt_num: Number of optimal candidates to recommend
+            ret_noise: Whether to include noise in predictions (0 or 1)
+            row_features: Original feature values before normalization
+        """
         self.Kriging_model = Kriging_model
         self.data_matrix = np.array(data_matrix)
         self.Measured_response = np.array(Measured_response)
         __fea_num = len(self.data_matrix[0])
-        self.virtual_samples = np.array(virtual_samples).reshape(-1,__fea_num)
+        self.virtual_samples = np.array(virtual_samples).reshape(-1, __fea_num)
+
+        # Generate predictions for virtual samples
         if ret_noise == 0:
             self.virtual_samples_mean, self.virtual_samples_std = self.Kriging_model().fit_pre(
                 self.data_matrix, self.Measured_response, self.virtual_samples)
         else:
             self.virtual_samples_mean, self.virtual_samples_std = self.Kriging_model().fit_pre(
-                self.data_matrix, self.Measured_response, self.virtual_samples,0.0)
+                self.data_matrix, self.Measured_response, self.virtual_samples, 0.0)
+
         self.opt_num = opt_num
         self.ret_noise = ret_noise
         self.row_features = row_features
+
+        # Suppress warnings for cleaner output
         warnings.filterwarnings('ignore')
         os.environ["PYTHONWARNINGS"] = "ignore"
    
     
     def EI(self, T=None):
         """
-        :param T: (float, default=None) The preset baseline. If set to None, the minimum value in the training data will be used as the baseline (commonly for EI). Recommended: None.
+        Expected Improvement (EI) acquisition function for minimization.
 
-        Expected Improvement algorith
+        The Expected Improvement function quantifies the expected amount by which
+        a candidate point will improve upon the current best observed value.
+        For minimization, improvement means finding values lower than the current minimum.
+
+        Args:
+            T (float, optional): Preset baseline value for improvement calculation.
+                If None, uses the minimum value from training data (recommended).
+
+        Returns:
+            tuple: (EI_values, optimal_candidates)
+                - EI_values: Expected improvement values for all virtual samples
+                - optimal_candidates: Top candidates based on EI values
+
+        Mathematical Formula:
+            EI(x) = (f_min - μ(x)) * Φ(Z) + σ(x) * φ(Z)
+            where Z = (f_min - μ(x)) / σ(x)
+            μ(x): predicted mean, σ(x): predicted std, f_min: current best (minimum)
         """
+        # Determine baseline for improvement calculation
         if isinstance(T, (float, int)):
             cur_optimal_value = T
             print('The baseline is assigned by the user.')
         else:
             print('The baseline is calculated based on the training dataset.')
             cur_optimal_value = self.Measured_response.min()
-            
+
         print('current optimal is :', cur_optimal_value)
+
+        # Calculate Expected Improvement for each virtual sample
         EI_list = []
         for i in range(len(self.virtual_samples_mean)):
-            Var_Z = (cur_optimal_value - self.virtual_samples_mean[i])/self.virtual_samples_std[i] 
-            EI = (cur_optimal_value - self.virtual_samples_mean[i]) * norm.cdf(Var_Z)+ self.virtual_samples_std[i] * norm_des(Var_Z)
+            # Standardized improvement (note: reversed for minimization)
+            Var_Z = (cur_optimal_value - self.virtual_samples_mean[i]) / self.virtual_samples_std[i]
+            # Expected Improvement formula for minimization
+            EI = (cur_optimal_value - self.virtual_samples_mean[i]) * norm.cdf(Var_Z) + self.virtual_samples_std[i] * norm.pdf(Var_Z)
             EI_list.append(EI)
        
         EI_list = np.array(EI_list)
