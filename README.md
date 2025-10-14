@@ -1,8 +1,8 @@
 
 
-# Bgolearn
+# Bgolearn [![PyPI Downloads](https://static.pepy.tech/personalized-badge/bgolearn?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/bgolearn)
 
-[**🔗 Report**](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d) | [**Homepage**](http://bgolearn.caobin.asia/) | [**BgoFace UI**](https://github.com/Bgolearn/BgoFace)
+[**Report**](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d) | [**Homepage**](http://bgolearn.caobin.asia/) | [**BgoFace UI**](https://github.com/Bgolearn/BgoFace)
 
 
 🤝🤝🤝 Please star ⭐️ this project to support open-source development! For questions or collaboration, contact: **Dr. Bin Cao** ([bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn))
@@ -11,7 +11,7 @@
 
 ---
 
-## 🎓 Overview
+## Overview
 
 **Bgolearn** is a lightweight and extensible Python package for **Bayesian global optimization**, built for accelerating materials discovery and design. It provides out-of-the-box support for regression and classification tasks, implements various acquisition strategies, and offers a seamless pipeline for virtual screening, active learning, and multi-objective optimization.
 
@@ -22,7 +22,7 @@
 ---
 
 
-## 📈 Download Statistics
+## Download Statistics
 
 * [Bgolearn](https://pepy.tech/projects/Bgolearn?timeRange=threeMonths&category=version)
 * [BgoKit](https://pepy.tech/projects/BgoKit?timeRange=threeMonths&category=version)
@@ -50,7 +50,7 @@ pip show Bgolearn
 
 ---
 
-## 🧪 Getting Started
+## Getting Started
 
 ```python
 import Bgolearn.BGOsampling as BGOS
@@ -74,7 +74,7 @@ Mymodel.EI()
 
 ---
 
-## 🔧 Multi-Objective Optimization
+## Multi-Objective Optimization
 
 > Install the extension toolkit:
 
@@ -96,9 +96,9 @@ Model.plot_distribution()
 
 ---
 
-## 🧠 Supported Algorithms
+## Supported Algorithms
 
-### 🔹 For Regression
+### For Regression
 
 * Expected Improvement (EI)
 * Augmented Expected Improvement (AEI)
@@ -110,7 +110,7 @@ Model.plot_distribution()
 * Reinterpolation EI (REI)
 * Expected Improvement with Plugin
 
-### 🔹 For Classification
+### For Classification
 
 * Least Confidence
 * Margin Sampling
@@ -118,29 +118,29 @@ Model.plot_distribution()
 
 ---
 
-## 🖥️ User Interface
+## User Interface
 
 The graphical frontend of Bgolearn is developed as [**BgoFace**](https://github.com/Bgolearn/BgoFace), providing no-code access to its backend algorithms.
 
 ---
 
-## 📚 Technical Innovations
+## Technical Innovations
 
-### 🧩 Rich Bayesian Acquisition Functions
+### Rich Bayesian Acquisition Functions
 
 Supports a broad range of acquisition strategies (EI, UCB, KG, PES, etc.) for both single and multi-objective optimization. Works well with sparse and high-dimensional datasets common in material science.
 
-### 🤝 Multi-Objective Expansion
+### Multi-Objective Expansion
 
 Use **BgoKit** and **MultiBgolearn** to implement Pareto optimization across multiple target properties (e.g., strength & ductility), enabling parallel evaluation across virtual samples.
 
-### 🔄 Integrated Active Learning
+### Integrated Active Learning
 
 Incorporates adaptive sampling in an active learning loop—experiment → prediction → update—to accelerate optimization using fewer experiments.
 
 ---
 
-## 📌 Academic Impact
+## Academic Impact
 
 ### 2025
 
@@ -169,14 +169,14 @@ Incorporates adaptive sampling in an active learning loop—experiment → predi
 
 ---
 
-## 📦 License
+## License
 
 Released under the [MIT License](https://opensource.org/licenses/MIT).
 💼 Free for academic and commercial use. Please cite relevant publications if used in research.
 
 ---
 
-## 🤝 Contributing & Collaboration
+## Contributing
 
 We welcome community contributions and research collaborations:
 
@@ -185,8 +185,12 @@ We welcome community contributions and research collaborations:
 * Contact Bin Cao ([bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn)) for collaborations
 
 
----
 
+## Contributors
+
+[![Contributors](https://contrib.rocks/image?repo=Bin-Cao/Bgolearn)](https://github.com/Bin-Cao/Bgolearn/graphs/contributors)
+
+---
 
 ``` javascript
 Signature:
