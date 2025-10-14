@@ -7,7 +7,7 @@
 Please star this project to support open-source development.
 For questions or collaboration, contact **Dr. Bin Cao** ([bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn)).
 
-The Bgolearn project has received support from the *Shanghai Artificial Intelligence Open Source Award Project Support Plan (2025)* (**上海市人工智能开源奖励项目支持计划, 2025**).
+The Bgolearn project has received support from the *Shanghai Artificial Intelligence Open Source Award Project Support Plan (2025)* (**[上海市人工智能开源奖励项目支持计划](https://www.sheitc.sh.gov.cn/cyfz/20250728/e571042d40384fcf859a347eb99e10df.html), 2025**).
 
 
 ---
