@@ -7,7 +7,8 @@
 
 🤝🤝🤝 Please star ⭐️ this project to support open-source development! For questions or collaboration, contact: **Dr. Bin Cao** ([bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn))
 
-📊 [Usage Statistics (pepy)](https://www.pepy.tech/projects/Bgolearn)
+
+**The Bgolearn project received funding from the Shanghai Artificial Intelligence Open Source Award Project Support Plan (上海市人工智能开源奖励项目支持计划, 2025)**
 
 ---
 
