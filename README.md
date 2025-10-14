@@ -19,7 +19,7 @@ It provides out-of-the-box support for regression and classification tasks, inte
 
 > **Official PyPI:** [`pip install Bgolearn`](https://pypi.org/project/Bgolearn/)
 > **Video Tutorial:** [Watch on BiliBili](https://www.bilibili.com/video/BV1LTtLeaEZp)
-> **Jupyter Demo:** [Run it Online](bgolearn.netlify.app/)
+> **Jupyter Demo:** [Run it Online](https://bgolearn.netlify.app/)
 
 ---
 
