@@ -115,15 +115,9 @@ class Global_min(object):
         print('current optimal is :', cur_optimal_value)
 
         # Calculate Expected Improvement for each virtual sample
-        EI_list = []
-        for i in range(len(self.virtual_samples_mean)):
-            # Standardized improvement (note: reversed for minimization)
-            Var_Z = (cur_optimal_value - self.virtual_samples_mean[i]) / self.virtual_samples_std[i]
-            # Expected Improvement formula for minimization
-            EI = (cur_optimal_value - self.virtual_samples_mean[i]) * norm.cdf(Var_Z) + self.virtual_samples_std[i] * norm.pdf(Var_Z)
-            EI_list.append(EI)
-       
-        EI_list = np.array(EI_list)
+        improv = cur_optimal_value - self.virtual_samples_mean
+        z = improv / self.virtual_samples_std
+        EI_list = improv * norm.cdf(z) + self.virtual_samples_std * norm.pdf(z)
 
         return_x = []
         if self.opt_num == 1:
@@ -342,12 +336,7 @@ class Global_min(object):
                 print('The baseline is calculated based on the training dataset.')
                 cur_optimal_value = (1 - tao) * self.Measured_response.min() 
             print('The current optimal is :', cur_optimal_value)
-            PoI_list = []
-            for i in range(len(self.virtual_samples_mean)):
-                PoI = norm.cdf((cur_optimal_value - self.virtual_samples_mean[i])/self.virtual_samples_std[i])
-                PoI_list.append(PoI)
-        
-            PoI_list = np.array(PoI_list)
+            PoI_list = norm.cdf((cur_optimal_value - self.virtual_samples_mean)/self.virtual_samples_std)
             
             return_x = []
             if self.opt_num == 1:
