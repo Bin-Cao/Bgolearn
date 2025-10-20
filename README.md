@@ -103,4 +103,3 @@ We welcome community contributions and collaborations:
 
 ## Contributors
 
-[![Contributors](https://contrib.rocks/image?repo=Bin-Cao/Bgolearn)](https://github.com/Bin-Cao/Bgolearn/graphs/contributors)
