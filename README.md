@@ -13,9 +13,21 @@ The Bgolearn project has received support from the *Shanghai Artificial Intellig
 
 ## 📈 Star History
 
-<a href="https://star-history.com/#Bin-Cao/Bgolearn&Date">
-  <img src="https://api.star-history.com/svg?repos=Bin-Cao/Bgolearn&type=Date" width="500">
-</a>
+
+<p align="center">
+  <a href="https://github.com/Bin-Cao/Bgolearn/stargazers">
+    <img src="https://img.shields.io/github/stars/Bin-Cao/Bgolearn?color=gold&style=for-the-badge" />
+  </a>
+  <a href="https://github.com/Bin-Cao/Bgolearn/network/members">
+    <img src="https://img.shields.io/github/forks/Bin-Cao/Bgolearn?color=teal&style=for-the-badge" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://star-history.com/#Bin-Cao/Bgolearn&Date">
+    <img src="https://api.star-history.com/svg?repos=Bin-Cao/Bgolearn&type=Date" width="420" alt="Star History Chart"/>
+  </a>
+</p>
 
 
 ---
