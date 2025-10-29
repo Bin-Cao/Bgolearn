@@ -11,6 +11,13 @@ For questions or collaboration, contact **Dr. Bin Cao** ([bcao686@connect.hkust-
 The Bgolearn project has received support from the *Shanghai Artificial Intelligence Open Source Award Project Support Plan (2025)* (**[上海市人工智能开源奖励项目支持计划](https://www.sheitc.sh.gov.cn/cyfz/20250728/e571042d40384fcf859a347eb99e10df.html), 2025**).
 
 
+## 📈 Star History
+
+<a href="https://star-history.com/#Bin-Cao/Bgolearn&Date">
+  <img src="https://api.star-history.com/svg?repos=Bin-Cao/Bgolearn&type=Date" width="500">
+</a>
+
+
 ---
 
 ## Overview
