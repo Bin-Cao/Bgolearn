@@ -25,7 +25,7 @@ The Bgolearn project has received support from the *Shanghai Artificial Intellig
 
 <p align="center">
   <a href="https://star-history.com/#Bin-Cao/Bgolearn&Date">
-    <img src="https://api.star-history.com/svg?repos=Bin-Cao/Bgolearn&type=Date" width="420" alt="Star History Chart"/>
+    <img src="https://api.star-history.com/svg?repos=Bin-Cao/Bgolearn&type=Date" width="620" alt="Star History Chart"/>
   </a>
 </p>
 
