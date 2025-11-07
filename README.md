@@ -122,6 +122,12 @@ We welcome community contributions and collaborations:
 ---
 
 
+## Contributors
+
+[![Contributors](https://contrib.rocks/image?repo=Bin-Cao/Bgolearn&v=6)](https://github.com/Bin-Cao/Bgolearn/graphs/contributors)
+
+
+---
 <table>
   <tr>
     <td width="160" align="center" valign="top">
@@ -138,7 +144,3 @@ We welcome community contributions and collaborations:
     </td>
   </tr>
 </table>
-
-## Contributors
-
-[![Contributors](https://contrib.rocks/image?repo=Bin-Cao/Bgolearn&v=6)](https://github.com/Bin-Cao/Bgolearn/graphs/contributors)
