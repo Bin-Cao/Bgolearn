@@ -29,23 +29,7 @@ For questions or collaboration, contact **Dr. Bin Cao** ([bcao686@connect.hkust-
 The Bgolearn project has received support from the *Shanghai Artificial Intelligence Open Source Award Project Support Plan (2025)* (**[上海市人工智能开源奖励项目支持计划](https://www.sheitc.sh.gov.cn/cyfz/20250728/e571042d40384fcf859a347eb99e10df.html), 2025,[Project](https://github.com/Bin-Cao/Bgolearn/blob/main/figures/funding.png)**).
 
 
-## Star History
-
-
-<p align="center">
-  <a href="https://github.com/Bin-Cao/Bgolearn/stargazers">
-    <img src="https://img.shields.io/github/stars/Bin-Cao/Bgolearn?color=gold&style=for-the-badge" />
-  </a>
-  <a href="https://github.com/Bin-Cao/Bgolearn/network/members">
-    <img src="https://img.shields.io/github/forks/Bin-Cao/Bgolearn?color=teal&style=for-the-badge" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://star-history.com/#Bin-Cao/Bgolearn&Date">
-    <img src="https://api.star-history.com/svg?repos=Bin-Cao/Bgolearn&type=Date" width="620" alt="Star History Chart"/>
-  </a>
-</p>
+<img width="5257" height="3400" alt="workflow" src="https://github.com/user-attachments/assets/a0850259-4f08-4bb6-88d7-468d4d8332e6" />
 
 
 ---
@@ -111,6 +95,26 @@ If you use **Bgolearn** in your research, please cite:
   note         = {38 pages, 5 figures}
 }
 ```
+---
+
+## Star History
+
+
+<p align="center">
+  <a href="https://github.com/Bin-Cao/Bgolearn/stargazers">
+    <img src="https://img.shields.io/github/stars/Bin-Cao/Bgolearn?color=gold&style=for-the-badge" />
+  </a>
+  <a href="https://github.com/Bin-Cao/Bgolearn/network/members">
+    <img src="https://img.shields.io/github/forks/Bin-Cao/Bgolearn?color=teal&style=for-the-badge" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://star-history.com/#Bin-Cao/Bgolearn&Date">
+    <img src="https://api.star-history.com/svg?repos=Bin-Cao/Bgolearn&type=Date" width="620" alt="Star History Chart"/>
+  </a>
+</p>
+
 ---
 
 ## License
