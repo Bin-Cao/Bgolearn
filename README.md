@@ -29,6 +29,7 @@ For questions or collaboration, contact **Dr. Bin Cao** ([bcao686@connect.hkust-
 The Bgolearn project has received support from the *Shanghai Artificial Intelligence Open Source Award Project Support Plan (2025)* (**[上海市人工智能开源奖励项目支持计划](https://www.sheitc.sh.gov.cn/cyfz/20250728/e571042d40384fcf859a347eb99e10df.html), 2025,[Project](https://github.com/Bin-Cao/Bgolearn/blob/main/figures/funding.png)**).
 
 
+### [Bgolearn: a Unified Bayesian Optimization Framework for Accelerating Materials Discovery](https://arxiv.org/abs/2406.15469)
 <img width="5257" height="3400" alt="workflow" src="https://github.com/user-attachments/assets/a0850259-4f08-4bb6-88d7-468d4d8332e6" />
 
 
