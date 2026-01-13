@@ -21,7 +21,7 @@
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/bgolearn?period=total\&units=INTERNATIONAL_SYSTEM\&left_color=BLACK\&right_color=GREEN\&left_text=downloads)](https://pepy.tech/projects/bgolearn) [![Booklet](https://img.shields.io/badge/Booklet-Documentation-green?style=flat&labelColor=black)](https://bgolearn.netlify.app/) [![PyPI Version](https://img.shields.io/pypi/v/bgolearn.svg)](https://pypi.org/project/bgolearn/)
 
 
-[**Report**](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d) | [**Homepage**](http://bgolearn.caobin.asia/) | [**BgoFace UI**](https://github.com/Bgolearn/BgoFace)
+[**Paper**](https://doi.org/10.48550/arXiv.2601.06820) | [**Report**](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d) | [**Handbook**](https://bgolearn.netlify.app/) 
 
 Please star this project to support open-source development.
 For questions or collaboration, contact **Dr. Bin Cao** ([bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn)).
@@ -29,7 +29,7 @@ For questions or collaboration, contact **Dr. Bin Cao** ([bcao686@connect.hkust-
 The Bgolearn project has received support from the *Shanghai Artificial Intelligence Open Source Award Project Support Plan (2025)* (**[上海市人工智能开源奖励项目支持计划](https://www.sheitc.sh.gov.cn/cyfz/20250728/e571042d40384fcf859a347eb99e10df.html), 2025,[Project](https://github.com/Bin-Cao/Bgolearn/blob/main/figures/funding.png)**).
 
 
-## 📈 Star History
+## Star History
 
 
 <p align="center">
@@ -91,35 +91,26 @@ pip show Bgolearn
 
 Detailed tutorials and documentation are available at: [https://bgolearn.netlify.app/](https://bgolearn.netlify.app/)
 
+
 ---
 
-## Academic Impact
+## Citation
 
-### 2025
+If you use **Bgolearn** in your research, please cite:
 
-1. **Nano Letters** – *Self-Driving Laboratory under UHV*
-   [Read](https://pubs.acs.org/doi/pdf/10.1021/acs.nanolett.5c02445?casa_token=DycwWKxkjjQAAAAA:_qVVZ56VuzbHDnLmJ_-8mUtHatu9S8rOXE78HHGjmNhADLlr7qr-4rPWsAuIOVide29eEy6gOfvzC3do)
-
-2. **Small** – *ML-Engineered Nanozyme System for Anti-Tumor Therapy*
-   [Read](https://onlinelibrary.wiley.com/doi/10.1002/smll.202408750?utm_source=chatgpt.com)
-
-3. **Computational Materials Science** – *Mg-Ca-Zn Alloy Optimization*
-   [Read](https://www.sciencedirect.com/science/article/pii/S0927025625000084)
-
-4. **Measurement** – *Foaming Agent Optimization in EPB Shield Construction*
-   [Read](https://www.sciencedirect.com/science/article/pii/S0263224124013940)
-
-5. **Intelligent Computing** – *Metasurface Design via Bayesian Learning*
-   [Read](https://spj.science.org/doi/pdf/10.34133/icomputing.0135)
-
-### 2024
-
-6. **Materials & Design** – *Lead-Free Solder Alloys via Active Learning*
-   [Read](https://www.sciencedirect.com/science/article/pii/S0264127524002946)
-
-7. **npj Computational Materials** – *MLMD Platform with Bgolearn Backend*
-   [Read](https://www.nature.com/articles/s41524-024-01243-4)
-
+```
+@article{cao2026bgolearn,
+  title        = {Bgolearn: a Unified Bayesian Optimization Framework for Accelerating Materials Discovery},
+  author       = {Cao, Bin and Xiong, Jie and Ma, Jiaxuan and Tian, Yuan and Hu, Yirui and He, Mengwei and Zhang, Longhan and Wang, Jiayu and Hui, Jian and Liu, Li and Xue, Dezhen and Lookman, Turab and Zhang, Tong-Yi},
+  journal      = {arXiv preprint arXiv:2601.06820},
+  year         = {2026},
+  eprint       = {2601.06820},
+  archivePrefix= {arXiv},
+  primaryClass = {cond-mat.mtrl-sci},
+  doi          = {https://doi.org/10.48550/arXiv.2601.06820},
+  note         = {38 pages, 5 figures}
+}
+```
 ---
 
 ## License
