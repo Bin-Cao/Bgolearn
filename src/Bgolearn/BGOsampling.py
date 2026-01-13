@@ -39,9 +39,7 @@ class Bgolearn(object):
     Institution: Hong Kong University of Science and Technology (Guangzhou)
 
     References:
-        - Materials & Design: https://doi.org/10.1016/j.matdes.2024.112921
-        - MGE Advances: https://onlinelibrary.wiley.com/doi/10.1002/mgea.70031
-        - NPJ Computational Materials: https://doi.org/10.1038/s41524-024-01243-4
+        - Bgolearn: A Unified Bayesian Optimization Framework for Accelerating Materials Discovery. https://doi.org/10.48550/arXiv.2601.06820 
     """
 
     def __init__(self) -> None:
@@ -58,12 +56,12 @@ class Bgolearn(object):
         now = datetime.datetime.now()
         formatted_date_time = now.strftime('%Y-%m-%d %H:%M:%S')
         print(text2art("Bgolearn"))
-        print('Bgolearn, Bin CAO, Hong Kong University of Science and Technology (Guangzhou)' )
+        print("Author : Bin Cao")
+        print("Affiliation : Hong Kong University of Science and Technology (Guangzhou)")
         print('URL : https://bgolearn.netlify.app/')
-        print("Citation: ")
-        print('Materials & Design : https://doi.org/10.1016/j.matdes.2024.112921')
-        print('MGE Advances : https://onlinelibrary.wiley.com/doi/10.1002/mgea.70031')
-        print('NPJ Com. Mat. : https://doi.org/10.1038/s41524-024-01243-4')
+        print("How to cite: ")
+        print("Cao B et al., Bgolearn: A Unified Bayesian Optimization Framework for Accelerating Materials Discovery.")
+        print("arXiv:2601.06820 (2026). https://doi.org/10.48550/arXiv.2601.06820")
         print('Executed on :',formatted_date_time, ' | Have a great day.')
         print('='*80)
 

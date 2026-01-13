@@ -29,5 +29,6 @@ References:
 __description__ = 'A Bayesian global optimization package'
 __documents__ = 'https://bgolearn.netlify.app/'
 __author__ = 'Bin Cao, Advanced Materials Thrust, Hong Kong University of Science and Technology (Guangzhou)'
-__author_email__ = 'binjacobcao@gmail.com'
+__author_email__ = 'bcao686@connect.hkust-gz.edu.cn'
+__paper__ = 'https://doi.org/10.48550/arXiv.2601.06820'
 __url__ = 'https://bgolearn.netlify.app/'

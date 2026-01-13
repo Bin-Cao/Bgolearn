@@ -135,6 +135,59 @@ class Global_min(object):
             print('The input para. opt_num must be an int')
         return EI_list, np.array(return_x)
 
+
+    def EI_log(self, T=None):
+        """
+        Logarithm Expected Improvement (EI) acquisition function for minimization.
+
+
+        Args:
+            T (float, optional): Preset baseline value for improvement calculation.
+                If None, uses the minimum value from training data (recommended).
+
+        Returns:
+            tuple: (EI_values, optimal_candidates)
+                - EI_values: Expected improvement values for all virtual samples
+                - optimal_candidates: Top candidates based on EI values
+
+        Mathematical Formula:
+            EI(x) = (f_min - μ(x)) * Φ(Z) + σ(x) * φ(Z)
+            where Z = (f_min - μ(x)) / σ(x)
+            μ(x): predicted mean, σ(x): predicted std, f_min: current best (minimum)
+        """
+        # Determine baseline for improvement calculation
+        if isinstance(T, (float, int)):
+            cur_optimal_value = T
+            print('The baseline is assigned by the user.')
+        else:
+            print('The baseline is calculated based on the training dataset.')
+            cur_optimal_value = self.Measured_response.min()
+
+        print('current optimal is :', cur_optimal_value)
+
+        # Calculate Expected Improvement for each virtual sample
+        improv = cur_optimal_value - self.virtual_samples_mean
+        z = improv / self.virtual_samples_std
+        EI_list = np.log(improv * norm.cdf(z) + self.virtual_samples_std * norm.pdf(z)+1e-5)
+
+        return_x = []
+        if self.opt_num == 1:
+            EI_opt_index = np.random.choice(np.flatnonzero(EI_list == EI_list.max()))
+            print('The next datum recomended by Expected Improvement : \n x = ', self.row_features[EI_opt_index])
+            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EI_opt_index])
+            return_x.append(self.row_features[EI_opt_index])
+        elif type(self.opt_num) == int:
+            EI_opt_index = np.argsort(EI_list)[-self.opt_num:][::-1]  
+            for j in range(len(EI_opt_index)):
+                print('The {num}-th datum recomended by Expected Improvement : \n x = '.format(num =j+1), self.row_features[EI_opt_index[j]])
+                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EI_opt_index[j]])
+                return_x.append(self.row_features[EI_opt_index[j]])
+        else:
+            print('The input para. opt_num must be an int')
+        return EI_list, np.array(return_x)
+    
+
+
     def EI_plugin(self,):
         """
         Expected improvement with “plugin”
