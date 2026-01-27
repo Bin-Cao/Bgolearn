@@ -21,7 +21,7 @@
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/bgolearn?period=total\&units=INTERNATIONAL_SYSTEM\&left_color=BLACK\&right_color=GREEN\&left_text=downloads)](https://pepy.tech/projects/bgolearn) [![PyPI Version](https://img.shields.io/pypi/v/bgolearn.svg)](https://pypi.org/project/bgolearn/)
 
 
-## [**Paper**](https://doi.org/10.48550/arXiv.2601.06820) | [**Report**](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d) | [**Handbook-english**](https://bgolearn.netlify.app/) 、[**Hanbook-chinese**](https://bgolearn-chi.netlify.app/)
+## [**Paper**](https://doi.org/10.48550/arXiv.2601.06820) | [**Report**](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d) | [**Handbook-english**](https://bgolearn.netlify.app/) 、[**手册-中文**](https://bgolearn-chi.netlify.app/)
 
 Please star this project to support open-source development.
 For questions or collaboration, contact **Dr. Bin Cao** ([bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn)).
