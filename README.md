@@ -1,163 +1,132 @@
 
-# PyWPEM
+# Bgolearn
 
-<p align="center">
-  <img src="https://github.com/Bin-Cao/TCGPR/assets/86995074/28f69830-4ece-43b3-a887-e78fdb25bcab" width="140" alt="PyWPEM Logo"/>
-</p>
+**Bgolearn** is a unified Python framework for Bayesian Global Optimization (BGO) designed to accelerate data-efficient discovery in materials science and related scientific domains.
 
-<p align="center">
-  <strong>Python Toolkit for X-ray Diffraction Simulation, Analysis, and AI-driven Structure Refinement</strong>
-</p>
-
-<p align="center">
-  <a href="https://pyxplore.netlify.app/">Documentation</a> ·
-  <a href="https://arxiv.org/abs/2602.16372v1">Paper (arXiv)</a> ·
-  <a href="https://www.pepy.tech/projects/PyXplore">Download Statistics</a>
-</p>
+The library provides a structured and extensible implementation of surrogate modeling, acquisition strategies, and uncertainty quantification, enabling principled optimization of expensive black-box functions under limited evaluation budgets.
 
 ---
 
 ## Overview
 
-**PyWPEM** is a modular Python framework for **X-ray diffraction (XRD) simulation, decomposition, quantitative analysis, and AI-assisted structure refinement**.
+Bayesian global optimization has become a fundamental methodology for scientific discovery tasks where experimental or computational evaluations are costly. Bgolearn aims to standardize and simplify the implementation of such workflows by integrating:
 
-It integrates:
+* surrogate modeling
+* acquisition function design
+* uncertainty estimation
+* candidate recommendation
+* iterative active learning loops
 
-* Physics-based diffraction modeling
-* EM-based Bragg optimization
-* Structure graph construction
-* Extinction and Wyckoff analysis
-* Amorphous phase quantification
-* AI-driven structural refinement
-
-The toolkit is designed for reproducible scientific workflows in materials characterization and AI for Science research.
+The framework emphasizes reproducibility, modularity, and compatibility with scientific computing environments.
 
 ---
 
-## Key Features
+## Core Capabilities
 
-* **XRD Simulation**
-  Accurate diffraction pattern generation from crystallographic information.
+### 1. Surrogate Modeling
 
-* **Peak Decomposition & Quantitative Analysis**
-  WPEM-based decomposition and volume fraction determination.
+Bgolearn supports multiple regression models for approximating unknown objective functions, including:
 
-* **Bragg Law Optimization (EM Framework)**
-  Expectation-Maximization-based parameter solving.
+* Gaussian Process regression
+* Random Forest regression
+* Gradient boosting models
+* Bootstrap-based ensemble estimators
 
-* **Extinction & Wyckoff Handling**
-  Symmetry-aware preprocessing and structural filtering.
+These models enable predictive mean estimation together with uncertainty quantification.
 
-* **Graph-Based Structure Representation**
-  Crystal graph construction for downstream machine learning tasks.
+### 2. Acquisition Functions
 
-* **Amorphous Structure Analysis**
-  RDF-based quantitative evaluation.
+The framework provides commonly used acquisition strategies for balancing exploration and exploitation:
 
-* **Multi-modal Extension**
-  Integrated modules for XAS and XPS analysis.
+* Expected Improvement (EI)
+* Upper Confidence Bound (UCB)
+* Probability of Improvement (PI)
+
+Users may extend the acquisition interface to incorporate customized strategies.
+
+### 3. Uncertainty Quantification
+
+For non-Gaussian surrogate models, Bgolearn incorporates bootstrap-based uncertainty estimation, enabling principled decision-making beyond GP-based approaches.
+
+### 4. Single- and Multi-Objective Optimization
+
+The framework supports single-objective optimization and can be extended to multi-objective scenarios through companion implementations.
 
 ---
 
-## Architecture Overview
+## Installation
 
-```text
-PyWPEM/
-├── WPEM.py
-├── XRDSimulation/
-├── EMBraggOpt/
-├── Refinement/
-├── StructureOpt/
-├── GraphStructure/
-├── Extinction/
-├── Amorphous/
-├── Background/
-├── Plot/
-├── DecomposePlot/
-├── WPEMXAS/
-├── WPEMXPS/
-└── refs/
+```bash
+pip install Bgolearn
 ```
 
-The design follows a **physics-consistent, modular architecture**, enabling independent or pipeline-based execution.
-
 ---
 
-## Tables & Figures
+## Minimal Example
 
-<p align="center">
-  <img width="600" src="https://github.com/user-attachments/assets/da5bd320-3651-4223-b862-06fb5ce1f96a" />
-</p>
+```python
+from Bgolearn.BGOsampling import Bgolearn
 
-<p align="center">
-  <img width="600" src="https://github.com/user-attachments/assets/50b1aacc-6a4f-4b58-95fb-a4094da60055" />
-</p>
+# Training data
+X_train, y_train = ...
+X_virtual = ...
+
+# Initialize and fit
+bgo = Bgolearn()
+model = bgo.fit(
+    data_matrix=X_train,
+    Measured_response=y_train,
+    virtual_samples=X_virtual
+)
+
+# Acquisition step
+score, recommendation = model.UCB()
+
+print(recommendation)
+```
+
+For detailed API usage and workflow examples, refer to the project documentation.
 
 ---
 
 ## Scientific Reference
 
-If you use **PyWPEM** in your research, please cite:
+If Bgolearn contributes to your research, please cite:
 
 ```bibtex
-@article{cao2026wpem,
-  title={AI-Driven Structure Refinement of X-ray Diffraction},
-  author={Bin Cao, Qian Zhang, Zhenjie Feng, Taolue Zhang, Jiaqiang Huang, Lu-Tao Weng, Tong-Yi Zhang},
-  journal={arXiv preprint},
-  year={2026},
-  url={https://arxiv.org/abs/2602.16372v1}
+@article{cao2026bgolearn,
+  title        = {Bgolearn: A Unified Bayesian Optimization Framework for Accelerating Materials Discovery},
+  author       = {Cao, Bin and Xiong, Jie and Ma, Jiaxuan and et al.},
+  journal      = {arXiv preprint},
+  year         = {2026},
+  url          = {https://arxiv.org/abs/2601.06820}
 }
 ```
 
 ---
 
-## Maintainer
+## Design Principles
 
-<table>
-  <tr>
-    <td width="150" align="center">
-      <img src="https://github.com/user-attachments/assets/7e77bd5a-42d6-45db-b8e6-2c82cac81b9d" width="130" style="border-radius: 50%;" />
-    </td>
-    <td>
-      <strong>Bin Cao</strong><br>
-      PhD Candidate<br>
-      Hong Kong University of Science and Technology (Guangzhou)<br><br>
-      Research Area: AI for Science · Intelligent Crystal Structure Analysis<br><br>
-      Email: <a href="mailto:bcao686@connect.hkust-gz.edu.cn">bcao686@connect.hkust-gz.edu.cn</a><br>
-      Homepage: <a href="https://www.caobin.asia/">https://www.caobin.asia/</a>
-    </td>
-  </tr>
-</table>
+Bgolearn is developed according to the following principles:
 
-
-
----
-
-## Contributing
-
-We welcome contributions from the community.
-
-* Report bugs via Issues
-* Propose features
-* Submit pull requests
-* Contact for academic collaboration
-
-Please ensure code readability, documentation clarity, and scientific correctness before submission.
+* Methodological transparency
+* Reproducibility of optimization workflows
+* Modular architecture for extensibility
+* Compatibility with scientific Python ecosystems
+* Clear separation between modeling, acquisition, and evaluation layers
 
 ---
 
 ## License
 
-This project is released under the MIT License.
-
-Free for academic and commercial use.
-Please cite related publications when used in scientific research.
+Released under the MIT License.
 
 ---
 
-## Contributors
+## Maintainer
 
-[![Contributors](https://contrib.rocks/image?repo=Bin-Cao/PyWPEM\&v=6)](https://github.com/Bin-Cao/PyWPEM/graphs/contributors)
-
-
+Bin Cao
+PhD Candidate
+Hong Kong University of Science and Technology (Guangzhou)
+Email: [bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn)
 
