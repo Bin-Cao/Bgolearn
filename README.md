@@ -129,7 +129,7 @@ If you use **PyWPEM** in your research, please cite:
   </tr>
 </table>
 
-Supervised by Professor Tong-Yi Zhang.
+
 
 ---
 
