@@ -1,147 +1,163 @@
-<table>
-  <tr>
-    <td width="160" align="center" valign="top">
-      <img src="https://github.com/user-attachments/assets/7e77bd5a-42d6-45db-b8e6-2c82cac81b9d" width="140" style="border-radius: 50%;"/>
-    </td>
-    <td valign="top">
-      <b>For any inquiries or assistance, feel free to contact Mr. CAO Bin at:</b><br>
-      📧 Email: <a href="mailto:bcao686@connect.hkust-gz.edu.cn">bcao686@connect.hkust-gz.edu.cn</a><br><br>
-      Cao Bin is a PhD candidate at the <b>Hong Kong University of Science and Technology (Guangzhou)</b>, 
-      under the supervision of Professor <a href="https://gbaaa.org.hk/en-us/article/67">Zhang Tong-Yi</a>. His research focuses on 
-      <b>AI for science</b>, especially intelligent crystal-structure analysis and discovery. 
-      Learn more about his work on his 
-      <a href="https://www.caobin.asia/">homepage</a>.
-    </td>
-  </tr>
-</table>
 
----
+# PyWPEM
 
-# Bgolearn 
-[![PyPI Downloads](https://static.pepy.tech/personalized-badge/bgolearn?period=total\&units=INTERNATIONAL_SYSTEM\&left_color=BLACK\&right_color=GREEN\&left_text=downloads)](https://pepy.tech/projects/bgolearn) [![PyPI Version](https://img.shields.io/pypi/v/bgolearn.svg)](https://pypi.org/project/bgolearn/)
+<p align="center">
+  <img src="https://github.com/Bin-Cao/TCGPR/assets/86995074/28f69830-4ece-43b3-a887-e78fdb25bcab" width="140" alt="PyWPEM Logo"/>
+</p>
 
+<p align="center">
+  <strong>Python Toolkit for X-ray Diffraction Simulation, Analysis, and AI-driven Structure Refinement</strong>
+</p>
 
-## [**Paper**](https://doi.org/10.48550/arXiv.2601.06820) | [**Report**](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167?user_id=ZXvycJpgjG2WSbabyEmiSA_d_d) | [**Handbook-english**](https://bgolearn.netlify.app/)｜[**手册-中文**](https://bgolearn-chi.netlify.app/)
-
-Please star this project to support open-source development.
-For questions or collaboration, contact **Dr. Bin Cao** ([bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn)).
-
-The Bgolearn project has received support from the *Shanghai Artificial Intelligence Open Source Award Project Support Plan (2025)* (**[上海市人工智能开源奖励项目支持计划](https://www.sheitc.sh.gov.cn/cyfz/20250728/e571042d40384fcf859a347eb99e10df.html), 2025,[Project](https://github.com/Bin-Cao/Bgolearn/blob/main/figures/funding.png)**).
-
-
-### [Bgolearn: a Unified Bayesian Optimization Framework for Accelerating Materials Discovery](https://arxiv.org/abs/2601.06820)
-
-<div align="center">
-  <img width="626" height="639" alt="Screenshot 2026-01-14 at 09 44 17"
-       src="https://github.com/user-attachments/assets/d6579aef-7d42-4fb3-be77-963f6006e140" />
-</div>
-
+<p align="center">
+  <a href="https://pyxplore.netlify.app/">Documentation</a> ·
+  <a href="https://arxiv.org/abs/2602.16372v1">Paper (arXiv)</a> ·
+  <a href="https://www.pepy.tech/projects/PyXplore">Download Statistics</a>
+</p>
 
 ---
 
 ## Overview
 
-**Bgolearn** is a lightweight and extensible Python package for **Bayesian global optimization**, developed to accelerate **materials discovery and design**.
-It provides out-of-the-box support for regression and classification tasks, integrates multiple acquisition strategies, and enables seamless workflows for **virtual screening**, **active learning**, and **multi-objective optimization**.
+**PyWPEM** is a modular Python framework for **X-ray diffraction (XRD) simulation, decomposition, quantitative analysis, and AI-assisted structure refinement**.
 
-> **Official PyPI:** [`pip install Bgolearn`](https://pypi.org/project/Bgolearn/)
-> **Video Tutorial:** [Watch on BiliBili](https://www.bilibili.com/video/BV1LTtLeaEZp)
-> **Jupyter Demo:** [Run it Online](https://bgolearn.netlify.app/)
+It integrates:
 
----
+* Physics-based diffraction modeling
+* EM-based Bragg optimization
+* Structure graph construction
+* Extinction and Wyckoff analysis
+* Amorphous phase quantification
+* AI-driven structural refinement
 
-## Download Statistics
-
-* [Bgolearn](https://pepy.tech/projects/Bgolearn?timeRange=threeMonths&category=version)
-* [BgoKit](https://pepy.tech/projects/BgoKit?timeRange=threeMonths&category=version)
-* [MultiBgolearn](https://pepy.tech/projects/multibgolearn?timeRange=threeMonths&category=version)
+The toolkit is designed for reproducible scientific workflows in materials characterization and AI for Science research.
 
 ---
 
 ## Key Features
 
-### One-Line Installation
+* **XRD Simulation**
+  Accurate diffraction pattern generation from crystallographic information.
 
-```bash
-pip install Bgolearn
-```
+* **Peak Decomposition & Quantitative Analysis**
+  WPEM-based decomposition and volume fraction determination.
 
-### Update to the Latest Version
+* **Bragg Law Optimization (EM Framework)**
+  Expectation-Maximization-based parameter solving.
 
-```bash
-pip install --upgrade Bgolearn
-```
+* **Extinction & Wyckoff Handling**
+  Symmetry-aware preprocessing and structural filtering.
 
-### Quick Version Check
+* **Graph-Based Structure Representation**
+  Crystal graph construction for downstream machine learning tasks.
 
-```bash
-pip show Bgolearn
-```
+* **Amorphous Structure Analysis**
+  RDF-based quantitative evaluation.
 
-Detailed tutorials and documentation are available at: [https://bgolearn.netlify.app/](https://bgolearn.netlify.app/)
-
+* **Multi-modal Extension**
+  Integrated modules for XAS and XPS analysis.
 
 ---
 
-## Citation
+## Architecture Overview
 
-If you use **Bgolearn** in your research, please cite:
-
+```text
+PyWPEM/
+├── WPEM.py
+├── XRDSimulation/
+├── EMBraggOpt/
+├── Refinement/
+├── StructureOpt/
+├── GraphStructure/
+├── Extinction/
+├── Amorphous/
+├── Background/
+├── Plot/
+├── DecomposePlot/
+├── WPEMXAS/
+├── WPEMXPS/
+└── refs/
 ```
-@article{cao2026bgolearn,
-  title        = {Bgolearn: a Unified Bayesian Optimization Framework for Accelerating Materials Discovery},
-  author       = {Cao, Bin and Xiong, Jie and Ma, Jiaxuan and Tian, Yuan and Hu, Yirui and He, Mengwei and Zhang, Longhan and Wang, Jiayu and Hui, Jian and Liu, Li and Xue, Dezhen and Lookman, Turab and Zhang, Tong-Yi},
-  journal      = {arXiv preprint arXiv:2601.06820},
-  year         = {2026},
-  eprint       = {2601.06820},
-  archivePrefix= {arXiv},
-  primaryClass = {cond-mat.mtrl-sci},
-  doi          = {https://doi.org/10.48550/arXiv.2601.06820},
-  note         = {38 pages, 5 figures}
+
+The design follows a **physics-consistent, modular architecture**, enabling independent or pipeline-based execution.
+
+---
+
+## Tables & Figures
+
+<p align="center">
+  <img width="800" src="https://github.com/user-attachments/assets/da5bd320-3651-4223-b862-06fb5ce1f96a" />
+</p>
+
+<p align="center">
+  <img width="800" src="https://github.com/user-attachments/assets/50b1aacc-6a4f-4b58-95fb-a4094da60055" />
+</p>
+
+---
+
+## Scientific Reference
+
+If you use **PyWPEM** in your research, please cite:
+
+```bibtex
+@article{cao2026wpem,
+  title={AI-Driven Structure Refinement of X-ray Diffraction},
+  author={Bin Cao, Qian Zhang, Zhenjie Feng, Taolue Zhang, Jiaqiang Huang, Lu-Tao Weng, Tong-Yi Zhang},
+  journal={arXiv preprint},
+  year={2026},
+  url={https://arxiv.org/abs/2602.16372v1}
 }
 ```
----
-
-## Star History
-
-
-<p align="center">
-  <a href="https://github.com/Bin-Cao/Bgolearn/stargazers">
-    <img src="https://img.shields.io/github/stars/Bin-Cao/Bgolearn?color=gold&style=for-the-badge" />
-  </a>
-  <a href="https://github.com/Bin-Cao/Bgolearn/network/members">
-    <img src="https://img.shields.io/github/forks/Bin-Cao/Bgolearn?color=teal&style=for-the-badge" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://star-history.com/#Bin-Cao/Bgolearn&Date">
-    <img src="https://api.star-history.com/svg?repos=Bin-Cao/Bgolearn&type=Date" width="620" alt="Star History Chart"/>
-  </a>
-</p>
 
 ---
 
-## License
+## Maintainer
 
-Released under the [MIT License](https://opensource.org/licenses/MIT).
-Free for academic and commercial use. Please cite relevant publications when used in research.
+<table>
+  <tr>
+    <td width="150" align="center">
+      <img src="https://github.com/user-attachments/assets/7e77bd5a-42d6-45db-b8e6-2c82cac81b9d" width="130" style="border-radius: 50%;" />
+    </td>
+    <td>
+      <strong>Bin Cao</strong><br>
+      PhD Candidate<br>
+      Hong Kong University of Science and Technology (Guangzhou)<br><br>
+      Research Area: AI for Science · Intelligent Crystal Structure Analysis<br><br>
+      Email: <a href="mailto:bcao686@connect.hkust-gz.edu.cn">bcao686@connect.hkust-gz.edu.cn</a><br>
+      Homepage: <a href="https://www.caobin.asia/">https://www.caobin.asia/</a>
+    </td>
+  </tr>
+</table>
+
+Supervised by Professor Tong-Yi Zhang.
 
 ---
 
 ## Contributing
 
-We welcome community contributions and collaborations:
+We welcome contributions from the community.
 
-* Submit issues for bug reports, ideas, or feature suggestions
-* Submit pull requests for code improvements
-* Contact **Bin Cao** ([bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn)) for research collaboration opportunities
+* Report bugs via Issues
+* Propose features
+* Submit pull requests
+* Contact for academic collaboration
+
+Please ensure code readability, documentation clarity, and scientific correctness before submission.
 
 ---
 
+## License
+
+This project is released under the MIT License.
+
+Free for academic and commercial use.
+Please cite related publications when used in scientific research.
+
+---
 
 ## Contributors
 
-[![Contributors](https://contrib.rocks/image?repo=Bin-Cao/Bgolearn&v=6)](https://github.com/Bin-Cao/Bgolearn/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=Bin-Cao/PyWPEM\&v=6)](https://github.com/Bin-Cao/PyWPEM/graphs/contributors)
+
 
 
