@@ -1,4 +1,3 @@
-# Bgolearn
 
 ## Documentation
 * Paper: [https://arxiv.org/pdf/2601.06820](https://arxiv.org/pdf/2601.06820)
