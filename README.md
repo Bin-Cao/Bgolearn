@@ -16,7 +16,7 @@ The framework provides a structured implementation of Gaussian Process Regressio
 ---
 
 <p align="center">
-<img width="400" height="650" src="https://github.com/user-attachments/assets/c52b1645-f971-4597-8f85-7012c9f5168e" />
+<img width="500" height="650" src="https://github.com/user-attachments/assets/c52b1645-f971-4597-8f85-7012c9f5168e" />
 </p>
 
 ---
