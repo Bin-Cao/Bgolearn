@@ -1,119 +1,89 @@
 
-# Bgolearn
+## Documentation
+* Paper: [https://arxiv.org/pdf/2601.06820](https://arxiv.org/pdf/2601.06820)
+* English Manual: [https://bgolearn.netlify.app/](https://bgolearn.netlify.app/)
+* 中文手册: [https://bgolearn-chi.netlify.app/](https://bgolearn-chi.netlify.app/)
 
-**Bgolearn** is a unified Python framework for Bayesian Global Optimization (BGO) designed to accelerate data-efficient discovery in materials science and related scientific domains.
-
-The library provides a structured and extensible implementation of surrogate modeling, acquisition strategies, and uncertainty quantification, enabling principled optimization of expensive black-box functions under limited evaluation budgets.
 
 ---
 
-## Overview
+# Bgolearn
 
-Bayesian global optimization has become a fundamental methodology for scientific discovery tasks where experimental or computational evaluations are costly. Bgolearn aims to standardize and simplify the implementation of such workflows by integrating:
+**Bgolearn** is a unified Bayesian Global Optimization framework for data-efficient scientific discovery, with a particular focus on materials informatics and experimental design.
 
-* surrogate modeling
-* acquisition function design
-* uncertainty estimation
-* candidate recommendation
-* iterative active learning loops
+The framework provides a structured implementation of Gaussian Process Regression together with uncertainty-aware acquisition strategies, enabling adaptive sampling under limited experimental or computational budgets. Bgolearn is designed to support reproducible, closed-loop optimization workflows in AI-driven scientific research.
 
-The framework emphasizes reproducibility, modularity, and compatibility with scientific computing environments.
+---
+
+<p align="center">
+<img width="400" height="650" src="https://github.com/user-attachments/assets/c52b1645-f971-4597-8f85-7012c9f5168e" />
+</p>
 
 ---
 
 ## Core Capabilities
 
-### 1. Surrogate Modeling
+### Data-Efficient Optimization
 
-Bgolearn supports multiple regression models for approximating unknown objective functions, including:
+Bgolearn is tailored for small-data scientific scenarios where each evaluation is costly. It integrates:
 
-* Gaussian Process regression
-* Random Forest regression
-* Gradient boosting models
-* Bootstrap-based ensemble estimators
+* Gaussian Process surrogate modeling
+* Principled uncertainty quantification
+* Acquisition strategies balancing exploration and exploitation
 
-These models enable predictive mean estimation together with uncertainty quantification.
-
-### 2. Acquisition Functions
-
-The framework provides commonly used acquisition strategies for balancing exploration and exploitation:
-
-* Expected Improvement (EI)
-* Upper Confidence Bound (UCB)
-* Probability of Improvement (PI)
-
-Users may extend the acquisition interface to incorporate customized strategies.
-
-### 3. Uncertainty Quantification
-
-For non-Gaussian surrogate models, Bgolearn incorporates bootstrap-based uncertainty estimation, enabling principled decision-making beyond GP-based approaches.
-
-### 4. Single- and Multi-Objective Optimization
-
-The framework supports single-objective optimization and can be extended to multi-objective scenarios through companion implementations.
+This design enables rapid convergence while minimizing experimental or simulation cost.
 
 ---
 
-## Installation
+### Single-Objective Optimization
 
-```bash
-pip install Bgolearn
-```
+For intensity-driven or performance-maximization tasks, Bgolearn supports standard and robust acquisition functions, including:
 
----
+* Expected Improvement
+* Upper Confidence Bound
+* Probability of Improvement
 
-## Minimal Example
-
-```python
-from Bgolearn.BGOsampling import Bgolearn
-
-# Training data
-X_train, y_train = ...
-X_virtual = ...
-
-# Initialize and fit
-bgo = Bgolearn()
-model = bgo.fit(
-    data_matrix=X_train,
-    Measured_response=y_train,
-    virtual_samples=X_virtual
-)
-
-# Acquisition step
-score, recommendation = model.UCB()
-
-print(recommendation)
-```
-
-For detailed API usage and workflow examples, refer to the project documentation.
+These strategies ensure stable and reproducible optimization in high-cost experimental settings.
 
 ---
 
-## Scientific Reference
+### Multi-Objective Optimization
+
+Bgolearn extends naturally to multi-objective scenarios, providing:
+
+* Simultaneous optimization of competing objectives
+* Pareto front exploration
+* Uncertainty-aware trade-off analysis
+
+This capability is particularly suitable for structure–property co-optimization and materials design problems involving conflicting targets.
+
+---
+
+### Scientific Workflow Integration
+
+The framework is designed for AI for Science applications, including:
+
+* Crystal property prediction
+* Experimental parameter optimization
+* Structure–performance modeling
+* Closed-loop experimental design
+
+Its modular architecture facilitates integration with domain-specific feature engineering and physics-informed descriptors.
+
+---
+
+## Citation
 
 If Bgolearn contributes to your research, please cite:
 
 ```bibtex
 @article{cao2026bgolearn,
-  title        = {Bgolearn: A Unified Bayesian Optimization Framework for Accelerating Materials Discovery},
-  author       = {Cao, Bin and Xiong, Jie and Ma, Jiaxuan and et al.},
-  journal      = {arXiv preprint},
-  year         = {2026},
-  url          = {https://arxiv.org/abs/2601.06820}
+  title={Bgolearn: A Unified Bayesian Optimization Framework for Accelerating Materials Discovery},
+  author={Cao, Bin and Xiong, Jie and Ma, Jiaxuan and Tian, Yuan and Hu, Yirui and He, Mengwei and Zhang, Longhan and Wang, Jiayu and Hui, Jian and Liu, Li and others},
+  journal={arXiv preprint arXiv:2601.06820},
+  year={2026}
 }
 ```
-
----
-
-## Design Principles
-
-Bgolearn is developed according to the following principles:
-
-* Methodological transparency
-* Reproducibility of optimization workflows
-* Modular architecture for extensibility
-* Compatibility with scientific Python ecosystems
-* Clear separation between modeling, acquisition, and evaluation layers
 
 ---
 
@@ -123,10 +93,7 @@ Released under the MIT License.
 
 ---
 
-## Maintainer
+## Contributors
 
-Bin Cao
-PhD Candidate
-Hong Kong University of Science and Technology (Guangzhou)
-Email: [bcao686@connect.hkust-gz.edu.cn](mailto:bcao686@connect.hkust-gz.edu.cn)
+[![Contributors](https://contrib.rocks/image?repo=Bin-Cao/Bgolearn)](https://github.com/Bin-Cao/Bgolearn/graphs/contributors)
 
