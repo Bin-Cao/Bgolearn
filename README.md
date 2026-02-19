@@ -80,9 +80,6 @@ pip install --upgrade Bgolearn
 pip show Bgolearn
 ```
 
-Detailed tutorials and documentation are available at: [https://bgolearn.netlify.app/](https://bgolearn.netlify.app/)
-
-
 ---
 
 ## Citation
