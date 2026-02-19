@@ -1,3 +1,4 @@
+# Bgolearn
 
 ## Documentation
 * Paper: [https://arxiv.org/pdf/2601.06820](https://arxiv.org/pdf/2601.06820)
@@ -7,7 +8,7 @@
 
 ---
 
-# Bgolearn
+
 
 **Bgolearn** is a unified Bayesian Global Optimization framework for data-efficient scientific discovery, with a particular focus on materials informatics and experimental design.
 
