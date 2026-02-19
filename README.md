@@ -30,7 +30,12 @@ The Bgolearn project has received support from the *Shanghai Artificial Intellig
 
 
 ### [Bgolearn: a Unified Bayesian Optimization Framework for Accelerating Materials Discovery](https://arxiv.org/abs/2601.06820)
-<img width="600"  alt="workflow" src="https://github.com/user-attachments/assets/fd8ff5a6-d3c5-4727-a88a-0dbdddda1dba" />
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/fd8ff5a6-d3c5-4727-a88a-0dbdddda1dba" 
+       width="600" 
+       alt="workflow"/>
+</p>
 
 
 
