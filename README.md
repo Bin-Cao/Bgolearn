@@ -59,19 +59,6 @@ This capability is particularly suitable for structure–property co-optimizatio
 
 ---
 
-### Scientific Workflow Integration
-
-The framework is designed for AI for Science applications, including:
-
-* Crystal property prediction
-* Experimental parameter optimization
-* Structure–performance modeling
-* Closed-loop experimental design
-
-Its modular architecture facilitates integration with domain-specific feature engineering and physics-informed descriptors.
-
----
-
 ## Citation
 
 If Bgolearn contributes to your research, please cite:
