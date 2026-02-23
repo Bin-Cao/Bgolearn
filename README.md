@@ -45,11 +45,11 @@ Bgolearn emphasizes reproducibility, extensibility, and research-grade rigor, ma
 
 ---
 
-## Workflow
+## Framework
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/fd8ff5a6-d3c5-4727-a88a-0dbdddda1dba"
-       width="680"
+       width="480"
        alt="Bgolearn workflow"/>
 </p>
 
