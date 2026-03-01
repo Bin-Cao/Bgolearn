@@ -98,7 +98,7 @@ If you use Bgolearn in your research, please cite:
 
 ## Funding
 
-Bgolearn is selected for the [Open-Source Artificial Intelligence Support Program (2025)](https://www.sheitc.sh.gov.cn/cyfz/20250728/e571042d40384fcf859a347eb99e10df.html) by the Shanghai Municipal Commission of Economy and Informatization 
+**Bgolearn** is selected for the [Open-Source Artificial Intelligence Support Program (2025)](https://www.sheitc.sh.gov.cn/cyfz/20250728/e571042d40384fcf859a347eb99e10df.html) by the **Shanghai Municipal Commission of Economy and Informatization (上海市经信委).**
 
 Project material:
 [https://github.com/Bin-Cao/Bgolearn/blob/main/figures/funding.png](https://github.com/Bin-Cao/Bgolearn/blob/main/figures/funding.png)
