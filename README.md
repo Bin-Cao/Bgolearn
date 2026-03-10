@@ -70,8 +70,6 @@ Bgolearn emphasizes reproducibility, extensibility, and research-grade rigor, ma
 
 
 This will start the Bgolearn user interface.
-
-
 ```
 
 
