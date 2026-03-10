@@ -79,6 +79,10 @@ python bgolearn_ui.py
 
 This will start the Bgolearn user interface.
 
+```bash
+http://127.0.0.1:8787
+```
+
 ---
 
 
