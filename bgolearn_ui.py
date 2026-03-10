@@ -552,6 +552,7 @@ def render_page(
           <span class="chip">Works with the code in <code class="inline">src/Bgolearn</code></span>
           <span class="chip">Regression and classification</span>
           <span class="chip">CSV in, CSV out</span>
+          <a class="link-btn" href="https://bin-cao.github.io/" target="_blank" rel="noopener noreferrer">Created by Bin Cao</a>
         </div>
       </div>
       <div class="card hero-side">
