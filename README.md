@@ -57,7 +57,8 @@ Bgolearn emphasizes reproducibility, extensibility, and research-grade rigor, ma
 
 ## Run the Interface
 
-<img width="1319" height="509" alt="Screenshot 2026-03-10 at 19 31 15" src="https://github.com/user-attachments/assets/e4586f13-0bfa-463d-aae1-f308af0dadc4" />
+
+<img width="1316" height="505" alt="Screenshot 2026-03-10 at 19 42 51" src="https://github.com/user-attachments/assets/25601b30-19d4-40e4-b2a7-c566dfba64c9" />
 
 
 1. Open the terminal.
