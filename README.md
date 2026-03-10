@@ -58,27 +58,18 @@ Bgolearn emphasizes reproducibility, extensibility, and research-grade rigor, ma
 ## Run the Interface
 
 ```
-
-
-
 1. Open the terminal.
 
 2. Clone the repository:
 
-```bash
-git clone https://github.com/Bin-Cao/Bgolearn.git
-````
+  git clone https://github.com/Bin-Cao/Bgolearn.git
 
 3. Launch the UI:
 
-```bash
-python bgolearn_ui.py
-```
+  python bgolearn_ui.py
+
 
 This will start the Bgolearn user interface.
-
-
-
 
 
 ```
