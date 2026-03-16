@@ -162,9 +162,9 @@ Project material:
 
 ---
 
-## License
+## Contributors
 
-Released under the MIT License.
-Free for academic and commercial use.
-
+<a href="https://github.com/Bin-Cao/Bgolearn/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Bin-Cao/Bgolearn" />
+</a>
 
