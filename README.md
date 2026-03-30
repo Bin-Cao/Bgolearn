@@ -4,17 +4,54 @@
 ### A Unified Bayesian Optimization Framework for Accelerating Materials Discovery
 
 <p align="center">
-  <a href="https://pypi.org/project/bgolearn/">
-    <img src="https://img.shields.io/pypi/v/bgolearn.svg" />
+
+  <!-- ===== Links ===== -->
+  <a href="https://doi.org/10.48550/arXiv.2601.06820">
+    <img src="https://img.shields.io/badge/arXiv-Paper-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white" />
   </a>
-  <a href="https://pepy.tech/projects/bgolearn">
-    <img src="https://static.pepy.tech/personalized-badge/bgolearn?period=total&units=international_system&left_color=black&right_color=green&left_text=downloads" />
+
+  <a href="https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167">
+    <img src="https://img.shields.io/badge/Conference-Report-6A5ACD?style=for-the-badge" />
   </a>
-  <a href="https://github.com/Bin-Cao/Bgolearn/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-black.svg" />
+
+  <a href="https://bgolearn.netlify.app/">
+    <img src="https://img.shields.io/badge/Docs-Documentation-1E90FF?style=for-the-badge&logo=readthedocs&logoColor=white" />
   </a>
+
+  <a href="https://bgolearn-chi.netlify.app/">
+    <img src="https://img.shields.io/badge/Docs-中文手册-008080?style=for-the-badge" />
+  </a>
+
+  <a href="https://www.bilibili.com/video/BV1LTtLeaEZp">
+    <img src="https://img.shields.io/badge/Bilibili-Video-FF69B4?style=for-the-badge" />
+  </a>
+
 </p>
 
+<p align="center">
+
+  <!-- ===== Package / Stats ===== -->
+  <a href="https://pypi.org/project/bgolearn/">
+    <img src="https://img.shields.io/pypi/v/bgolearn?style=for-the-badge&logo=pypi" />
+  </a>
+
+  <a href="https://pepy.tech/projects/bgolearn">
+    <img src="https://img.shields.io/badge/Downloads-Total-4CAF50?style=for-the-badge" />
+  </a>
+
+  <a href="https://github.com/Bin-Cao/Bgolearn">
+    <img src="https://img.shields.io/github/stars/Bin-Cao/Bgolearn?style=for-the-badge&logo=github" />
+  </a>
+
+  <a href="https://github.com/Bin-Cao/Bgolearn/issues">
+    <img src="https://img.shields.io/github/issues/Bin-Cao/Bgolearn?style=for-the-badge&logo=github" />
+  </a>
+
+  <a href="https://github.com/Bin-Cao/Bgolearn/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/Bin-Cao/Bgolearn?style=for-the-badge" />
+  </a>
+
+</p>
 ---
 
 ## About
@@ -31,17 +68,8 @@ The framework provides:
 
 Bgolearn emphasizes reproducibility, extensibility, and research-grade rigor, making it suitable for both academic research and industrial applications.
 
----
 
-## Paper and Resources
 
-**Bgolearn: a Unified Bayesian Optimization Framework for Accelerating Materials Discovery**
-
-* Paper: [https://doi.org/10.48550/arXiv.2601.06820](https://doi.org/10.48550/arXiv.2601.06820)
-* Conference Report: [https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167](https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167)
-* Documentation: [https://bgolearn.netlify.app/](https://bgolearn.netlify.app/)
-* 中文手册: [https://bgolearn-chi.netlify.app/](https://bgolearn-chi.netlify.app/)
-* Video Tutorial: [https://www.bilibili.com/video/BV1LTtLeaEZp](https://www.bilibili.com/video/BV1LTtLeaEZp)
 
 ---
 
