@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/badge/arXiv-Paper-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white" />
   </a>
 
-  <a href="https://cmc2025.scimeeting.cn/cn/web/speaker-detail/27167">
+  <a href="https://cmc2025.scimeeting.cn/cn/web/xue-shu-xin/27167?abstract_id=3726842">
     <img src="https://img.shields.io/badge/Conference-Report-6A5ACD?style=for-the-badge" />
   </a>
 
