@@ -61,6 +61,15 @@
 </p>
 
 
+
+
+> [!TIP]
+> **Bgolearn is among the first unified Bayesian optimization frameworks purpose-built for the materials science community.**  
+> While most Bayesian optimization libraries were originally developed for generic machine learning or black-box optimization, Bgolearn systematically bridges Bayesian optimization, active learning, and materials discovery within a lightweight yet extensible framework. It integrates single-objective and multi-objective optimization, uncertainty-aware surrogate modeling, acquisition-driven experiment recommendation, and automated virtual screening into a unified workflow tailored for real-world materials design. By dramatically reducing experimental search costs while maintaining high discovery efficiency, Bgolearn represents an important step toward fully autonomous, AI-driven materials optimization and closed-loop scientific discovery.  
+
+
+
+
 ## About
 
 **Bgolearn** is a research-oriented Python framework for **Bayesian Global Optimization (BGO)**, developed to accelerate data-driven materials discovery and scientific design.
