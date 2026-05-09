@@ -138,28 +138,6 @@ pip show Bgolearn
 
 ---
 
-## 联系方式
-
-<table>
-  <tr>
-    <td width="160" align="center" valign="top">
-      <img src="https://github.com/user-attachments/assets/7e77bd5a-42d6-45db-b8e6-2c82cac81b9d"
-           width="140"
-           style="border-radius: 50%;" />
-    </td>
-    <td valign="top">
-      <b>Bin Cao</b><br>
-      博士研究生<br>
-      香港科技大学（广州）<br>
-      导师：张统一 教授<br><br>
-      Email: <a href="mailto:bcao686@connect.hkust-gz.edu.cn">bcao686@connect.hkust-gz.edu.cn</a><br>
-      主页: <a href="https://bin-cao.github.io/">https://bin-cao.github.io/</a>
-    </td>
-  </tr>
-</table>
-
----
-
 ## 许可证
 
 基于 MIT License 发布。
