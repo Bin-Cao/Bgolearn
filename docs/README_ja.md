@@ -138,27 +138,7 @@ Bgolearnを研究で使用する場合は、以下を引用してください：
 
 ---
 
-## 連絡先
 
-<table>
-  <tr>
-    <td width="160" align="center" valign="top">
-      <img src="https://github.com/user-attachments/assets/7e77bd5a-42d6-45db-b8e6-2c82cac81b9d"
-           width="140"
-           style="border-radius: 50%;" />
-    </td>
-    <td valign="top">
-      <b>Bin Cao</b><br>
-      博士課程学生<br>
-      香港科技大学（広州）<br>
-      指導教員：張統一 教授<br><br>
-      Email: <a href="mailto:bcao686@connect.hkust-gz.edu.cn">bcao686@connect.hkust-gz.edu.cn</a><br>
-      ホームページ: <a href="https://bin-cao.github.io/">https://bin-cao.github.io/</a>
-    </td>
-  </tr>
-</table>
-
----
 
 ## ライセンス
 
