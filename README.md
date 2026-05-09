@@ -182,27 +182,6 @@ If you use Bgolearn in your research, please cite:
 Project material:
 [https://github.com/Bin-Cao/Bgolearn/blob/main/figures/funding.png](https://github.com/Bin-Cao/Bgolearn/blob/main/figures/funding.png)
 
----
-
-## Contact
-
-<table>
-  <tr>
-    <td width="160" align="center" valign="top">
-      <img src="https://github.com/user-attachments/assets/7e77bd5a-42d6-45db-b8e6-2c82cac81b9d"
-           width="140"
-           style="border-radius: 50%;" />
-    </td>
-    <td valign="top">
-      <b>Bin Cao</b><br>
-      PhD Candidate<br>
-      Hong Kong University of Science and Technology (Guangzhou)<br>
-      Supervisor: Prof. Zhang Tong-Yi<br><br>
-      Email: <a href="mailto:bcao686@connect.hkust-gz.edu.cn">bcao686@connect.hkust-gz.edu.cn</a><br>
-      Homepage: <a href="https://bin-cao.github.io/">https://bin-cao.github.io/</a>
-    </td>
-  </tr>
-</table>
 
 ---
 
