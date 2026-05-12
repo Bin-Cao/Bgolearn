@@ -1,14 +1,47 @@
 
+<h1 align="center">Bgolearn</h1>
+
+
+<p align="center">
+  Bgolearn is among the first unified Bayesian optimization frameworks purpose-built for the materials science community.
+</p>
+
+<p align="center">
+  <a href="https://github.com/Bin-Cao/Bgolearn/stargazers">
+    <img src="https://img.shields.io/github/stars/Bin-Cao/Bgolearn?style=social" alt="GitHub Stars">
+  </a>
+
+  <a href="https://github.com/Bin-Cao/Bgolearn/network/members">
+    <img src="https://img.shields.io/github/forks/Bin-Cao/Bgolearn?style=social" alt="GitHub Forks">
+  </a>
+
+  <a href="https://github.com/Bin-Cao/Bgolearn/issues">
+    <img src="https://img.shields.io/github/issues/Bin-Cao/Bgolearn" alt="Open Issues">
+  </a>
+
+  <a href="https://github.com/Bin-Cao/Bgolearn/issues?q=is%3Aissue+is%3Aclosed">
+    <img src="https://img.shields.io/github/issues-closed/Bin-Cao/Bgolearn" alt="Closed Issues">
+  </a>
+
+  <a href="https://github.com/Bin-Cao/Bgolearn/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/Bin-Cao/Bgolearn" alt="License">
+  </a>
+
+  <a href="https://pypi.org/project/bgolearn/">
+    <img src="https://img.shields.io/pypi/v/bgolearn" alt="PyPI">
+  </a>
+</p>
+
+
+
+
+
 <p align="center">
   <strong>Language:</strong>
   <a href="README.md">English</a> | <a href="docs/README_zh.md">简体中文</a> | <a href="docs/README_ja.md">日本語</a>
 </p>
 
 
-
-# Bgolearn
-
-### A Unified Bayesian Optimization Framework for Accelerating Materials Discovery
 
 <p align="center">
 
