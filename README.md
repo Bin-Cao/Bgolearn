@@ -19,10 +19,7 @@
     <img src="https://img.shields.io/github/issues/Bin-Cao/Bgolearn" alt="Open Issues">
   </a>
 
-  <a href="https://github.com/Bin-Cao/Bgolearn/issues?q=is%3Aissue+is%3Aclosed">
-    <img src="https://img.shields.io/github/issues-closed/Bin-Cao/Bgolearn" alt="Closed Issues">
-  </a>
-
+  
   <a href="https://github.com/Bin-Cao/Bgolearn/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/Bin-Cao/Bgolearn" alt="License">
   </a>
