@@ -21,6 +21,11 @@
   <a href="README_de.md">Deutsch</a>
 </p>
 
+<p align="center">
+  <strong>Playground 互动乐园：</strong>
+  <a href="https://bin-cao.github.io/Bgolearn/">贝叶斯优化互动游戏</a>
+</p>
+
 ---
 
 ## 项目概览
@@ -43,7 +48,6 @@ Bgolearn 将代理模型、不确定性评估、采集函数、主动学习与�
 | --- | --- |
 | 论文 | [npj Computational Materials](https://doi.org/10.1038/s41524-026-02226-3) |
 | 手册 | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
-| Playground 互动乐园 | [贝叶斯优化互动游戏](https://bin-cao.github.io/Bgolearn/) |
 | 视频教程 | [Bilibili](https://www.bilibili.com/video/BV1LTtLeaEZp) |
 | 会议报告 | [CMC 2025](https://cmc2025.scimeeting.cn/cn/web/xue-shu-xin/27167?abstract_id=3726842) |
 | 多目标模块 | [MultiBgolearn](https://github.com/Bin-Cao/MultiBgolearn) |

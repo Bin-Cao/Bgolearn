@@ -21,6 +21,11 @@
   <a href="README_de.md">Deutsch</a>
 </p>
 
+<p align="center">
+  <strong>Playground:</strong>
+  <a href="https://bin-cao.github.io/Bgolearn/">베이지안 최적화 인터랙티브 게임</a>
+</p>
+
 ---
 
 ## 개요
@@ -43,7 +48,6 @@
 | --- | --- |
 | 논문 | [npj Computational Materials](https://doi.org/10.1038/s41524-026-02226-3) |
 | 매뉴얼 | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
-| Playground | [베이지안 최적화 인터랙티브 게임](https://bin-cao.github.io/Bgolearn/) |
 | 동영상 튜토리얼 | [Bilibili](https://www.bilibili.com/video/BV1LTtLeaEZp) |
 | 학회 발표 | [CMC 2025](https://cmc2025.scimeeting.cn/cn/web/xue-shu-xin/27167?abstract_id=3726842) |
 | 다목적 모듈 | [MultiBgolearn](https://github.com/Bin-Cao/MultiBgolearn) |
