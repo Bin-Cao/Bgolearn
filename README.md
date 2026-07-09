@@ -42,8 +42,7 @@ The framework brings surrogate modeling, uncertainty-aware acquisition, active l
 | Resource | Link |
 | --- | --- |
 | Paper | [npj Computational Materials](https://doi.org/10.1038/s41524-026-02226-3) |
-| Documentation | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
-| Chinese manual | [bgolearn-chi.netlify.app](https://bgolearn-chi.netlify.app/) |
+| Manual | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
 | Video tutorial | [Bilibili](https://www.bilibili.com/video/BV1LTtLeaEZp) |
 | Conference report | [CMC 2025](https://cmc2025.scimeeting.cn/cn/web/xue-shu-xin/27167?abstract_id=3726842) |
 | Multi-object module | [MultiBgolearn](https://github.com/Bin-Cao/MultiBgolearn) |

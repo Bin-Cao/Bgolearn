@@ -42,8 +42,7 @@ Bgolearn 将代理模型、不确定性评估、采集函数、主动学习与�
 | 资源 | 链接 |
 | --- | --- |
 | 论文 | [npj Computational Materials](https://doi.org/10.1038/s41524-026-02226-3) |
-| 英文文档 | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
-| 中文手册 | [bgolearn-chi.netlify.app](https://bgolearn-chi.netlify.app/) |
+| 手册 | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
 | 视频教程 | [Bilibili](https://www.bilibili.com/video/BV1LTtLeaEZp) |
 | 会议报告 | [CMC 2025](https://cmc2025.scimeeting.cn/cn/web/xue-shu-xin/27167?abstract_id=3726842) |
 | 多目标模块 | [MultiBgolearn](https://github.com/Bin-Cao/MultiBgolearn) |

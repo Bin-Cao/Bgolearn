@@ -42,8 +42,7 @@
 | 리소스 | 링크 |
 | --- | --- |
 | 논문 | [npj Computational Materials](https://doi.org/10.1038/s41524-026-02226-3) |
-| 문서 | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
-| 중국어 매뉴얼 | [bgolearn-chi.netlify.app](https://bgolearn-chi.netlify.app/) |
+| 매뉴얼 | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
 | 동영상 튜토리얼 | [Bilibili](https://www.bilibili.com/video/BV1LTtLeaEZp) |
 | 학회 발표 | [CMC 2025](https://cmc2025.scimeeting.cn/cn/web/xue-shu-xin/27167?abstract_id=3726842) |
 | 다목적 모듈 | [MultiBgolearn](https://github.com/Bin-Cao/MultiBgolearn) |

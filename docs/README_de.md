@@ -42,8 +42,7 @@ Das Framework bündelt Surrogatmodellierung, Unsicherheitsbewertung, Akquisition
 | Ressource | Link |
 | --- | --- |
 | Paper | [npj Computational Materials](https://doi.org/10.1038/s41524-026-02226-3) |
-| Dokumentation | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
-| Chinesisches Handbuch | [bgolearn-chi.netlify.app](https://bgolearn-chi.netlify.app/) |
+| Handbuch | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
 | Video-Tutorial | [Bilibili](https://www.bilibili.com/video/BV1LTtLeaEZp) |
 | Konferenzbericht | [CMC 2025](https://cmc2025.scimeeting.cn/cn/web/xue-shu-xin/27167?abstract_id=3726842) |
 | Multi-Objective-Modul | [MultiBgolearn](https://github.com/Bin-Cao/MultiBgolearn) |
