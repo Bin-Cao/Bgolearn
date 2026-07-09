@@ -1,3 +1,13 @@
+"""Main public sampling interface for Bgolearn.
+
+This module defines the :class:`Bgolearn` workflow object, model-selection
+helpers, data preprocessing utilities, and importance-resampling support for
+Bayesian global optimization tasks.
+
+Author: Dr.Bin Cao (https://bin-cao.github.io/)
+Institution: Hong Kong University of Science and Technology (Guangzhou)
+"""
+
 # Standard library imports
 import copy
 import datetime
@@ -5,7 +15,6 @@ import inspect
 import os
 import time
 import warnings
-from typing import Any
 
 # Third-party imports
 import numpy as np
@@ -27,50 +36,71 @@ from .BgolearnFuns.BGOclf import Boundary
 from .BgolearnFuns.BGOmax import Global_max
 from .BgolearnFuns.BGOmin import Global_min
 
+
 class Bgolearn(object):
-    """
-    Bayesian Global Optimization Learning (Bgolearn) Class
+    """Bayesian Global Optimization Learning workflow.
 
-    A comprehensive machine learning framework for materials design and optimization
-    using Bayesian optimization principles. Supports both regression and classification
-    tasks with various machine learning models and cross-validation techniques.
+    This class configures and runs regression or classification workflows for
+    candidate screening. Regression returns a minimization or maximization BGO
+    model with acquisition functions; classification returns a boundary
+    exploration model.
 
-    Author: Bin CAO <binjacobcao@gmail.com>
+    Author: Dr.Bin Cao (https://bin-cao.github.io/)
     Institution: Hong Kong University of Science and Technology (Guangzhou)
 
     References:
-        - Bgolearn: A Unified Bayesian Optimization Framework for Accelerating Materials Discovery. https://doi.org/10.48550/arXiv.2601.06820 
+        @article{Cao2026Bgolearn,
+                    author    = {Bin Cao and Jie Xiong and Jiaxuan Ma and Yuan Tian and Yirui Hu and Mengwei He and Longhan Zhang and Jiayu Wang and Jian Hui and Li Liu and Dezhen Xue and Turab Lookman and Jun Wang and Tong-Yi Zhang},
+                    title     = {Bgolearn: a unified Bayesian optimization framework for accelerating materials discovery},
+                    journal   = {npj Computational Materials},
+                    year      = {2026},
+                    doi       = {10.1038/s41524-026-02226-3},
+                    issn      = {2057-3960},
+                    publisher = {Springer Nature},
+                    url       = {https://doi.org/10.1038/s41524-026-02226-3}
+                    }
     """
 
     def __init__(self) -> None:
-        """
-        Initialize the Bgolearn instance.
+        """Initialize the Bgolearn instance.
 
         Creates the output directory for results and displays package information
         including author details, citations, and execution timestamp.
         """
         # Create output directory for storing results
-        os.makedirs('Bgolearn', exist_ok=True)
+        os.makedirs("Bgolearn", exist_ok=True)
 
         # Display package information and branding
         now = datetime.datetime.now()
-        formatted_date_time = now.strftime('%Y-%m-%d %H:%M:%S')
+        formatted_date_time = now.strftime("%Y-%m-%d %H:%M:%S")
         print(text2art("Bgolearn"))
-        print("Author : Bin Cao")
-        print("Affiliation : Hong Kong University of Science and Technology (Guangzhou)")
-        print('URL : https://bgolearn.netlify.app/')
+        print("Author : Bin Cao (https://bin-cao.github.io/)")
+        print("URL : https://bgolearn.netlify.app")
         print("How to cite: ")
-        print("Cao B et al., Bgolearn: A Unified Bayesian Optimization Framework for Accelerating Materials Discovery.")
-        print("arXiv:2601.06820 (2026). https://doi.org/10.48550/arXiv.2601.06820")
-        print('Executed on :',formatted_date_time, ' | Have a great day.')
-        print('='*80)
+        print(
+            "Cao B et al., Bgolearn: A Unified Bayesian Optimization Framework for Accelerating Materials Discovery."
+        )
+        print("npj Computational Materials. https://doi.org/10.1038/s41524-026-02226-3")
+        print("Executed on :", formatted_date_time, " | Have a great day.")
+        print("=" * 80)
 
-
-    def fit(self,data_matrix, Measured_response, virtual_samples, Mission ='Regression', Classifier = 'GaussianProcess',noise_std = None,
-            Kriging_model = None, opt_num = 1 ,min_search = True, CV_test = False, Dynamic_W = False,seed=42,
-            Normalize = True,):
-        """
-        Fit the Bayesian Global Optimization model and recommend optimal candidates.
+    def fit(
+        self,
+        data_matrix,
+        Measured_response,
+        virtual_samples,
+        Mission="Regression",
+        Classifier="GaussianProcess",
+        noise_std=None,
+        Kriging_model=None,
+        opt_num=1,
+        min_search=True,
+        CV_test=False,
+        Dynamic_W=False,
+        seed=42,
+        Normalize=True,
+    ):
+        """Fit a Bayesian global optimization workflow.
 
         This method performs Bayesian optimization to identify the most promising candidates
         from a virtual sample space based on training data. It supports both regression and
@@ -90,7 +120,7 @@ class Bgolearn(object):
 
         Contact Information:
         ===================
-        Author: Bin CAO <binjacobcao@gmail.com>
+        Author: Dr.Bin Cao (https://bin-cao.github.io/)
         Institution: Hong Kong University of Science and Technology (Guangzhou)
         GitHub: https://github.com/Bin-Cao/Bgolearn
         Documentation: https://bgolearn.netlify.app/
@@ -208,11 +238,13 @@ class Bgolearn(object):
         Measured_response = preprocess_data(Measured_response)
 
         # Apply dynamic importance resampling if enabled
-        if Dynamic_W == False :
+        if Dynamic_W == False:
             pass  # Use original data without resampling
-        elif Dynamic_W == True :
+        elif Dynamic_W == True:
             # Resample training data based on response values to emphasize better samples
-            data_matrix, Measured_response = Resampling(data_matrix,Measured_response,min_search,seed )
+            data_matrix, Measured_response = Resampling(
+                data_matrix, Measured_response, min_search, seed
+            )
 
         # Store original virtual samples before normalization for output
         row_features = copy.deepcopy(virtual_samples)
@@ -223,30 +255,44 @@ class Bgolearn(object):
             scaler = MinMaxScaler()
             virtual_samples = scaler.fit_transform(virtual_samples)
             data_matrix = scaler.transform(data_matrix)
-        else:pass
+        else:
+            pass
 
         # Generate timestamp for output file naming
         timename = time.localtime(time.time())
-        namey, nameM, named, nameh, namem = timename.tm_year, timename.tm_mon, timename.tm_mday, timename.tm_hour, timename.tm_min
+        namey, nameM, named, nameh, namem = (
+            timename.tm_year,
+            timename.tm_mon,
+            timename.tm_mday,
+            timename.tm_hour,
+            timename.tm_min,
+        )
 
         # Suppress sklearn warnings for cleaner output
-        warnings.filterwarnings('ignore')
+        warnings.filterwarnings("ignore")
 
         # Handle classification tasks
-        if Mission == 'Classification':
+        if Mission == "Classification":
             if type(Classifier) == str:
                 # Use predefined classifier from string identifier
                 model = Classifier_selection(Classifier)
                 print(model)
-                BGOmodel = Boundary(model,data_matrix, Measured_response, row_features, opt_num, virtual_samples)
+                BGOmodel = Boundary(
+                    model,
+                    data_matrix,
+                    Measured_response,
+                    row_features,
+                    opt_num,
+                    virtual_samples,
+                )
                 return BGOmodel
             else:
                 # Display error message for invalid classifier type
-                print('Type Error! Classifier should be one of the following:')
-                print('GaussianProcess; LogisticRegression;NaiveBayes;SVM;RandomForest')
+                print("Type Error! Classifier should be one of the following:")
+                print("GaussianProcess; LogisticRegression;NaiveBayes;SVM;RandomForest")
 
         # Handle regression tasks
-        elif Mission == 'Regression':
+        elif Mission == "Regression":
 
             # Configure Kriging model based on user input
             if Kriging_model == None:
@@ -256,30 +302,53 @@ class Bgolearn(object):
                 if noise_std == None:
                     # Automatic noise estimation via maximum likelihood
                     class Kriging_model(object):
-                        def fit_pre(self,xtrain,ytrain,xtest,):
+                        def fit_pre(
+                            self,
+                            xtrain,
+                            ytrain,
+                            xtest,
+                        ):
                             # Estimate optimal noise level using WhiteKernel
-                            noise_ker = WhiteKernel(noise_level_bounds=(0.001,0.5))
-                            GPr = GaussianProcessRegressor(kernel= 1 * RBF()+noise_ker,normalize_y=True).fit(xtrain,ytrain)
+                            noise_ker = WhiteKernel(noise_level_bounds=(0.001, 0.5))
+                            GPr = GaussianProcessRegressor(
+                                kernel=1 * RBF() + noise_ker, normalize_y=True
+                            ).fit(xtrain, ytrain)
                             noise_level = np.exp(GPr.kernel_.theta[1])
 
                             # Create final model with estimated noise level
-                            mdoel = GaussianProcessRegressor(kernel=kernel,normalize_y=True,alpha = noise_level).fit(xtrain,ytrain)
+                            mdoel = GaussianProcessRegressor(
+                                kernel=kernel, normalize_y=True, alpha=noise_level
+                            ).fit(xtrain, ytrain)
                             # Generate predictions with uncertainty estimates
-                            mean,std = mdoel.predict(xtest,return_std=True)
-                            return mean,std
-                    print('The internal model is instantiated with optimized homogenous noise')
+                            mean, std = mdoel.predict(xtest, return_std=True)
+                            return mean, std
+
+                    print(
+                        "The internal model is instantiated with optimized homogenous noise"
+                    )
 
                 elif type(noise_std) == float:
                     # Fixed homogeneous noise across all observations
                     class Kriging_model(object):
-                        def fit_pre(self,xtrain,ytrain,xtest,):
+                        def fit_pre(
+                            self,
+                            xtrain,
+                            ytrain,
+                            xtest,
+                        ):
                             # Apply fixed noise level to all training points
-                            mdoel = GaussianProcessRegressor(kernel=kernel,normalize_y=True,alpha = noise_std**2).fit(xtrain,ytrain)
+                            mdoel = GaussianProcessRegressor(
+                                kernel=kernel, normalize_y=True, alpha=noise_std**2
+                            ).fit(xtrain, ytrain)
                             # Generate predictions with uncertainty estimates
-                            mean,std = mdoel.predict(xtest,return_std=True)
-                            return mean,std
-                    print('The internal model is instantiated with homogenous noise: %s' % noise_std)
-                
+                            mean, std = mdoel.predict(xtest, return_std=True)
+                            return mean, std
+
+                    print(
+                        "The internal model is instantiated with homogenous noise: %s"
+                        % noise_std
+                    )
+
                 elif type(noise_std) == np.ndarray:
                     # Handle heterogeneous noise (different noise for each data point)
                     class Kriging_model(object):
@@ -288,32 +357,40 @@ class Bgolearn(object):
                             # Check if noise array matches training data size
                             if len(xtrain) == len(noise_std):
                                 # Use provided noise values
-                                mdoel = GaussianProcessRegressor(kernel=kernel, normalize_y=True, alpha=noise_std**2).fit(xtrain, ytrain)
+                                mdoel = GaussianProcessRegressor(
+                                    kernel=kernel, normalize_y=True, alpha=noise_std**2
+                                ).fit(xtrain, ytrain)
                             elif len(xtrain) == len(noise_std) + 1:
                                 # Append noise for new data point
                                 new_alpha = np.append(noise_std, ret_std)
-                                mdoel = GaussianProcessRegressor(kernel=kernel, normalize_y=True, alpha=new_alpha**2).fit(xtrain, ytrain)
+                                mdoel = GaussianProcessRegressor(
+                                    kernel=kernel, normalize_y=True, alpha=new_alpha**2
+                                ).fit(xtrain, ytrain)
                             else:
-                                print('the input data is not matched with heterogeneous noise size')
+                                print(
+                                    "the input data is not matched with heterogeneous noise size"
+                                )
                             # Generate predictions with uncertainty
                             mean, std = mdoel.predict(xtest, return_std=True)
                             return mean, std
-                    print('The internal model is instantiated with heterogeneous noise')
+
+                    print("The internal model is instantiated with heterogeneous noise")
             elif type(Kriging_model) == str:
                 # Use string-specified model type
                 model_type = Kriging_model
+
                 class Kriging_model(object):
                     def fit_pre(self, xtrain, ytrain, xtest):
                         """Fit model using string-specified type."""
                         mean, std = Bgolearn_model(xtrain, ytrain, xtest, model_type)
                         return mean, std
-                print('The internal model is assigned')
+
+                print("The internal model is assigned")
 
             else:
                 # Use externally provided model
-                print('The external model is instantiated')
+                print("The external model is instantiated")
                 pass
-
 
             # Determine noise handling capability by inspecting method signature
             # Position includes 'self' parameter
@@ -322,7 +399,7 @@ class Bgolearn(object):
             elif len(inspect.getfullargspec(Kriging_model().fit_pre)[0]) == 4:
                 ret_noise = False  # Model does not support noise parameter
             else:
-                print('type ERROR! -ILLEGAL form of Kriging-')
+                print("type ERROR! -ILLEGAL form of Kriging-")
 
             # Prepare training data for model fitting
             X_true = np.array(data_matrix)
@@ -336,20 +413,24 @@ class Bgolearn(object):
 
             else:
                 # Validate CV_test parameter
-                if type(CV_test) != int and CV_test != 'LOOCV':
-                    print('type ERROR! - CV_test should be an int or \'LOOCV\'')
-                elif CV_test == 'LOOCV':
+                if type(CV_test) != int and CV_test != "LOOCV":
+                    print("type ERROR! - CV_test should be an int or 'LOOCV'")
+                elif CV_test == "LOOCV":
                     # Leave-One-Out Cross-Validation
-                    print('Time consuming warning')
-                    print('LeaveOneOut Cross validation is applied')
+                    print("Time consuming warning")
+                    print("LeaveOneOut Cross validation is applied")
                     loo = LeaveOneOut()
                     loo.get_n_splits(X_true)
                     pre = []  # Store cross-validation predictions
 
                     if ret_noise == False:
                         # Model without noise parameter
-                        _Y_pre, _ = Kriging_model().fit_pre(X_true, Y_true, X_true.reshape(-1, __fea_num))
-                        V_Y_pre, V_Y_std = Kriging_model().fit_pre(X_true, Y_true, virtual_samples.reshape(-1, __fea_num))
+                        _Y_pre, _ = Kriging_model().fit_pre(
+                            X_true, Y_true, X_true.reshape(-1, __fea_num)
+                        )
+                        V_Y_pre, V_Y_std = Kriging_model().fit_pre(
+                            X_true, Y_true, virtual_samples.reshape(-1, __fea_num)
+                        )
                         for train_index, test_index in loo.split(X_true):
                             X_train, X_test = X_true[train_index], X_true[test_index]
                             y_train, _ = Y_true[train_index], Y_true[test_index]
@@ -358,121 +439,186 @@ class Bgolearn(object):
 
                     else:
                         # Model with noise parameter
-                        _Y_pre, _ = Kriging_model().fit_pre(X_true, Y_true, X_true.reshape(-1, __fea_num), 0.0)
-                        V_Y_pre, V_Y_std = Kriging_model().fit_pre(X_true, Y_true, virtual_samples.reshape(-1, __fea_num), 0.0)
+                        _Y_pre, _ = Kriging_model().fit_pre(
+                            X_true, Y_true, X_true.reshape(-1, __fea_num), 0.0
+                        )
+                        V_Y_pre, V_Y_std = Kriging_model().fit_pre(
+                            X_true, Y_true, virtual_samples.reshape(-1, __fea_num), 0.0
+                        )
                         for train_index, test_index in loo.split(X_true):
                             X_train, X_test = X_true[train_index], X_true[test_index]
                             y_train, _ = Y_true[train_index], Y_true[test_index]
-                            Y_pre, _ = Kriging_model().fit_pre(X_train, y_train, X_test, 0.0)
+                            Y_pre, _ = Kriging_model().fit_pre(
+                                X_train, y_train, X_test, 0.0
+                            )
                             pre.append(Y_pre)
 
                 else:
                     # K-Fold Cross-Validation
-                    print('Time consuming warning')
-                    print('{num}-folds Cross validation is applied'.format(num=CV_test))
+                    print("Time consuming warning")
+                    print("{num}-folds Cross validation is applied".format(num=CV_test))
                     kfold = Bgo_KFold(X_true, Y_true, CV_test)
                     pre_list = []  # Store predictions for each fold
                     index_list = []  # Store test indices for each fold
 
                     if ret_noise == False:
                         # Model without noise parameter
-                        _Y_pre, _ = Kriging_model().fit_pre(X_true, Y_true, X_true.reshape(-1, __fea_num))
-                        V_Y_pre, V_Y_std = Kriging_model().fit_pre(X_true, Y_true, virtual_samples.reshape(-1, __fea_num))
+                        _Y_pre, _ = Kriging_model().fit_pre(
+                            X_true, Y_true, X_true.reshape(-1, __fea_num)
+                        )
+                        V_Y_pre, V_Y_std = Kriging_model().fit_pre(
+                            X_true, Y_true, virtual_samples.reshape(-1, __fea_num)
+                        )
                         for train_index, test_index in kfold:
                             X_train = X_true[train_index]
                             y_train = Y_true[train_index]
                             X_test = X_true[test_index]
                             # Store test indices for result reconstruction
                             index_list.append(list(test_index))
-                            Y_pre, _ = Kriging_model().fit_pre( X_train , y_train, X_test)
+                            Y_pre, _ = Kriging_model().fit_pre(X_train, y_train, X_test)
                             pre_list.append(list(Y_pre))
-                            
 
                     for train_index, test_index in kfold:
-                        _Y_pre, _ = Kriging_model().fit_pre(X_true , Y_true, X_true.reshape(-1,__fea_num),0.0)
-                        V_Y_pre, V_Y_std = Kriging_model().fit_pre(X_true , Y_true, virtual_samples.reshape(-1,__fea_num),0.0)
+                        _Y_pre, _ = Kriging_model().fit_pre(
+                            X_true, Y_true, X_true.reshape(-1, __fea_num), 0.0
+                        )
+                        V_Y_pre, V_Y_std = Kriging_model().fit_pre(
+                            X_true, Y_true, virtual_samples.reshape(-1, __fea_num), 0.0
+                        )
                         for train_index, test_index in kfold:
-                            X_train = X_true[train_index]  
-                            y_train = Y_true[train_index]  
-                            X_test = X_true[test_index]   
-                            # y_test = Y_true[test_index] 
-                            index_list.append(list(test_index))  
-                            Y_pre, _ = Kriging_model().fit_pre( X_train , y_train, X_test,0.0)
+                            X_train = X_true[train_index]
+                            y_train = Y_true[train_index]
+                            X_test = X_true[test_index]
+                            # y_test = Y_true[test_index]
+                            index_list.append(list(test_index))
+                            Y_pre, _ = Kriging_model().fit_pre(
+                                X_train, y_train, X_test, 0.0
+                            )
                             pre_list.append(list(Y_pre))
 
-                            
-                    pre_mixed =  [float(x) for item in pre_list for x in item]
+                    pre_mixed = [float(x) for item in pre_list for x in item]
                     index = [float(x) for item in index_list for x in item]
                     # match order of pre with the order of original ytrues
                     order = np.array(index).argsort()
                     pre = []
                     for i in range(len(order)):
                         pre.append(pre_mixed[order[i]])
-                
+
                 Y_pre = np.array(pre)
                 results_dataset = pd.DataFrame(Y_true)
-                results_dataset.columns = ['Y_true']
-                results_dataset['Y_pre'] = Y_pre
+                results_dataset.columns = ["Y_true"]
+                results_dataset["Y_pre"] = Y_pre
 
                 _results_dataset = pd.DataFrame(Y_true)
-                _results_dataset.columns = ['Y_true']
-                _results_dataset['Y_pre'] = _Y_pre
+                _results_dataset.columns = ["Y_true"]
+                _results_dataset["Y_pre"] = _Y_pre
 
                 V_Xmatrix = pd.DataFrame(np.array(virtual_samples))
-                V_Xmatrix['Y_pre'] = V_Y_pre
-                V_Xmatrix['Y_std'] = V_Y_std
+                V_Xmatrix["Y_pre"] = V_Y_pre
+                V_Xmatrix["Y_std"] = V_Y_std
 
-                RMSE = np.sqrt(mean_squared_error(Y_true,Y_pre))
-                MAE = mean_absolute_error(Y_true,Y_pre)
-                R2 = r2_score(Y_true,Y_pre)
+                RMSE = np.sqrt(mean_squared_error(Y_true, Y_pre))
+                MAE = mean_absolute_error(Y_true, Y_pre)
+                R2 = r2_score(Y_true, Y_pre)
 
-                _RMSE = np.sqrt(mean_squared_error(Y_true,_Y_pre))
-                _MAE = mean_absolute_error(Y_true,_Y_pre)
-                _R2 = r2_score(Y_true,_Y_pre)
+                _RMSE = np.sqrt(mean_squared_error(Y_true, _Y_pre))
+                _MAE = mean_absolute_error(Y_true, _Y_pre)
+                _R2 = r2_score(Y_true, _Y_pre)
 
-                print('Fitting goodness on training dataset: \n' + str('  RMSE = %f' % _RMSE) +' '+ str('  MAE = %f' % _MAE)
-                    +' '+ str('  R2 = %f' % _R2))
+                print(
+                    "Fitting goodness on training dataset: \n"
+                    + str("  RMSE = %f" % _RMSE)
+                    + " "
+                    + str("  MAE = %f" % _MAE)
+                    + " "
+                    + str("  R2 = %f" % _R2)
+                )
 
-                print('Fitting goodness of {}:'.format(docu_name(CV_test)))
-                print(str('  RMSE = %f' % RMSE) +' '+ str('  MAE = %f' % MAE) +' '+ str('  R2 = %f' % R2))
+                print("Fitting goodness of {}:".format(docu_name(CV_test)))
+                print(
+                    str("  RMSE = %f" % RMSE)
+                    + " "
+                    + str("  MAE = %f" % MAE)
+                    + " "
+                    + str("  R2 = %f" % R2)
+                )
 
-            
+                results_dataset.to_csv(
+                    "./Bgolearn/predictions{name}_{year}_{month}_{day}_{hour}_{minute}.csv".format(
+                        name=docu_name(CV_test),
+                        year=namey,
+                        month=nameM,
+                        day=named,
+                        hour=nameh,
+                        minute=namem,
+                    ),
+                    encoding="utf-8-sig",
+                )
 
-                results_dataset.to_csv('./Bgolearn/predictions{name}_{year}_{month}_{day}_{hour}_{minute}.csv'.format(name=docu_name(CV_test),year=namey, month=nameM, day=named, hour=nameh,
-                                                                                minute=namem),encoding='utf-8-sig')
-                
-                _results_dataset.to_csv('./Bgolearn/predictionsOnTrainingDataset_{year}_{month}_{day}_{hour}_{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
-                                                                                minute=namem),encoding='utf-8-sig')
+                _results_dataset.to_csv(
+                    "./Bgolearn/predictionsOnTrainingDataset_{year}_{month}_{day}_{hour}_{minute}.csv".format(
+                        year=namey, month=nameM, day=named, hour=nameh, minute=namem
+                    ),
+                    encoding="utf-8-sig",
+                )
 
-                V_Xmatrix.to_csv('./Bgolearn/predictionsOfVirtualSampels_{year}_{month}_{day}_{hour}_{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
-                                                                                minute=namem),encoding='utf-8-sig')
+                V_Xmatrix.to_csv(
+                    "./Bgolearn/predictionsOfVirtualSampels_{year}_{month}_{day}_{hour}_{minute}.csv".format(
+                        year=namey, month=nameM, day=named, hour=nameh, minute=namem
+                    ),
+                    encoding="utf-8-sig",
+                )
 
-
-            
-
-            
             arv_vs = pd.DataFrame(np.array(virtual_samples))
             arv_vs.columns = Xname
-            pre,_ = Kriging_model().fit_pre(data_matrix, Measured_response, virtual_samples)
-            arv_vs['Y'] = np.array(pre)
-            arv_vs.to_csv('./Bgolearn/PredictionsByBgolearn_{year}_{month}_{day}_{hour}_{minute}.csv'.format(year=namey, month=nameM, day=named, hour=nameh,
-                                                                                minute=namem), encoding='utf-8-sig')
+            pre, _ = Kriging_model().fit_pre(
+                data_matrix, Measured_response, virtual_samples
+            )
+            arv_vs["Y"] = np.array(pre)
+            arv_vs.to_csv(
+                "./Bgolearn/PredictionsByBgolearn_{year}_{month}_{day}_{hour}_{minute}.csv".format(
+                    year=namey, month=nameM, day=named, hour=nameh, minute=namem
+                ),
+                encoding="utf-8-sig",
+            )
 
             # BGO
             if min_search == True:
-                BGOmodel = Global_min(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise,row_features)
-            elif min_search == False: 
-                BGOmodel = Global_max(Kriging_model,data_matrix, Measured_response, virtual_samples, opt_num, ret_noise,row_features)
+                BGOmodel = Global_min(
+                    Kriging_model,
+                    data_matrix,
+                    Measured_response,
+                    virtual_samples,
+                    opt_num,
+                    ret_noise,
+                    row_features,
+                )
+            elif min_search == False:
+                BGOmodel = Global_max(
+                    Kriging_model,
+                    data_matrix,
+                    Measured_response,
+                    virtual_samples,
+                    opt_num,
+                    ret_noise,
+                    row_features,
+                )
             else:
-                print('type ERROR! -opt_num-')
+                print("type ERROR! -opt_num-")
             return BGOmodel
         else:
-            print('type ERROR! -MISSION-')
+            print("type ERROR! -MISSION-")
 
-    def test(self,Ture_fun, Def_Domain,noise_std = 1e-5, Kriging_model = None, opt_num = 1 ,min_search = True):
-        
-        """
-        PACKAGE: Bayesian global optimization learn .
+    def test(
+        self,
+        Ture_fun,
+        Def_Domain,
+        noise_std=1e-5,
+        Kriging_model=None,
+        opt_num=1,
+        min_search=True,
+    ):
+        """Evaluate regression optimization efficiency on a known function.
 
         :param Ture_fun: the true function being evaluated. e.g.,
                 def function(X):
@@ -484,8 +630,8 @@ class Bgolearn(object):
 
         :param Kriging_model (default None): a user defined callable Kriging model, has an attribute of <fit_pre>
                 if user isn't applied one, Bgolearn will call a pre-set Kriging model
-                atribute <fit_pre> : 
-                input -> xtrain, ytrain, xtest ; 
+                atribute <fit_pre> :
+                input -> xtrain, ytrain, xtest ;
                 output -> predicted  mean and std of xtest
                 e.g. (take GaussianProcessRegressor in sklearn as an example):
                 class Kriging_model(object):
@@ -495,101 +641,156 @@ class Bgolearn(object):
                         mdoel = GaussianProcessRegressor(kernel=kernel).fit(xtrain,ytrain)
                         # defined the attribute's outputs
                         mean,std = mdoel.predict(xtest,return_std=True)
-                        return mean,std    
+                        return mean,std
 
-        :param opt_num: the number of recommended candidates for next iteration, default 1. 
+        :param opt_num: the number of recommended candidates for next iteration, default 1.
 
         :param min_search: default True -> searching the global minimum ;
                                    False -> searching the global maximum.
         """
 
-        print(' test model is developed for evaluating the regression efficiency')
+        print(" test model is developed for evaluating the regression efficiency")
 
-        warnings.filterwarnings('ignore')
+        warnings.filterwarnings("ignore")
 
         if Kriging_model == None:
-            kernel = RBF() 
+            kernel = RBF()
             if type(noise_std) == float:
                 # call the default model;
                 class Kriging_model(object):
-                    def fit_pre(self,xtrain,ytrain,xtest,):
+                    def fit_pre(
+                        self,
+                        xtrain,
+                        ytrain,
+                        xtest,
+                    ):
                         # ret_std is a placeholder for homogenous noise
                         # instantiated mode
-                        mdoel = GaussianProcessRegressor(kernel=kernel,normalize_y=True,alpha = noise_std**2).fit(xtrain,ytrain)
+                        mdoel = GaussianProcessRegressor(
+                            kernel=kernel, normalize_y=True, alpha=noise_std**2
+                        ).fit(xtrain, ytrain)
                         # defined the attribute's outputs
-                        mean,std = mdoel.predict(xtest,return_std=True)
-                        return mean,std 
-                print('The internal model is instantiated with homogenous noise: %s' % noise_std)  
-                
+                        mean, std = mdoel.predict(xtest, return_std=True)
+                        return mean, std
+
+                print(
+                    "The internal model is instantiated with homogenous noise: %s"
+                    % noise_std
+                )
+
             elif type(noise_std) == np.ndarray:
                 # call the default model;
                 class Kriging_model(object):
-                    def fit_pre(self,xtrain,ytrain,xtest,ret_std = 0.0):
+                    def fit_pre(self, xtrain, ytrain, xtest, ret_std=0.0):
                         # instantiated model
                         if len(xtrain) == len(noise_std):
-                            mdoel = GaussianProcessRegressor(kernel=kernel,normalize_y=True,alpha = noise_std**2).fit(xtrain,ytrain)
+                            mdoel = GaussianProcessRegressor(
+                                kernel=kernel, normalize_y=True, alpha=noise_std**2
+                            ).fit(xtrain, ytrain)
                         elif len(xtrain) == len(noise_std) + 1:
-                            new_alpha = np.append(noise_std,ret_std)
-                            mdoel = GaussianProcessRegressor(kernel=kernel,normalize_y=True,alpha = new_alpha**2).fit(xtrain,ytrain)
+                            new_alpha = np.append(noise_std, ret_std)
+                            mdoel = GaussianProcessRegressor(
+                                kernel=kernel, normalize_y=True, alpha=new_alpha**2
+                            ).fit(xtrain, ytrain)
                         else:
-                            print('the input data is not muached with heterogenous noise size') 
+                            print(
+                                "the input data is not muached with heterogenous noise size"
+                            )
                         # defined the attribute's outputs
-                        mean,std = mdoel.predict(xtest,return_std=True)
-                        return mean,std  
-                print('The internal model is instantiated with heterogenous noise')
-        else: 
-            print('The external model is instantiated')
-        
+                        mean, std = mdoel.predict(xtest, return_std=True)
+                        return mean, std
+
+                print("The internal model is instantiated with heterogenous noise")
+        else:
+            print("The external model is instantiated")
+
         # position incluse 'self'
         if len(inspect.getfullargspec(Kriging_model().fit_pre)[0]) == 5:
             ret_noise = True
         elif len(inspect.getfullargspec(Kriging_model().fit_pre)[0]) == 4:
             ret_noise = False
         else:
-            print('type ERROR! -ILLEGAL form of Krigging-')
+            print("type ERROR! -ILLEGAL form of Krigging-")
 
-        print('Evaluation is executed')
-        
-        Eval_model = BGO_Efficient(Ture_fun,Def_Domain, Kriging_model, opt_num, ret_noise,min_search)
+        print("Evaluation is executed")
+
+        Eval_model = BGO_Efficient(
+            Ture_fun, Def_Domain, Kriging_model, opt_num, ret_noise, min_search
+        )
         return Eval_model
-      
-def Bgo_KFold(x_train, y_train,cv):
+
+
+def Bgo_KFold(x_train, y_train, cv):
+    """Create a shuffled k-fold split iterator for training data.
+
+    Args:
+        x_train: Training feature matrix.
+        y_train: Training response values.
+        cv: Number of folds.
+
+    Returns:
+        Generator returned by ``sklearn.model_selection.KFold.split``.
+    """
     x_train = np.array(x_train)
     y_train = np.array(y_train)
-    kfolder = KFold(n_splits=cv, shuffle=True,random_state=0)
+    kfolder = KFold(n_splits=cv, shuffle=True, random_state=0)
     kfold = kfolder.split(x_train, y_train)
     return kfold
 
+
 def docu_name(CV_test):
-    if CV_test == 'LOOCV':
-        return 'LOOCV'
+    """Return a compact name for the selected cross-validation strategy."""
+    if CV_test == "LOOCV":
+        return "LOOCV"
     elif type(CV_test) == int:
-        return '{}-CVs'.format(CV_test)
+        return "{}-CVs".format(CV_test)
     else:
-        print('type error')
+        print("type error")
+
 
 def Classifier_selection(Classifier):
-    if Classifier == 'GaussianProcess':
-        from sklearn.gaussian_process import GaussianProcessClassifier 
-        model = GaussianProcessClassifier(kernel= 1*RBF(1.0) ,random_state=0)
-    elif Classifier == 'LogisticRegression':
+    """Instantiate a supported classifier by its public string name.
+
+    Args:
+        Classifier: One of ``GaussianProcess``, ``LogisticRegression``,
+            ``NaiveBayes``, ``SVM``, or ``RandomForest``.
+
+    Returns:
+        A scikit-learn classifier instance with probability prediction support.
+    """
+    if Classifier == "GaussianProcess":
+        from sklearn.gaussian_process import GaussianProcessClassifier
+
+        model = GaussianProcessClassifier(kernel=1 * RBF(1.0), random_state=0)
+    elif Classifier == "LogisticRegression":
         from sklearn.linear_model import LogisticRegression
-        model = LogisticRegression(random_state=0,class_weight='balanced',multi_class='multinomial')
-    elif Classifier == 'NaiveBayes':
+
+        model = LogisticRegression(
+            random_state=0, class_weight="balanced", multi_class="multinomial"
+        )
+    elif Classifier == "NaiveBayes":
         from sklearn.naive_bayes import GaussianNB
+
         model = GaussianNB()
-    elif Classifier == 'SVM':
+    elif Classifier == "SVM":
         from sklearn.svm import SVC
+
         model = SVC(probability=True)
-    elif Classifier == 'RandomForest':
+    elif Classifier == "RandomForest":
         from sklearn.ensemble import RandomForestClassifier
-        model = RandomForestClassifier(max_depth=4,random_state=0)
-    else :
-        print('type ERROR! -Classifier-')
+
+        model = RandomForestClassifier(max_depth=4, random_state=0)
+    else:
+        print("type ERROR! -Classifier-")
     return model
 
 
 def preprocess_data(data):
+    """Convert supported input containers to a NumPy array.
+
+    One-dimensional arrays and Python lists are reshaped to column vectors so
+    downstream estimators receive consistent two-dimensional feature matrices.
+    """
     if isinstance(data, np.ndarray):
         if data.ndim == 1:
             data = np.reshape(data, (-1, 1))
@@ -599,18 +800,31 @@ def preprocess_data(data):
     return data
 
 
-def Bgolearn_model(xtrain,ytrain,xtest,Kriging_model):
+def Bgolearn_model(xtrain, ytrain, xtest, Kriging_model):
+    """Predict with a built-in surrogate model and bootstrap uncertainty.
+
+    Args:
+        xtrain: Training feature matrix.
+        ytrain: Training response values.
+        xtest: Candidate feature matrix to predict.
+        Kriging_model: Built-in model key: ``SVM``, ``RF``, ``AdaB``, or ``MLP``.
+
+    Returns:
+        Tuple of prediction mean and standard deviation over bootstrap models.
+    """
     models = {
-    'SVM': SVR(),
-    'RF': RandomForestRegressor(),
-    'AdaB': AdaBoostRegressor(),
-    'MLP': MLPRegressor()
-    }   
+        "SVM": SVR(),
+        "RF": RandomForestRegressor(),
+        "AdaB": AdaBoostRegressor(),
+        "MLP": MLPRegressor(),
+    }
     try:
         Bgo_model = models[Kriging_model]
-        print('Bgolearn model : ', Bgo_model)
+        print("Bgolearn model : ", Bgo_model)
     except:
-        print('Type Error: Kriging_model, please check your input of param Kriging_model')
+        print(
+            "Type Error: Kriging_model, please check your input of param Kriging_model"
+        )
 
     all_predictions = []
     for _ in range(10):
@@ -627,8 +841,19 @@ def Bgolearn_model(xtrain,ytrain,xtest,Kriging_model):
     std = np.std(all_predictions, axis=0)
     return mean, std
 
-def Resampling(data_matrix,Measured_response,min_search,seed_):
-    
+
+def Resampling(data_matrix, Measured_response, min_search, seed_):
+    """Resample training observations using objective-value importance weights.
+
+    Args:
+        data_matrix: Training feature matrix.
+        Measured_response: Training response values.
+        min_search: Whether the workflow is minimizing.
+        seed_: Random seed used by NumPy.
+
+    Returns:
+        Resampled feature matrix and response vector.
+    """
     np.random.seed(seed_)
     max_value = max(Measured_response)
     min_value = min(Measured_response)
@@ -638,10 +863,9 @@ def Resampling(data_matrix,Measured_response,min_search,seed_):
     cdf = np.cumsum(prob)
     cdf_ = cdf / cdf[-1]
     uniform_samples = np.random.random_sample(len(Measured_response))
-    bootstrap_idx = cdf_.searchsorted(uniform_samples, side='right')
+    bootstrap_idx = cdf_.searchsorted(uniform_samples, side="right")
     # searchsorted returns a scalar
     bootstrap_idx = np.array(bootstrap_idx, copy=False)
-    print('Importance resampling is APPLIED','\n')
+    print("Importance resampling is APPLIED", "\n")
 
-    
     return data_matrix[bootstrap_idx], Measured_response[bootstrap_idx]

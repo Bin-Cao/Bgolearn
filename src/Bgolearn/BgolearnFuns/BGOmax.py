@@ -1,5 +1,4 @@
-"""
-BGO Maximization Module
+"""Bayesian global optimization utilities for maximization.
 
 This module implements Bayesian Global Optimization for maximization problems.
 It provides various acquisition functions including Expected Improvement (EI),
@@ -12,7 +11,7 @@ Key Features:
 - Noise handling capabilities
 - Comprehensive uncertainty quantification
 
-Author: Bin Cao
+Author: Dr.Bin Cao (https://bin-cao.github.io/)
 Institution: Hong Kong University of Science and Technology (Guangzhou)
 """
 
@@ -26,8 +25,7 @@ import multiprocessing
 
 
 class Global_max(object):
-    """
-    Bayesian Global Optimization for Maximization Problems
+    """Bayesian global optimization model for maximization problems.
 
     This class implements various acquisition functions for finding global maxima
     using Bayesian optimization principles. It supports different acquisition
@@ -45,9 +43,17 @@ class Global_max(object):
         row_features: Original feature values before preprocessing
     """
 
-    def __init__(self, Kriging_model, data_matrix, Measured_response, virtual_samples, opt_num, ret_noise, row_features):
-        """
-        Initialize the Global_max optimizer.
+    def __init__(
+        self,
+        Kriging_model,
+        data_matrix,
+        Measured_response,
+        virtual_samples,
+        opt_num,
+        ret_noise,
+        row_features,
+    ):
+        """Initialize the Global_max optimizer.
 
         Args:
             Kriging_model: Surrogate model with fit_pre method
@@ -66,22 +72,28 @@ class Global_max(object):
 
         # Generate predictions for virtual samples
         if ret_noise == 0:
-            self.virtual_samples_mean, self.virtual_samples_std = self.Kriging_model().fit_pre(
-                self.data_matrix, self.Measured_response, self.virtual_samples)
+            (
+                self.virtual_samples_mean,
+                self.virtual_samples_std,
+            ) = self.Kriging_model().fit_pre(
+                self.data_matrix, self.Measured_response, self.virtual_samples
+            )
         else:
-            self.virtual_samples_mean, self.virtual_samples_std = self.Kriging_model().fit_pre(
-                self.data_matrix, self.Measured_response, self.virtual_samples, 0.0)
+            (
+                self.virtual_samples_mean,
+                self.virtual_samples_std,
+            ) = self.Kriging_model().fit_pre(
+                self.data_matrix, self.Measured_response, self.virtual_samples, 0.0
+            )
 
         self.opt_num = opt_num
         self.ret_noise = ret_noise
         self.row_features = row_features
 
         # Suppress warnings for cleaner output
-        warnings.filterwarnings('ignore')
+        warnings.filterwarnings("ignore")
         os.environ["PYTHONWARNINGS"] = "ignore"
-   
-    
-    
+
     def EI(self, T=None):
         """
         Expected Improvement (EI) acquisition function for maximization.
@@ -108,35 +120,48 @@ class Global_max(object):
         # Determine baseline for improvement calculation
         if isinstance(T, (float, int)):
             cur_optimal_value = T
-            print('The baseline is assigned by the user.')
+            print("The baseline is assigned by the user.")
         else:
-            print('The baseline is calculated based on the training dataset.')
+            print("The baseline is calculated based on the training dataset.")
             cur_optimal_value = self.Measured_response.max()
 
-        print('current optimal is :', cur_optimal_value)
+        print("current optimal is :", cur_optimal_value)
 
         # Calculate Expected Improvement for each virtual sample
         improv = self.virtual_samples_mean - cur_optimal_value
         z = improv / self.virtual_samples_std
-        EI_list = improv * norm.cdf(z) +  self.virtual_samples_std * norm.pdf(z)
-        
+        EI_list = improv * norm.cdf(z) + self.virtual_samples_std * norm.pdf(z)
+
         return_x = []
         if self.opt_num == 1:
             EI_opt_index = np.random.choice(np.flatnonzero(EI_list == EI_list.max()))
-            print('The next datum recomended by Expected Improvement : \n x = ', self.row_features[EI_opt_index])
-            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EI_opt_index])
+            print(
+                "The next datum recomended by Expected Improvement : \n x = ",
+                self.row_features[EI_opt_index],
+            )
+            print(
+                "The predictions of Bgolearn are : \n y = ",
+                self.virtual_samples_mean[EI_opt_index],
+            )
             return_x.append(self.row_features[EI_opt_index])
         elif type(self.opt_num) == int:
-            EI_opt_index = np.argsort(EI_list)[-self.opt_num:][::-1] 
+            EI_opt_index = np.argsort(EI_list)[-self.opt_num :][::-1]
             for j in range(len(EI_opt_index)):
-                print('The {num}-th datum recomended by Expected Improvement : \n x = '.format(num =j+1), self.row_features[EI_opt_index[j]])
-                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EI_opt_index[j]])
+                print(
+                    "The {num}-th datum recomended by Expected Improvement : \n x = ".format(
+                        num=j + 1
+                    ),
+                    self.row_features[EI_opt_index[j]],
+                )
+                print(
+                    "The predictions of Bgolearn are : \n y = ",
+                    self.virtual_samples_mean[EI_opt_index[j]],
+                )
                 return_x.append(self.row_features[EI_opt_index[j]])
         else:
-            print('The input para. opt_num must be an int')
-        return EI_list,np.array(return_x)
+            print("The input para. opt_num must be an int")
+        return EI_list, np.array(return_x)
 
-    
     def EI_log(self, T=None):
         """
         Logarithm Expected Improvement (EI) acquisition function for maximization.
@@ -159,221 +184,353 @@ class Global_max(object):
         # Determine baseline for improvement calculation
         if isinstance(T, (float, int)):
             cur_optimal_value = T
-            print('The baseline is assigned by the user.')
+            print("The baseline is assigned by the user.")
         else:
-            print('The baseline is calculated based on the training dataset.')
+            print("The baseline is calculated based on the training dataset.")
             cur_optimal_value = self.Measured_response.max()
 
-        print('current optimal is :', cur_optimal_value)
+        print("current optimal is :", cur_optimal_value)
 
         # Calculate Expected Improvement for each virtual sample
         improv = self.virtual_samples_mean - cur_optimal_value
         z = improv / self.virtual_samples_std
-        EI_list = np.log(improv * norm.cdf(z) +  self.virtual_samples_std * norm.pdf(z)+1e-5)
-        
+        EI_list = np.log(
+            improv * norm.cdf(z) + self.virtual_samples_std * norm.pdf(z) + 1e-5
+        )
+
         return_x = []
         if self.opt_num == 1:
             EI_opt_index = np.random.choice(np.flatnonzero(EI_list == EI_list.max()))
-            print('The next datum recomended by Expected Improvement : \n x = ', self.row_features[EI_opt_index])
-            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EI_opt_index])
+            print(
+                "The next datum recomended by Expected Improvement : \n x = ",
+                self.row_features[EI_opt_index],
+            )
+            print(
+                "The predictions of Bgolearn are : \n y = ",
+                self.virtual_samples_mean[EI_opt_index],
+            )
             return_x.append(self.row_features[EI_opt_index])
         elif type(self.opt_num) == int:
-            EI_opt_index = np.argsort(EI_list)[-self.opt_num:][::-1] 
+            EI_opt_index = np.argsort(EI_list)[-self.opt_num :][::-1]
             for j in range(len(EI_opt_index)):
-                print('The {num}-th datum recomended by Expected Improvement : \n x = '.format(num =j+1), self.row_features[EI_opt_index[j]])
-                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EI_opt_index[j]])
+                print(
+                    "The {num}-th datum recomended by Expected Improvement : \n x = ".format(
+                        num=j + 1
+                    ),
+                    self.row_features[EI_opt_index[j]],
+                )
+                print(
+                    "The predictions of Bgolearn are : \n y = ",
+                    self.virtual_samples_mean[EI_opt_index[j]],
+                )
                 return_x.append(self.row_features[EI_opt_index[j]])
         else:
-            print('The input para. opt_num must be an int')
-        return EI_list,np.array(return_x)
-       
-    def EI_plugin(self,):
+            print("The input para. opt_num must be an int")
+        return EI_list, np.array(return_x)
+
+    def EI_plugin(
+        self,
+    ):
         """
         Expected improvement with “plugin”
         """
         if self.ret_noise == 0:
-            __train_ypre,_ = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
+            __train_ypre, _ = self.Kriging_model().fit_pre(
+                self.data_matrix, self.Measured_response, self.data_matrix
+            )
         else:
-            __train_ypre,_ = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix,0.0)
+            __train_ypre, _ = self.Kriging_model().fit_pre(
+                self.data_matrix, self.Measured_response, self.data_matrix, 0.0
+            )
         cur_optimal_value = __train_ypre.max()
-        print('current optimal is :', cur_optimal_value)
+        print("current optimal is :", cur_optimal_value)
         EIp_list = []
         for i in range(len(self.virtual_samples_mean)):
-            Var_Z = (self.virtual_samples_mean[i] - cur_optimal_value )/self.virtual_samples_std[i] 
-            EIp = (self.virtual_samples_mean[i] - cur_optimal_value) * norm.cdf(Var_Z)+ self.virtual_samples_std[i] * norm_des(Var_Z)
-          
+            Var_Z = (
+                self.virtual_samples_mean[i] - cur_optimal_value
+            ) / self.virtual_samples_std[i]
+            EIp = (self.virtual_samples_mean[i] - cur_optimal_value) * norm.cdf(
+                Var_Z
+            ) + self.virtual_samples_std[i] * norm_des(Var_Z)
+
             EIp_list.append(EIp)
-       
+
         EIp_list = np.array(EIp_list)
-        
+
         return_x = []
         if self.opt_num == 1:
             EIp_opt_index = np.random.choice(np.flatnonzero(EIp_list == EIp_list.max()))
-            print('The next datum recomended by Expected Improvement with plugin : \n x = ', self.row_features[EIp_opt_index])
-            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EIp_opt_index])
+            print(
+                "The next datum recomended by Expected Improvement with plugin : \n x = ",
+                self.row_features[EIp_opt_index],
+            )
+            print(
+                "The predictions of Bgolearn are : \n y = ",
+                self.virtual_samples_mean[EIp_opt_index],
+            )
             return_x.append(self.row_features[EIp_opt_index])
         elif type(self.opt_num) == int:
-            EIp_opt_index = np.argsort(EIp_list)[-self.opt_num:][::-1] 
+            EIp_opt_index = np.argsort(EIp_list)[-self.opt_num :][::-1]
             for j in range(len(EIp_opt_index)):
-                print('The {num}-th datum recomended by Expected Improvement with plugin : \n x = '.format(num =j+1), self.row_features[EIp_opt_index[j]])
-                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EIp_opt_index[j]])
+                print(
+                    "The {num}-th datum recomended by Expected Improvement with plugin : \n x = ".format(
+                        num=j + 1
+                    ),
+                    self.row_features[EIp_opt_index[j]],
+                )
+                print(
+                    "The predictions of Bgolearn are : \n y = ",
+                    self.virtual_samples_mean[EIp_opt_index[j]],
+                )
                 return_x.append(self.row_features[EIp_opt_index[j]])
         else:
-            print('The input para. opt_num must be an int')
-        return EIp_list,np.array(return_x)
-    
-    
-    def Augmented_EI(self, alpha = 1, tao = 0):
+            print("The input para. opt_num must be an int")
+        return EIp_list, np.array(return_x)
+
+    def Augmented_EI(self, alpha=1, tao=0):
         """
-        Augmented Expected Improvement 
+        Augmented Expected Improvement
         :param alpha: tradeoff coefficient, default 1
         :param tao: noise standard deviation, default 0
         """
-        # cal current optimal 
+        # cal current optimal
         if self.ret_noise == 0:
-            Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
+            Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(
+                self.data_matrix, self.Measured_response, self.data_matrix
+            )
         else:
-            Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix,0.0)
-        proposal_fun_value = np.array(Pre_response_means) + alpha * np.array(Pre_response_std)
-        cur_opt_index = np.random.choice(np.flatnonzero(proposal_fun_value == proposal_fun_value.max()))
-        
+            Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(
+                self.data_matrix, self.Measured_response, self.data_matrix, 0.0
+            )
+        proposal_fun_value = np.array(Pre_response_means) + alpha * np.array(
+            Pre_response_std
+        )
+        cur_opt_index = np.random.choice(
+            np.flatnonzero(proposal_fun_value == proposal_fun_value.max())
+        )
+
         cur_optimal_value = Pre_response_means[cur_opt_index]
-        print('current optimal is :', cur_optimal_value)
+        print("current optimal is :", cur_optimal_value)
         AEI_list = []
         for i in range(len(self.virtual_samples_mean)):
-            Var_Z = (self.virtual_samples_mean[i] - cur_optimal_value)/self.virtual_samples_std[i] 
-            EI = (self.virtual_samples_mean[i] - cur_optimal_value) * norm.cdf( Var_Z ) + self.virtual_samples_std[i] * norm_des(Var_Z)
-            AEI = EI * (1 - tao/np.sqrt(self.virtual_samples_std[i]**2 + tao**2))
+            Var_Z = (
+                self.virtual_samples_mean[i] - cur_optimal_value
+            ) / self.virtual_samples_std[i]
+            EI = (self.virtual_samples_mean[i] - cur_optimal_value) * norm.cdf(
+                Var_Z
+            ) + self.virtual_samples_std[i] * norm_des(Var_Z)
+            AEI = EI * (1 - tao / np.sqrt(self.virtual_samples_std[i] ** 2 + tao**2))
             AEI_list.append(AEI)
         AEI_list = np.array(AEI_list)
-        
-        return_x =[]
+
+        return_x = []
         if self.opt_num == 1:
             AEI_opt_index = np.random.choice(np.flatnonzero(AEI_list == AEI_list.max()))
-            print('The next datum recomended by Augmented_EI : \n x = ', self.row_features[AEI_opt_index])
-            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[AEI_opt_index])
+            print(
+                "The next datum recomended by Augmented_EI : \n x = ",
+                self.row_features[AEI_opt_index],
+            )
+            print(
+                "The predictions of Bgolearn are : \n y = ",
+                self.virtual_samples_mean[AEI_opt_index],
+            )
             return_x.append(self.row_features[AEI_opt_index])
         elif type(self.opt_num) == int:
-            AEI_opt_index = np.argsort(AEI_list)[-self.opt_num:][::-1] 
+            AEI_opt_index = np.argsort(AEI_list)[-self.opt_num :][::-1]
             for j in range(len(AEI_opt_index)):
-                print('The {num}-th datum recomended by Augmented_EI : \n x = '.format(num =j+1), self.row_features[AEI_opt_index[j]])
-                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[AEI_opt_index[j]])
+                print(
+                    "The {num}-th datum recomended by Augmented_EI : \n x = ".format(
+                        num=j + 1
+                    ),
+                    self.row_features[AEI_opt_index[j]],
+                )
+                print(
+                    "The predictions of Bgolearn are : \n y = ",
+                    self.virtual_samples_mean[AEI_opt_index[j]],
+                )
                 return_x.append(self.row_features[AEI_opt_index[j]])
         else:
-            print('The input para. opt_num must be an int')
+            print("The input para. opt_num must be an int")
 
-        return AEI_list,np.array(return_x)
+        return AEI_list, np.array(return_x)
 
-    def EQI(self, beta = 0.5,tao_new = 0):
+    def EQI(self, beta=0.5, tao_new=0):
         """
         Expected Quantile Improvement
         :param beta: beta quantile number, default 0.5
         :param tao: noise standard deviation, default 0
         """
-        # cal current optimal 
+        # cal current optimal
         if self.ret_noise == 0:
-            Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
+            Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(
+                self.data_matrix, self.Measured_response, self.data_matrix
+            )
         else:
-            Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix,0.0)
-        q_value = np.array(Pre_response_means) + norm.ppf(beta) * np.array(Pre_response_std)
+            Pre_response_means, Pre_response_std = self.Kriging_model().fit_pre(
+                self.data_matrix, self.Measured_response, self.data_matrix, 0.0
+            )
+        q_value = np.array(Pre_response_means) + norm.ppf(beta) * np.array(
+            Pre_response_std
+        )
         cur_optimal_value = q_value.max()
-        print('current optimal is :', cur_optimal_value)
+        print("current optimal is :", cur_optimal_value)
 
-        __mean = self.virtual_samples_mean + norm.ppf(beta) * np.sqrt(tao_new**2 * self.virtual_samples_std**2 / (tao_new**2 + self.virtual_samples_std**2))
-        __std = self.virtual_samples_std**2 / np.sqrt(self.virtual_samples_std**2 + tao_new**2) 
-       
+        __mean = self.virtual_samples_mean + norm.ppf(beta) * np.sqrt(
+            tao_new**2
+            * self.virtual_samples_std**2
+            / (tao_new**2 + self.virtual_samples_std**2)
+        )
+        __std = self.virtual_samples_std**2 / np.sqrt(
+            self.virtual_samples_std**2 + tao_new**2
+        )
+
         EQI_list = []
         for i in range(len(self.virtual_samples_mean)):
-            
-            Var_Z = (__mean[i] - cur_optimal_value ) / __std[i] 
-            EQI = (__mean[i] - cur_optimal_value) * norm.cdf( Var_Z ) + __std[i] * norm_des(Var_Z)
+
+            Var_Z = (__mean[i] - cur_optimal_value) / __std[i]
+            EQI = (__mean[i] - cur_optimal_value) * norm.cdf(Var_Z) + __std[
+                i
+            ] * norm_des(Var_Z)
             EQI_list.append(EQI)
         EQI_list = np.array(EQI_list)
-        
+
         return_x = []
         if self.opt_num == 1:
             EQI_opt_index = np.random.choice(np.flatnonzero(EQI_list == EQI_list.max()))
-            print('The next datum recomended by Expected Quantile Improvement : \n x = ', self.row_features[EQI_opt_index])
-            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EQI_opt_index])
-            return_x.append(self.row_features[EQI_opt_index])    
+            print(
+                "The next datum recomended by Expected Quantile Improvement : \n x = ",
+                self.row_features[EQI_opt_index],
+            )
+            print(
+                "The predictions of Bgolearn are : \n y = ",
+                self.virtual_samples_mean[EQI_opt_index],
+            )
+            return_x.append(self.row_features[EQI_opt_index])
         elif type(self.opt_num) == int:
-            EQI_opt_index = np.argsort(EQI_list)[-self.opt_num:][::-1]   
+            EQI_opt_index = np.argsort(EQI_list)[-self.opt_num :][::-1]
             for j in range(len(EQI_opt_index)):
-                print('The {num}-th datum recomended by Expected Quantile Improvement : \n x = '.format(num =j+1), self.row_features[EQI_opt_index[j]])
-                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[EQI_opt_index[j]])
+                print(
+                    "The {num}-th datum recomended by Expected Quantile Improvement : \n x = ".format(
+                        num=j + 1
+                    ),
+                    self.row_features[EQI_opt_index[j]],
+                )
+                print(
+                    "The predictions of Bgolearn are : \n y = ",
+                    self.virtual_samples_mean[EQI_opt_index[j]],
+                )
                 return_x.append(self.row_features[EQI_opt_index[j]])
         else:
-            print('The input para. opt_num must be an int')
+            print("The input para. opt_num must be an int")
 
-        return EQI_list,np.array(return_x)
+        return EQI_list, np.array(return_x)
 
-
-    def Reinterpolation_EI(self, ):
+    def Reinterpolation_EI(
+        self,
+    ):
         """
         Reinterpolation Expected Improvement
         """
-        if self.ret_noise == 0: 
-            __update_y,_ = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix)
+        if self.ret_noise == 0:
+            __update_y, _ = self.Kriging_model().fit_pre(
+                self.data_matrix, self.Measured_response, self.data_matrix
+            )
         else:
-            __update_y,_ = self.Kriging_model().fit_pre(self.data_matrix,self.Measured_response, self.data_matrix,0.0)
+            __update_y, _ = self.Kriging_model().fit_pre(
+                self.data_matrix, self.Measured_response, self.data_matrix, 0.0
+            )
 
         cur_optimal_value = __update_y.max()
-        print('current optimal is :', cur_optimal_value)
-        if self.ret_noise == 0: 
-            __y,__std = self.Kriging_model().fit_pre(self.data_matrix,__update_y, self.virtual_samples)
+        print("current optimal is :", cur_optimal_value)
+        if self.ret_noise == 0:
+            __y, __std = self.Kriging_model().fit_pre(
+                self.data_matrix, __update_y, self.virtual_samples
+            )
         else:
-            __y,__std = self.Kriging_model().fit_pre(self.data_matrix,__update_y, self.virtual_samples,0.0)
+            __y, __std = self.Kriging_model().fit_pre(
+                self.data_matrix, __update_y, self.virtual_samples, 0.0
+            )
         REI_list = []
         for i in range(len(__y)):
-            Var_Z = (__y[i] - cur_optimal_value)/__std[i] 
-            REI = (__y[i] - cur_optimal_value) * norm.cdf(Var_Z)+ __std[i] * norm_des(Var_Z)
+            Var_Z = (__y[i] - cur_optimal_value) / __std[i]
+            REI = (__y[i] - cur_optimal_value) * norm.cdf(Var_Z) + __std[i] * norm_des(
+                Var_Z
+            )
             REI_list.append(REI)
-       
+
         REI_list = np.array(REI_list)
-        
+
         return_x = []
         if self.opt_num == 1:
             REI_opt_index = np.random.choice(np.flatnonzero(REI_list == REI_list.max()))
-            print('The next datum recomended by Reinterpolation Expected Improvement : \n x = ', self.row_features[REI_opt_index])
-            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[REI_opt_index])
+            print(
+                "The next datum recomended by Reinterpolation Expected Improvement : \n x = ",
+                self.row_features[REI_opt_index],
+            )
+            print(
+                "The predictions of Bgolearn are : \n y = ",
+                self.virtual_samples_mean[REI_opt_index],
+            )
             return_x.append(self.row_features[REI_opt_index])
         elif type(self.opt_num) == int:
-            REI_opt_index = np.argsort(REI_list)[-self.opt_num:][::-1]   
+            REI_opt_index = np.argsort(REI_list)[-self.opt_num :][::-1]
             for j in range(len(REI_opt_index)):
-                print('The {num}-th datum recomended by Reinterpolation Expected Improvement : \n x = '.format(num =j+1), self.row_features[REI_opt_index[j]])
-                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[REI_opt_index[j]])
+                print(
+                    "The {num}-th datum recomended by Reinterpolation Expected Improvement : \n x = ".format(
+                        num=j + 1
+                    ),
+                    self.row_features[REI_opt_index[j]],
+                )
+                print(
+                    "The predictions of Bgolearn are : \n y = ",
+                    self.virtual_samples_mean[REI_opt_index[j]],
+                )
                 return_x.append(self.row_features[REI_opt_index[j]])
         else:
-            print('The input para. opt_num must be an int')
-        return REI_list,np.array(return_x)
-
-
+            print("The input para. opt_num must be an int")
+        return REI_list, np.array(return_x)
 
     def UCB(self, alpha=1):
         """
-        Upper confidence bound 
+        Upper confidence bound
         :param alpha: tradeoff coefficient, default 1
         """
-        UCB_list = np.array(self.virtual_samples_mean) + alpha * np.array(self.virtual_samples_std)
-        
+        UCB_list = np.array(self.virtual_samples_mean) + alpha * np.array(
+            self.virtual_samples_std
+        )
+
         return_x = []
         if self.opt_num == 1:
             UCB_opt_index = np.random.choice(np.flatnonzero(UCB_list == UCB_list.max()))
-            print('The next datum recomended by Upper confidence bound  : \n x = ', self.row_features[UCB_opt_index])
-            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[UCB_opt_index])
+            print(
+                "The next datum recomended by Upper confidence bound  : \n x = ",
+                self.row_features[UCB_opt_index],
+            )
+            print(
+                "The predictions of Bgolearn are : \n y = ",
+                self.virtual_samples_mean[UCB_opt_index],
+            )
             return_x.append(self.row_features[UCB_opt_index])
         elif type(self.opt_num) == int:
-            UCB_opt_index = np.argsort(UCB_list)[-self.opt_num:][::-1] 
+            UCB_opt_index = np.argsort(UCB_list)[-self.opt_num :][::-1]
             for j in range(len(UCB_opt_index)):
-                print('The {num}-th datum recomended by Upper confidence bound : \n x = '.format(num =j+1), self.row_features[UCB_opt_index[j]])
-                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[UCB_opt_index[j]])
+                print(
+                    "The {num}-th datum recomended by Upper confidence bound : \n x = ".format(
+                        num=j + 1
+                    ),
+                    self.row_features[UCB_opt_index[j]],
+                )
+                print(
+                    "The predictions of Bgolearn are : \n y = ",
+                    self.virtual_samples_mean[UCB_opt_index[j]],
+                )
                 return_x.append(self.row_features[UCB_opt_index[j]])
         else:
-            print('The input para. opt_num must be an int')
+            print("The input para. opt_num must be an int")
 
-        return UCB_list,np.array(return_x)
-    
-    def PoI(self, tao = 0,T=None):
+        return UCB_list, np.array(return_x)
+
+    def PoI(self, tao=0, T=None):
         """
         Probability of Improvement
         :param tao: improvement ratio (>=0) , default 0
@@ -382,116 +539,188 @@ class Global_max(object):
             Recommended: Set to `None` for automatic calculation.
         """
         if tao < 0:
-            print('Type Error \'EXACT\'','please input a Non-negative value of tao')
-            
+            print("Type Error 'EXACT'", "please input a Non-negative value of tao")
+
         else:
             if isinstance(T, (float, int)):
                 cur_optimal_value = T
-                print('The baseline is assigned by the user.')
+                print("The baseline is assigned by the user.")
             else:
-                print('The baseline is calculated based on the training dataset.')
-                cur_optimal_value = (1 + tao) * self.Measured_response.max() 
-            print('The current optimal is :', cur_optimal_value)
-            PoI_list = norm.cdf((self.virtual_samples_mean - cur_optimal_value)/self.virtual_samples_std)
-            
+                print("The baseline is calculated based on the training dataset.")
+                cur_optimal_value = (1 + tao) * self.Measured_response.max()
+            print("The current optimal is :", cur_optimal_value)
+            PoI_list = norm.cdf(
+                (self.virtual_samples_mean - cur_optimal_value)
+                / self.virtual_samples_std
+            )
+
             return_x = []
             if self.opt_num == 1:
-                PoI_opt_index = np.random.choice(np.flatnonzero(PoI_list == PoI_list.max()))
-                print('The next datum recomended by Probability of Improvement  : \n x = ', self.row_features[PoI_opt_index])
-                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[PoI_opt_index])
+                PoI_opt_index = np.random.choice(
+                    np.flatnonzero(PoI_list == PoI_list.max())
+                )
+                print(
+                    "The next datum recomended by Probability of Improvement  : \n x = ",
+                    self.row_features[PoI_opt_index],
+                )
+                print(
+                    "The predictions of Bgolearn are : \n y = ",
+                    self.virtual_samples_mean[PoI_opt_index],
+                )
                 return_x.append(self.row_features[PoI_opt_index])
             elif type(self.opt_num) == int:
-                PoI_opt_index = np.argsort(PoI_list)[-self.opt_num:][::-1]   
+                PoI_opt_index = np.argsort(PoI_list)[-self.opt_num :][::-1]
                 for j in range(len(PoI_opt_index)):
-                    print('The {num}-th datum recomended by Probability of Improvement  : \n x = '.format(num =j+1), self.row_features[PoI_opt_index[j]])
-                    print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[PoI_opt_index[j]])
+                    print(
+                        "The {num}-th datum recomended by Probability of Improvement  : \n x = ".format(
+                            num=j + 1
+                        ),
+                        self.row_features[PoI_opt_index[j]],
+                    )
+                    print(
+                        "The predictions of Bgolearn are : \n y = ",
+                        self.virtual_samples_mean[PoI_opt_index[j]],
+                    )
                     return_x.append(self.row_features[PoI_opt_index[j]])
             else:
-                print('The input para. opt_num must be an int')
-            return PoI_list,np.array(return_x)
-    
-    def Thompson_sampling(self,):
-        # x* is derived by searching at the vistual space 
-        # sample = np.len(virtual_samples)
+                print("The input para. opt_num must be an int")
+            return PoI_list, np.array(return_x)
+
+    def Thompson_sampling(
+        self,
+    ):
+        """Draw one Thompson sample and return the sampled best candidate.
+
+        Returns:
+            tuple: Candidate point, sampled objective value, and predictive
+            standard deviation at the selected point.
+        """
         optimal_value_set = []
         for i in range(len(self.virtual_samples)):
-            y_value = np.random.normal(loc = self.virtual_samples_mean[i],scale = self.virtual_samples_std[i])
+            y_value = np.random.normal(
+                loc=self.virtual_samples_mean[i], scale=self.virtual_samples_std[i]
+            )
             optimal_value_set.append(y_value)
-        index = np.where(np.array(optimal_value_set)==np.array(optimal_value_set).max())[0][0]
-        return self.virtual_samples[index], optimal_value_set[index],self.virtual_samples_std[index]
-    
-    def PES(self, sam_num = 500):
+        index = np.where(
+            np.array(optimal_value_set) == np.array(optimal_value_set).max()
+        )[0][0]
+        return (
+            self.virtual_samples[index],
+            optimal_value_set[index],
+            self.virtual_samples_std[index],
+        )
+
+    def PES(self, sam_num=500):
         """
         Predictive Entropy Search
         :param sam_num: number of optimal drawn from p(x*|D), D is support set, default 500
         """
         # sam_num: number of optimal drawn from p(x*|D),D is support set
         # ref. paper: Predictive Entropy Search for Efficient Global Optimization of Black-box Functions
-        Entropy_y_ori = 0.5*np.log(2*np.pi*np.e*(self.virtual_samples_std**2))
-    
+        Entropy_y_ori = 0.5 * np.log(2 * np.pi * np.e * (self.virtual_samples_std**2))
+
         # defined Monte carol
         Entropy_y_conditional = np.zeros(len(self.virtual_samples))
-        for i in range(sam_num):   
-            sample_x, sample_y, sample_noise= self.Thompson_sampling()
-            
+        for i in range(sam_num):
+            sample_x, sample_y, sample_noise = self.Thompson_sampling()
+
             archive_sample_x = copy.deepcopy(self.data_matrix)
             archive_sample_y = copy.deepcopy(self.Measured_response)
-            
+
             archive_sample_x = np.append(archive_sample_x, sample_x)
             archive_sample_y = np.append(archive_sample_y, sample_y)
             fea_num = len(self.data_matrix[0])
             # return a callable model
-            if self.ret_noise == 1: 
-                _, post_std = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num), archive_sample_y, self.virtual_samples,sample_noise)
+            if self.ret_noise == 1:
+                _, post_std = self.Kriging_model().fit_pre(
+                    archive_sample_x.reshape(-1, fea_num),
+                    archive_sample_y,
+                    self.virtual_samples,
+                    sample_noise,
+                )
             else:
-                _, post_std = self.Kriging_model().fit_pre(archive_sample_x.reshape(-1, fea_num), archive_sample_y, self.virtual_samples)
-            
-            Entropy_y_conditional += 0.5*np.log(2*np.pi*np.e*(post_std**2))
-        estimated_Entropy_y_conditional = Entropy_y_conditional / sam_num            
+                _, post_std = self.Kriging_model().fit_pre(
+                    archive_sample_x.reshape(-1, fea_num),
+                    archive_sample_y,
+                    self.virtual_samples,
+                )
+
+            Entropy_y_conditional += 0.5 * np.log(2 * np.pi * np.e * (post_std**2))
+        estimated_Entropy_y_conditional = Entropy_y_conditional / sam_num
         PES_list = Entropy_y_ori - estimated_Entropy_y_conditional
-        
 
         return_x = []
         if self.opt_num == 1:
             PES_opt_index = np.random.choice(np.flatnonzero(PES_list == PES_list.max()))
-            print('The next datum recomended by Predictive Entropy Search  : \n x = ', self.row_features[PES_opt_index])
-            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[PES_opt_index])
+            print(
+                "The next datum recomended by Predictive Entropy Search  : \n x = ",
+                self.row_features[PES_opt_index],
+            )
+            print(
+                "The predictions of Bgolearn are : \n y = ",
+                self.virtual_samples_mean[PES_opt_index],
+            )
             return_x.append(self.row_features[PES_opt_index])
         elif type(self.opt_num) == int:
-            PES_opt_index = np.argsort(PES_list)[-self.opt_num:][::-1]   
+            PES_opt_index = np.argsort(PES_list)[-self.opt_num :][::-1]
             for j in range(len(PES_opt_index)):
-                print('The {num}-th datum recomended by Predictive Entropy Search  : \n x = '.format(num =j+1), self.row_features[PES_opt_index[j]])
-                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[PES_opt_index[j]])
+                print(
+                    "The {num}-th datum recomended by Predictive Entropy Search  : \n x = ".format(
+                        num=j + 1
+                    ),
+                    self.row_features[PES_opt_index[j]],
+                )
+                print(
+                    "The predictions of Bgolearn are : \n y = ",
+                    self.virtual_samples_mean[PES_opt_index[j]],
+                )
                 return_x.append(self.row_features[PES_opt_index[j]])
         else:
-            print('The input para. opt_num must be an int')
-        return PES_list,np.array(return_x)
-    
+            print("The input para. opt_num must be an int")
+        return PES_list, np.array(return_x)
 
-
-
-  
-    def __Knowledge_G_per_sample(self, func_bytes:bytes, MC_num:int, virtual_samples, v_sample_mean, v_sample_std, archive_sample_x, archive_sample_y, x_value, fea_num, ret_noise):
+    def __Knowledge_G_per_sample(
+        self,
+        func_bytes: bytes,
+        MC_num: int,
+        virtual_samples,
+        v_sample_mean,
+        v_sample_std,
+        archive_sample_x,
+        archive_sample_y,
+        x_value,
+        fea_num,
+        ret_noise,
+    ):
         MC_batch_max = 0
         for _ in range(MC_num):
             # generate y value
-            y_value = np.random.normal(loc = v_sample_mean, scale = v_sample_std)
+            y_value = np.random.normal(loc=v_sample_mean, scale=v_sample_std)
             # update the sample x and sample y
-            archive_sample_x[-len(x_value):] = x_value
+            archive_sample_x[-len(x_value) :] = x_value
             if isinstance(y_value, float):
                 archive_sample_y[-1] = y_value
             elif isinstance(y_value, np.ndarray):
-                archive_sample_y[-len(y_value):] = y_value
+                archive_sample_y[-len(y_value) :] = y_value
             # calculate the post mean
             if ret_noise == True:
                 # return a callable model
-                post_mean, _ = func_bytes.fit_pre(archive_sample_x.reshape(-1, fea_num), archive_sample_y, virtual_samples, v_sample_std)
+                post_mean, _ = func_bytes.fit_pre(
+                    archive_sample_x.reshape(-1, fea_num),
+                    archive_sample_y,
+                    virtual_samples,
+                    v_sample_std,
+                )
             else:
-                post_mean, _ = func_bytes.fit_pre(archive_sample_x.reshape(-1, fea_num), archive_sample_y, virtual_samples)
+                post_mean, _ = func_bytes.fit_pre(
+                    archive_sample_x.reshape(-1, fea_num),
+                    archive_sample_y,
+                    virtual_samples,
+                )
             MC_batch_max += post_mean.max()
         return MC_batch_max
-    
-    def Knowledge_G(self,MC_num = 1, Proc_num:int=None):
+
+    def Knowledge_G(self, MC_num=1, Proc_num: int = None):
         """
         Calculate the Knowledge Gradient for Bayesian optimization.
 
@@ -499,7 +728,7 @@ class Global_max(object):
         :param Proc_num: Number of processors, default None (0) for single process.
         :return: Knowledge Gradient values and recommended data points.
 
-        for windows operating systems, please ensures that the code inside the if __name__ == '__main__': 
+        for windows operating systems, please ensures that the code inside the if __name__ == '__main__':
         e.g.,
         import multiprocessing as mp
         if __name__ == '__main__':
@@ -513,56 +742,123 @@ class Global_max(object):
         KD_list = []
         fea_num = len(self.data_matrix[0])
         archive_sample_x = np.append(self.data_matrix[:], self.virtual_samples[0])
-        archive_sample_y = np.append(self.Measured_response[:], self.virtual_samples_mean[0])
+        archive_sample_y = np.append(
+            self.Measured_response[:], self.virtual_samples_mean[0]
+        )
         K_model = self.Kriging_model()
         results = []
         i = 0
         if not Proc_num:
-            print('Execution using a single process')
-            for x_value, v_sample_mean, v_sample_std in zip(self.virtual_samples, self.virtual_samples_mean, self.virtual_samples_std):
-                MC_batch_max= self.__Knowledge_G_per_sample(K_model, MC_num, self.virtual_samples, v_sample_mean, v_sample_std, archive_sample_x, archive_sample_y, x_value, fea_num, self.ret_noise)
+            print("Execution using a single process")
+            for x_value, v_sample_mean, v_sample_std in zip(
+                self.virtual_samples,
+                self.virtual_samples_mean,
+                self.virtual_samples_std,
+            ):
+                MC_batch_max = self.__Knowledge_G_per_sample(
+                    K_model,
+                    MC_num,
+                    self.virtual_samples,
+                    v_sample_mean,
+                    v_sample_std,
+                    archive_sample_x,
+                    archive_sample_y,
+                    x_value,
+                    fea_num,
+                    self.ret_noise,
+                )
                 MC_result = MC_batch_max / MC_num
-                KD_list.append(MC_result -  current_max )
+                KD_list.append(MC_result - current_max)
                 i += 1
-                print('The Monte Carlo simulation has been performed {num} times.'.format(num = i * MC_num))
+                print(
+                    "The Monte Carlo simulation has been performed {num} times.".format(
+                        num=i * MC_num
+                    )
+                )
         else:
 
             # Call this function at the beginning of your script
             setup_multiprocessing()
-            print('Execution using multiple processes, processes num = {},'.format(Proc_num) )
+            print(
+                "Execution using multiple processes, processes num = {},".format(
+                    Proc_num
+                )
+            )
             with mp.get_context("spawn").Pool(Proc_num) as pool:
-                results=[pool.apply_async(self.__Knowledge_G_per_sample, args=(K_model, MC_num, self.virtual_samples, v_sample_mean, v_sample_std, archive_sample_x, archive_sample_y, x_value, fea_num, self.ret_noise)) for x_value, v_sample_mean, v_sample_std in zip(self.virtual_samples, self.virtual_samples_mean, self.virtual_samples_std)]
+                results = [
+                    pool.apply_async(
+                        self.__Knowledge_G_per_sample,
+                        args=(
+                            K_model,
+                            MC_num,
+                            self.virtual_samples,
+                            v_sample_mean,
+                            v_sample_std,
+                            archive_sample_x,
+                            archive_sample_y,
+                            x_value,
+                            fea_num,
+                            self.ret_noise,
+                        ),
+                    )
+                    for x_value, v_sample_mean, v_sample_std in zip(
+                        self.virtual_samples,
+                        self.virtual_samples_mean,
+                        self.virtual_samples_std,
+                    )
+                ]
                 for idx, rst in enumerate(results):
                     MC_batch_max = rst.get()
                     MC_result = MC_batch_max / MC_num
-                    KD_list.append(MC_result -  current_max )
+                    KD_list.append(MC_result - current_max)
                     i += 1
-                    print('The Monte Carlo simulation has been performed {num} times.'.format(num = i * MC_num))
+                    print(
+                        "The Monte Carlo simulation has been performed {num} times.".format(
+                            num=i * MC_num
+                        )
+                    )
         KD_list = np.array(KD_list)
 
         return_x = []
         if self.opt_num == 1:
             KD_opt_index = np.random.choice(np.flatnonzero(KD_list == KD_list.max()))
-            print('The next datum recomended by Knowledge Gradient : \n x = ', self.row_features[KD_opt_index])
-            print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[KD_opt_index])
+            print(
+                "The next datum recomended by Knowledge Gradient : \n x = ",
+                self.row_features[KD_opt_index],
+            )
+            print(
+                "The predictions of Bgolearn are : \n y = ",
+                self.virtual_samples_mean[KD_opt_index],
+            )
             return_x.append(self.row_features[KD_opt_index])
         elif type(self.opt_num) == int:
-            KD_opt_index = np.argsort(KD_list)[-self.opt_num:][::-1]
+            KD_opt_index = np.argsort(KD_list)[-self.opt_num :][::-1]
             for j in range(len(KD_opt_index)):
-                print('The {num}-th datum recomended by Knowledge Gradient : \n x = '.format(num =j+1), self.row_features[KD_opt_index[j]])
-                print('The predictions of Bgolearn are : \n y = ', self.virtual_samples_mean[KD_opt_index[j]])
+                print(
+                    "The {num}-th datum recomended by Knowledge Gradient : \n x = ".format(
+                        num=j + 1
+                    ),
+                    self.row_features[KD_opt_index[j]],
+                )
+                print(
+                    "The predictions of Bgolearn are : \n y = ",
+                    self.virtual_samples_mean[KD_opt_index[j]],
+                )
                 return_x.append(self.row_features[KD_opt_index[j]])
         else:
-            print('The input para. opt_num must be an int')
-        return KD_list,np.array(return_x)
-    
-def setup_multiprocessing():
-    if multiprocessing.get_start_method() != 'fork':
-        try:
-            multiprocessing.set_start_method('fork')
-        except RuntimeError:
-            print('\'fork\' method not available, using the default')
+            print("The input para. opt_num must be an int")
+        return KD_list, np.array(return_x)
 
-# cal norm prob.
+
+def setup_multiprocessing():
+    """Prefer the ``fork`` start method when it is available."""
+    if multiprocessing.get_start_method() != "fork":
+        try:
+            multiprocessing.set_start_method("fork")
+        except RuntimeError:
+            print("'fork' method not available, using the default")
+
+
 def norm_des(x):
-    return 1 / np.sqrt(2 * np.pi) * np.exp(- x ** 2 / 2)
+    """Return the standard normal probability density at ``x``."""
+    return 1 / np.sqrt(2 * np.pi) * np.exp(-(x**2) / 2)

@@ -1,48 +1,26 @@
-
-
 # Bgolearn
 
-**A Bayesian Global Optimization Package for Material Design**
-First released: July 2022
-Official website: [https://bgolearn.netlify.app/](https://bgolearn.netlify.app/)
+Bgolearn is a Bayesian global optimization package for accelerating materials
+discovery. It provides practical optimization workflows for costly experiments,
+including regression-based candidate recommendation, classification boundary
+exploration, cross-validation diagnostics, and several acquisition functions.
 
----
+Author and maintainer: Dr.Bin Cao (https://bin-cao.github.io/)
 
-## 为材料设计而生！
+Documentation: https://bgolearn.netlify.app/
 
-Bgolearn is a Python-based **Bayesian Global Optimization (BGO)** toolkit designed to accelerate **material discovery and experimental design**.
-It provides a suite of efficient acquisition functions to guide the next-step experiments based on existing data, helping researchers achieve less trial and more discovery.
+Repository: https://github.com/Bin-Cao/Bgolearn
 
----
+## Features
 
-## Reference
-
-V. Picheny, T. Wagner, and D. Ginsbourger.
-“A Benchmark of Kriging-Based Infill Criteria for Noisy Optimization.”
-*Structural and Multidisciplinary Optimization*, 48(3), 607–626 (2013).
-ISSN: 1615-1488.
-
----
-
-## Core Features
-
-Bgolearn implements nine utility (acquisition) functions for Bayesian optimization, covering both classical and Monte Carlo–based methods:
-
-1. **Expected Improvement (EI)**
-2. **Expected Improvement with “Plugin”** (noise-handling version)
-3. **Augmented Expected Improvement (AEI)**
-4. **Expected Quantile Improvement (EQI)**
-5. **Reinterpolation Expected Improvement (REI)**
-6. **Upper Confidence Bound (UCB)**
-7. **Probability of Improvement (PI)**
-8. **Predictive Entropy Search (PES)** (Monte Carlo based)
-9. **Knowledge Gradient (KG)** (Monte Carlo based)
-
-贝叶斯全局优化算法包 Bgolearn 可基于已有实验数据对后续材料设计提供指导。
-包含 9 种采样方法：期望提升（EI）、改进期望提升（含噪声）、增强期望提升、分位期望提升、再插值期望提升、上置信界、提升概率、熵搜索与知识梯度等。
-其中熵搜索与知识梯度方法基于蒙特卡洛仿真实现。
-
----
+- Bayesian global optimization for materials design and discovery.
+- Single-objective minimization and maximization workflows.
+- Classification-mode active learning for decision-boundary exploration.
+- Acquisition functions including EI, EI with plugin, augmented EI, EQI, UCB,
+  PoI, PES, and Knowledge Gradient.
+- Built-in surrogate choices for SVM, Random Forest, AdaBoost, and MLP models.
+- Gaussian process modeling with homogeneous or heterogeneous noise support.
+- Optional cross-validation reports and virtual-sample prediction exports.
 
 ## Installation
 
@@ -50,22 +28,109 @@ Bgolearn implements nine utility (acquisition) functions for Bayesian optimizati
 pip install Bgolearn
 ```
 
----
-
-## Updating
+For local development from this repository:
 
 ```bash
-pip install --upgrade Bgolearn
+pip install -e .
 ```
 
----
+## Quick Start
 
-## Compatibility
+```python
+import pandas as pd
 
-Written in Python, Bgolearn runs smoothly on Windows, Linux, and macOS.
+from Bgolearn.BGOsampling import Bgolearn
 
----
+data = pd.read_csv("data.csv")
+virtual_samples = pd.read_csv("virtual_data.csv")
+
+X = data.iloc[:, :-1]
+y = data.iloc[:, -1]
+
+optimizer = Bgolearn()
+model = optimizer.fit(
+    data_matrix=X,
+    Measured_response=y,
+    virtual_samples=virtual_samples,
+    Mission="Regression",
+    min_search=True,
+)
+
+scores, candidates = model.EI()
+print(candidates)
+```
+
+## Main API
+
+### `Bgolearn.fit`
+
+Fits a Bayesian optimization workflow and returns an acquisition-function model.
+
+Common parameters:
+
+- `data_matrix`: measured feature matrix.
+- `Measured_response`: measured target values.
+- `virtual_samples`: candidate samples to rank.
+- `Mission`: `"Regression"` or `"Classification"`.
+- `Kriging_model`: `None`, a built-in model name, or a custom model class with
+  a `fit_pre` method.
+- `opt_num`: number of candidates to recommend.
+- `min_search`: `True` for minimization and `False` for maximization.
+- `CV_test`: `False`, `"LOOCV"`, or an integer for k-fold cross-validation.
+
+### Custom Surrogate Model
+
+```python
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import RBF
+
+
+class CustomKrigingModel:
+    def fit_pre(self, xtrain, ytrain, xtest):
+        model = GaussianProcessRegressor(kernel=RBF(), normalize_y=True)
+        model.fit(xtrain, ytrain)
+        mean, std = model.predict(xtest, return_std=True)
+        return mean, std
+```
+
+Use it with:
+
+```python
+model = optimizer.fit(
+    data_matrix=X,
+    Measured_response=y,
+    virtual_samples=virtual_samples,
+    Kriging_model=CustomKrigingModel,
+)
+```
+
+## Classification Mode
+
+```python
+model = optimizer.fit(
+    data_matrix=X,
+    Measured_response=labels,
+    virtual_samples=virtual_samples,
+    Mission="Classification",
+    Classifier="RandomForest",
+)
+
+scores, candidates = model.Entropy()
+```
+
+Available classifiers include `GaussianProcess`, `LogisticRegression`,
+`NaiveBayes`, `SVM`, and `RandomForest`.
 
 ## Citation
 
-If you use Bgolearn in your research, please cite the corresponding paper once available or link to this repository.
+If Bgolearn supports your research, please cite:
+
+Cao B. et al., "Bgolearn: A Unified Bayesian Optimization Framework for
+Accelerating Materials Discovery", npj Computational Materials.
+https://doi.org/10.1038/s41524-026-02226-3
+
+## Support
+
+Questions, issues, pull requests, and research collaborations are welcome.
+
+Contact: bcao686@connect.hkust-gz.edu.cn

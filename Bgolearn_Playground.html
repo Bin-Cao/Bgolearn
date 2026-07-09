@@ -1,0 +1,2483 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bgolearn 乐园 | Bayesian Optimization Playground</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17202a;
+      --muted: #5d6b78;
+      --line: #d7e2ea;
+      --soft: #f4f8fb;
+      --panel: #ffffff;
+      --green: #1f8a70;
+      --blue: #276fbf;
+      --red: #c84630;
+      --gold: #d89c28;
+      --purple: #6f58c9;
+      --shadow: 0 12px 32px rgba(25, 44, 63, .12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      color: var(--ink);
+      background: #fbfdff;
+      line-height: 1.55;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button, input { font: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px clamp(16px, 4vw, 48px);
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .lang-toggle {
+      border: 1px solid var(--line);
+      background: var(--ink);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 750;
+      min-width: 118px;
+    }
+
+    .nav .lang-toggle {
+      margin: 0;
+      min-height: 38px;
+    }
+
+    .language-picker {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #f2f6f8;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7);
+    }
+
+    .language-picker button {
+      min-width: 42px;
+      min-height: 32px;
+      padding: 6px 10px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: #536270;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 820;
+    }
+
+    .language-picker button.active {
+      background: var(--ink);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(23, 32, 42, .18);
+    }
+
+    .hero {
+      min-height: calc(100vh - 58px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(320px, .98fr);
+      align-items: center;
+      gap: clamp(24px, 5vw, 72px);
+      padding: clamp(28px, 6vw, 72px) clamp(16px, 5vw, 68px) 42px;
+      background:
+        linear-gradient(120deg, rgba(31, 138, 112, .18), rgba(39, 111, 191, .11) 45%, rgba(216, 156, 40, .18)),
+        #f8fbfc;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin: 0 0 10px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 980px;
+      font-size: clamp(44px, 8vw, 94px);
+      line-height: .96;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 22px 0 0;
+      color: #334452;
+      font-size: clamp(17px, 2vw, 22px);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(20, 45, 65, .08);
+    }
+
+    .btn.primary {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .btn:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    .hero-visual {
+      width: min(100%, 620px);
+      justify-self: center;
+      background: rgba(255, 255, 255, .82);
+      border: 1px solid rgba(215, 226, 234, .86);
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-board {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .hero-chip-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .hero-chip {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fbfc;
+    }
+
+    .hero-chip strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.1;
+    }
+
+    .hero-chip span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .hero-visual img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    main section {
+      padding: 64px clamp(16px, 5vw, 68px);
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      max-width: 860px;
+      margin-bottom: 26px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .section-head p, .muted {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .step, .resource, .concept, .stat, .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(23, 32, 42, .06);
+    }
+
+    .step {
+      padding: 18px;
+      min-height: 190px;
+    }
+
+    .step .num {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--blue);
+      border-radius: 8px;
+      font-weight: 850;
+      margin-bottom: 16px;
+    }
+
+    .step:nth-child(2) .num { background: var(--green); }
+    .step:nth-child(3) .num { background: var(--gold); }
+    .step:nth-child(4) .num { background: var(--red); }
+
+    .step h3, .concept h3, .resource h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .step p, .concept p, .resource p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .playground {
+      display: grid;
+      grid-template-columns: minmax(420px, 1fr) minmax(340px, 460px);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .game-shell {
+      background:
+        linear-gradient(135deg, rgba(23, 32, 42, .96), rgba(28, 84, 96, .95)),
+        #17202a;
+      color: #f7fbfc;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .game-shell .section-head p,
+    .game-shell .muted {
+      color: rgba(247, 251, 252, .76);
+    }
+
+    .mission-bar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) repeat(4, minmax(110px, .34fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .mission-card,
+    .game-metric {
+      background: rgba(255, 255, 255, .09);
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .mission-card strong,
+    .game-metric strong {
+      display: block;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .mission-card span,
+    .game-metric span {
+      color: rgba(247, 251, 252, .72);
+      font-size: 13px;
+    }
+
+    .game-metric strong {
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
+
+    .candidate-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .candidate-card {
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .08);
+      cursor: pointer;
+      min-height: 116px;
+      text-align: left;
+    }
+
+    .candidate-card.recommended {
+      border-color: rgba(216, 156, 40, .9);
+      background: rgba(216, 156, 40, .18);
+    }
+
+    .candidate-card.selected {
+      border-color: rgba(31, 138, 112, .95);
+      box-shadow: inset 0 0 0 2px rgba(31, 138, 112, .28);
+    }
+
+    .candidate-card strong {
+      display: block;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .candidate-card span {
+      display: block;
+      color: rgba(247, 251, 252, .72);
+      font-size: 13px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 7px;
+      margin-top: 6px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .14);
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      width: 50%;
+      background: #4fc3a1;
+    }
+
+    .chart-panel .candidate-card {
+      background: #f7fafc;
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .chart-panel .candidate-card.recommended {
+      background: #fff7e6;
+      border-color: rgba(216, 156, 40, .78);
+    }
+
+    .chart-panel .candidate-card.selected {
+      background: #eaf7f2;
+      border-color: rgba(31, 138, 112, .78);
+    }
+
+    .chart-panel .candidate-card strong {
+      color: var(--ink);
+    }
+
+    .chart-panel .candidate-card span {
+      color: var(--muted);
+    }
+
+    .chart-panel .bar {
+      background: #e4edf2;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .badge {
+      padding: 7px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .16);
+      color: rgba(247, 251, 252, .76);
+      font-size: 12px;
+      font-weight: 760;
+    }
+
+    .badge.on {
+      background: rgba(31, 138, 112, .28);
+      border-color: rgba(79, 195, 161, .72);
+      color: #fff;
+    }
+
+    .demo-brief {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .brief-item {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 22px rgba(23, 32, 42, .05);
+      color: var(--ink);
+    }
+
+    .brief-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .brief-item span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .chart-panel {
+      padding: 18px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .game-shell .chart-panel {
+      background: rgba(255, 255, 255, .96);
+      color: var(--ink);
+    }
+
+    canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #ffffff;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .key {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--ink);
+      flex: 0 0 auto;
+    }
+
+    .dot.green { background: var(--green); }
+    .dot.gold { background: var(--gold); }
+    .dot.blue { background: var(--blue); }
+    .dot.red { background: var(--red); }
+    .dot.seed { background: #8a96a3; }
+    .dot.purple { background: var(--purple); }
+    .dot.new { background: #00a6d6; }
+    .dot.pending { background: #ef7d22; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      z-index: 40;
+      width: min(620px, calc(100vw - 32px));
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 8px;
+      background: rgba(23, 32, 42, .96);
+      color: #fff;
+      box-shadow: 0 28px 90px rgba(0, 0, 0, .42);
+      transform: translate(-50%, -46%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+    }
+
+    .toast strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .toast p {
+      margin: 0;
+      color: rgba(255, 255, 255, .84);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .toast button {
+      margin-top: 18px;
+      min-height: 42px;
+      padding: 9px 14px;
+      border: 1px solid rgba(255, 255, 255, .28);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .12);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 780;
+    }
+
+    .toast.success {
+      border-color: rgba(79, 195, 161, .7);
+      background:
+        linear-gradient(135deg, rgba(31, 138, 112, .98), rgba(23, 32, 42, .98)),
+        #17202a;
+    }
+
+    .toast.success strong {
+      font-size: 30px;
+    }
+
+    .toast.success button {
+      background: #fff;
+      color: var(--green);
+      border-color: #fff;
+    }
+
+    .experiment-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 35;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(9, 18, 28, .58);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+    }
+
+    .experiment-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .experiment-modal {
+      width: min(460px, 100%);
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 8px;
+      background: #17202a;
+      color: #fff;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .36);
+    }
+
+    .experiment-modal strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+
+    .experiment-modal p {
+      margin: 0 0 14px;
+      color: rgba(255, 255, 255, .76);
+    }
+
+    .experiment-track {
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+    }
+
+    .experiment-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #4fc3a1, #d89c28, #ef7d22);
+      transition: width .16s linear;
+    }
+
+    .controls {
+      display: grid;
+      gap: 12px;
+    }
+
+    .panel { padding: 16px; }
+
+    .game-shell .panel,
+    .game-shell .stat {
+      background: rgba(255, 255, 255, .09);
+      border-color: rgba(255, 255, 255, .16);
+      color: #fff;
+      box-shadow: none;
+    }
+
+    .game-shell .stat span,
+    .game-shell .panel-note {
+      color: rgba(247, 251, 252, .72);
+    }
+
+    .game-shell select,
+    .game-shell input[type="range"] {
+      accent-color: #4fc3a1;
+    }
+
+    .game-shell .mini-log {
+      background: rgba(255, 255, 255, .08);
+      border-color: rgba(255, 255, 255, .15);
+      color: rgba(247, 251, 252, .86);
+    }
+
+    .panel h3 {
+      margin: 0 0 8px;
+      line-height: 1.2;
+    }
+
+    .panel-note {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 12px;
+    }
+
+    select {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      padding: 8px 10px;
+      font-weight: 720;
+      margin: 6px 0 12px;
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 4px 0 14px;
+    }
+
+    .action-row .btn {
+      width: 100%;
+      min-height: 46px;
+      box-shadow: none;
+    }
+
+    .action-row .btn.primary {
+      background: var(--green);
+    }
+
+    .control-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      margin: 12px 0 4px;
+    }
+
+    .control-row label {
+      font-weight: 760;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--green);
+    }
+
+    .score {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .stat {
+      padding: 12px;
+      min-height: 82px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .mini-log {
+      min-height: 122px;
+      max-height: 210px;
+      overflow: auto;
+      padding: 12px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: #334452;
+      font-size: 13px;
+    }
+
+    .log-panel {
+      border-color: rgba(216, 156, 40, .45) !important;
+      background: rgba(216, 156, 40, .12) !important;
+    }
+
+    .full-log-panel {
+      margin-top: 18px;
+      width: 100%;
+    }
+
+    .log-panel h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 24px;
+    }
+
+    .log-panel h3::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d89c28;
+      box-shadow: 0 0 0 5px rgba(216, 156, 40, .18);
+    }
+
+    .log-panel .mini-log {
+      min-height: 260px;
+      max-height: 360px;
+      background: rgba(255, 255, 255, .92);
+      border-color: rgba(216, 156, 40, .38);
+      color: #243443;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .mini-log div {
+      padding: 12px 14px 12px 16px;
+      border-left: 5px solid rgba(216, 156, 40, .88);
+      border-bottom: 1px solid rgba(216, 156, 40, .22);
+      background: rgba(255, 255, 255, .78);
+    }
+
+    .mini-log div + div {
+      margin-top: 8px;
+    }
+
+    .phase-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .phase {
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fbfc;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 740;
+    }
+
+    .phase.active {
+      background: #e8f5ef;
+      border-color: rgba(31, 138, 112, .4);
+      color: var(--green);
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .concept {
+      padding: 18px;
+    }
+
+    .formula {
+      margin-top: 14px;
+      padding: 12px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font-weight: 800;
+      color: #243443;
+      overflow-wrap: anywhere;
+    }
+
+    .acq-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .acq-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(23, 32, 42, .05);
+    }
+
+    .acq-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 18px;
+    }
+
+    .acq-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: minmax(280px, .9fr) minmax(320px, 1.1fr);
+      gap: 22px;
+      align-items: center;
+    }
+
+    .workflow img {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .bullets {
+      display: grid;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .bullets li {
+      padding: 12px 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .resources {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .resource {
+      padding: 18px;
+      min-height: 165px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .resource a {
+      font-weight: 850;
+    }
+
+    .citation-block {
+      margin-top: 16px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(23, 32, 42, .05);
+    }
+
+    .citation-block h3 {
+      margin: 0 0 10px;
+    }
+
+    .citation-block pre {
+      margin: 12px 0 0;
+      padding: 14px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f7fafc;
+      color: #243443;
+      font-size: 13px;
+      line-height: 1.45;
+      white-space: pre;
+    }
+
+    footer {
+      padding: 28px clamp(16px, 5vw, 68px);
+      color: var(--muted);
+      background: #eef5f7;
+      border-top: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    [data-lang="en"] .zh,
+    [data-lang="zh"] .en {
+      display: none !important;
+    }
+
+    @media (max-width: 960px) {
+      .hero,
+      .playground,
+      .workflow {
+        grid-template-columns: 1fr;
+      }
+
+      .mission-bar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .steps,
+      .concept-grid,
+      .resources,
+      .demo-brief,
+      .acq-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .steps,
+      .concept-grid,
+      .resources,
+      .score,
+      .demo-brief,
+      .acq-grid,
+      .phase-list,
+      .hero-chip-row,
+      .mission-bar,
+      .candidate-grid,
+      .action-row {
+        grid-template-columns: 1fr;
+      }
+
+    }
+  </style>
+</head>
+<body data-lang="en">
+  <header class="topbar">
+    <div class="brand">
+      <img src="figures/logo.png" alt="Bgolearn logo">
+      <span>Bgolearn Playground</span>
+    </div>
+    <nav class="nav" aria-label="Page navigation">
+      <a href="#idea" data-ui="navBasics"><span class="zh">入门</span><span class="en">Basics</span></a>
+      <a href="#demo" data-ui="navDemo"><span class="zh">互动演示</span><span class="en">Demo</span></a>
+      <a href="#bgolearn" data-ui="navResources"><span class="zh">资源</span><span class="en">Resources</span></a>
+      <a href="https://bin-cao.github.io/">Dr. Bin Cao (曹斌)</a>
+      <div class="language-picker" id="languagePicker" aria-label="Language">
+        <button type="button" data-lang-option="en">EN</button>
+        <button type="button" data-lang-option="zh">中</button>
+        <button type="button" data-lang-option="ja">日</button>
+        <button type="button" data-lang-option="ko">한</button>
+        <button type="button" data-lang-option="de">DE</button>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow" data-ui="heroEyebrow"><span class="zh">小白入门材料贝叶斯优化</span><span class="en">A beginner path to Bayesian optimization for materials</span></p>
+      <h1 data-ui="heroTitle"><span class="zh">Bgolearn 乐园</span><span class="en">Bgolearn Playground</span></h1>
+      <p>
+        <span class="zh">从“试很多次”变成“聪明地试下一次”：用少量实验数据训练代理模型，让不确定性和采集函数帮你推荐最值得做的材料候选。</span>
+        <span class="en">Move from trying everything to choosing the next experiment wisely: train a surrogate model from limited data, then use uncertainty and acquisition functions to recommend high-value material candidates.</span>
+      </p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#demo"><span class="zh">开始互动</span><span class="en">Start demo</span></a>
+        <a class="btn" href="#bgolearn"><span class="zh">查看 Bgolearn 资源</span><span class="en">View Bgolearn resources</span></a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="figures/Bgolearn.png" alt="Bgolearn project mark">
+      <div class="hero-board">
+        <div class="hero-chip-row">
+          <div class="hero-chip"><strong>1</strong><span class="zh">小批量已有实验</span><span class="en">small measured batch</span></div>
+          <div class="hero-chip"><strong>2</strong><span class="zh">模型预测和不确定性</span><span class="en">prediction plus uncertainty</span></div>
+          <div class="hero-chip"><strong>3</strong><span class="zh">推荐下一轮候选</span><span class="en">next candidate</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section id="idea">
+      <div class="section-head">
+        <h2><span class="zh">贝叶斯优化到底在做什么？</span><span class="en">What is Bayesian optimization doing?</span></h2>
+        <p>
+          <span class="zh">材料实验常常昂贵、缓慢、样本少。贝叶斯优化把已有实验变成一张“带不确定性的地图”，再决定下一步去哪里探索。</span>
+          <span class="en">Materials experiments are often costly, slow, and data-limited. Bayesian optimization turns existing measurements into an uncertainty-aware map, then decides where to explore next.</span>
+        </p>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <div class="num">1</div>
+          <h3><span class="zh">描述材料</span><span class="en">Describe materials</span></h3>
+          <p><span class="zh">把成分、工艺、温度、结构特征等转成模型能读懂的变量。</span><span class="en">Convert composition, process, temperature, and structure descriptors into model-readable variables.</span></p>
+        </article>
+        <article class="step">
+          <div class="num">2</div>
+          <h3><span class="zh">学习已知数据</span><span class="en">Learn known data</span></h3>
+          <p><span class="zh">用代理模型预测性能，同时估计“这里我有多不确定”。</span><span class="en">Use a surrogate model to predict performance and estimate uncertainty at the same time.</span></p>
+        </article>
+        <article class="step">
+          <div class="num">3</div>
+          <h3><span class="zh">选择下一次实验</span><span class="en">Choose the next experiment</span></h3>
+          <p><span class="zh">采集函数按不同策略给候选排序：有的偏向提升性能，有的偏向降低未知区域。</span><span class="en">An acquisition function ranks candidates by strategy: some favor performance gain, while others reduce unknown regions.</span></p>
+        </article>
+        <article class="step">
+          <div class="num">4</div>
+          <h3><span class="zh">加入结果再迭代</span><span class="en">Add results and repeat</span></h3>
+          <p><span class="zh">新实验结果回到数据表，模型更新，推荐会越来越聚焦。</span><span class="en">The new measurement goes back into the table, the model updates, and recommendations become more focused.</span></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="demo" class="game-shell">
+      <div class="section-head">
+        <h2><span class="zh">材料寻优游戏：用有限预算找到冠军材料</span><span class="en">Materials Quest: find the champion under budget</span></h2>
+        <p>
+          <span class="zh">你是一间材料实验室的产品负责人。每一次点击代表真实实验室的一轮：高斯过程根据已有样本拟合性能地图，采集函数给候选打分，然后你花掉 1 次预算测量一个材料。目标是在预算耗尽前完成足够轮次的主动学习，并找到性能超过任务阈值的候选。</span>
+          <span class="en">You are the product lead of a materials lab. Each click is one lab round: a Gaussian process fits a performance map from measured samples, an acquisition function scores candidates, and you spend one budget unit to measure a material. Your goal is to complete enough active-learning rounds and beat the mission target before the budget runs out.</span>
+        </p>
+      </div>
+      <div class="mission-bar">
+        <div class="mission-card">
+          <strong id="missionTitle">Lead-free solder sprint</strong>
+          <span id="missionText"></span>
+        </div>
+        <div class="game-metric"><strong id="budgetLeft">10</strong><span class="zh">剩余实验预算</span><span class="en">Budget left</span></div>
+        <div class="game-metric"><strong id="labLevel">L1</strong><span class="zh">实验室等级</span><span class="en">Lab level</span></div>
+        <div class="game-metric"><strong id="gameScore">0</strong><span class="zh">研发积分</span><span class="en">R&D score</span></div>
+        <div class="game-metric"><strong id="missionState">RUN</strong><span class="zh">任务状态</span><span class="en">Mission state</span></div>
+      </div>
+      <div class="demo-brief">
+        <div class="brief-item"><strong><span class="zh">拟合函数是什么？</span><span class="en">What fits the curve?</span></strong><span class="zh">这里使用高斯过程回归，RBF 核会让相近材料有相近性能。</span><span class="en">This uses Gaussian process regression with an RBF kernel, so nearby materials tend to have similar properties.</span></div>
+        <div class="brief-item"><strong><span class="zh">一轮怎么拆开？</span><span class="en">How is one round split?</span></strong><span class="zh">先拟合 GP，再生成推荐，接着执行实验，最后把结果加入训练集。</span><span class="en">Fit the GP, generate recommendations, run the experiment, then add the result to training data.</span></div>
+        <div class="brief-item"><strong><span class="zh">怎么玩更高分？</span><span class="en">How to score higher?</span></strong><span class="zh">早期多探索，发现高性能区后切换到 EI/UCB 收割。</span><span class="en">Explore early, then switch to EI/UCB once a promising region appears.</span></div>
+      </div>
+      <div class="playground">
+        <div class="chart-panel">
+          <canvas id="boCanvas" width="920" height="560" aria-label="Bayesian optimization chart"></canvas>
+          <div class="legend">
+            <span class="key"><span class="dot green"></span><span class="zh">真实性能</span><span class="en">True performance</span></span>
+            <span class="key"><span class="dot blue"></span><span class="zh">模型预测</span><span class="en">Model prediction</span></span>
+            <span class="key"><span class="dot gold"></span><span class="zh">不确定性</span><span class="en">Uncertainty</span></span>
+            <span class="key"><span class="dot purple"></span><span class="zh">采集分数</span><span class="en">Acquisition score</span></span>
+            <span class="key"><span class="dot seed"></span><span class="zh">初始数据</span><span class="en">Initial data</span></span>
+            <span class="key"><span class="dot new"></span><span class="zh">加入数据</span><span class="en">Added data</span></span>
+            <span class="key"><span class="dot pending"></span><span class="zh">待加入结果</span><span class="en">Pending result</span></span>
+          </div>
+          <div class="candidate-grid" id="candidateGrid"></div>
+        </div>
+        <aside class="controls">
+          <div class="panel">
+            <h3><span class="zh">实验控制台</span><span class="en">Experiment console</span></h3>
+            <p class="panel-note"><span class="zh">按顺序完成一轮主动学习。推荐生成后，可以点候选卡改选；实验结果只有在“加入数据”后才会更新模型。</span><span class="en">Complete one active-learning round step by step. After recommendations appear, choose a candidate card if you want; the model updates only after you add the result to data.</span></p>
+            <label for="scenarioSelect"><span class="zh">材料任务</span><span class="en">Material mission</span></label>
+            <select id="scenarioSelect">
+              <option value="solder">Lead-free solder alloy</option>
+              <option value="catalyst">Catalyst activity</option>
+              <option value="film">Thin-film synthesis</option>
+            </select>
+            <label for="acqSelect"><span class="zh">采集函数策略</span><span class="en">Acquisition strategy</span></label>
+            <select id="acqSelect">
+              <option value="ucb">UCB: mean + k * uncertainty</option>
+              <option value="ei">EI: Expected Improvement</option>
+              <option value="pi">PI: Probability of Improvement</option>
+              <option value="explore">Explore: fill blind spots</option>
+            </select>
+            <div class="action-row">
+              <button class="btn primary" id="fitBtn" type="button" data-ui="fitBtn"><span class="zh">1 拟合 GP</span><span class="en">1 Fit GP</span></button>
+              <button class="btn" id="recommendBtn" type="button" data-ui="recommendBtn"><span class="zh">2 生成推荐</span><span class="en">2 Recommend</span></button>
+              <button class="btn" id="experimentBtn" type="button" data-ui="experimentBtn"><span class="zh">3 执行实验</span><span class="en">3 Run experiment</span></button>
+              <button class="btn" id="addDataBtn" type="button" data-ui="addDataBtn"><span class="zh">4 加入数据</span><span class="en">4 Add data</span></button>
+              <button class="btn" id="resetBtn" type="button" data-ui="resetBtn"><span class="zh">重开任务</span><span class="en">Restart mission</span></button>
+            </div>
+            <div class="control-row">
+              <label for="exploreRange"><span class="zh">探索强度 k</span><span class="en">Exploration k</span></label>
+              <strong id="exploreValue">1.4</strong>
+            </div>
+            <input id="exploreRange" type="range" min="0" max="3" step="0.1" value="1.4">
+            <div class="control-row">
+              <label for="noiseRange"><span class="zh">实验噪声</span><span class="en">Measurement noise</span></label>
+              <strong id="noiseValue">0.05</strong>
+            </div>
+            <input id="noiseRange" type="range" min="0" max="0.18" step="0.01" value="0.05">
+          </div>
+          <div class="score">
+            <div class="stat"><strong id="rounds">3</strong><span class="zh">已测样本</span><span class="en">Samples measured</span></div>
+            <div class="stat"><strong id="bestScore">--</strong><span class="zh">当前最佳性能</span><span class="en">Best observed score</span></div>
+            <div class="stat"><strong id="nextX">--</strong><span class="zh">下一轮建议位置</span><span class="en">Next suggested x</span></div>
+            <div class="stat"><strong id="strategyName">UCB</strong><span class="zh">当前策略</span><span class="en">Current strategy</span></div>
+          </div>
+          <div class="panel">
+            <h3><span class="zh">本轮机器学习流程</span><span class="en">ML loop this round</span></h3>
+            <div class="phase-list">
+              <div class="phase" id="phaseFit" data-ui="phaseFit"><span class="zh">1 拟合 GP</span><span class="en">1 Fit GP</span></div>
+              <div class="phase" id="phaseRecommend" data-ui="phaseRecommend"><span class="zh">2 生成推荐</span><span class="en">2 Recommend</span></div>
+              <div class="phase" id="phaseExperiment" data-ui="phaseExperiment"><span class="zh">3 执行实验</span><span class="en">3 Experiment</span></div>
+              <div class="phase" id="phaseAdd" data-ui="phaseAdd"><span class="zh">4 加入数据</span><span class="en">4 Add data</span></div>
+            </div>
+            <div class="badge-row">
+              <span class="badge" id="badgeExplorer"><span class="zh">探索者</span><span class="en">Explorer</span></span>
+              <span class="badge" id="badgeBreakthrough"><span class="zh">突破性能</span><span class="en">Breakthrough</span></span>
+              <span class="badge" id="badgeEfficient"><span class="zh">高效研发</span><span class="en">Efficient</span></span>
+            </div>
+          </div>
+        </aside>
+      </div>
+      <div class="panel log-panel full-log-panel">
+        <h3 data-ui="logTitle"><span class="zh">推荐日志</span><span class="en">Recommendation log</span></h3>
+        <div class="mini-log" id="log"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2 data-ui="coreIdeasTitle"><span class="zh">三个核心概念</span><span class="en">Three core ideas</span></h2>
+        <p><span class="zh">把贝叶斯优化拆开看，其实就是模型、信心和决策规则。</span><span class="en">At beginner level, Bayesian optimization is model, confidence, and a decision rule.</span></p>
+      </div>
+      <div class="concept-grid">
+        <article class="concept">
+          <h3><span class="zh">代理模型</span><span class="en">Surrogate model</span></h3>
+          <p><span class="zh">本游戏里的拟合函数是高斯过程回归。它用 RBF 核表达“相近材料可能性能相近”，每轮实验后重新计算后验均值和不确定性。</span><span class="en">This game uses Gaussian process regression. Its RBF kernel encodes that nearby materials may have similar properties, then recomputes posterior mean and uncertainty after every experiment.</span></p>
+        </article>
+        <article class="concept">
+          <h3><span class="zh">不确定性</span><span class="en">Uncertainty</span></h3>
+          <p><span class="zh">模型不仅给出预测值，还告诉你哪些区域“没把握”。高不确定区域可能藏着惊喜。</span><span class="en">The model gives both prediction and confidence. Regions with high uncertainty may hide useful surprises.</span></p>
+        </article>
+        <article class="concept">
+          <h3><span class="zh">采集函数</span><span class="en">Acquisition function</span></h3>
+          <p><span class="zh">采集函数不是只有一种。它把模型的预测值、不确定性、当前最好结果和策略偏好转成候选排序。分数最高的位置，才会成为下一轮实验建议。</span><span class="en">There is not only one acquisition function. It turns prediction, uncertainty, current best value, and strategy preference into a candidate ranking. The top-ranked candidate becomes the next experiment.</span></p>
+          <div class="formula"><span class="zh">教学简化例子：UCB = mean + k * uncertainty</span><span class="en">Teaching simplification: UCB = mean + k * uncertainty</span></div>
+        </article>
+      </div>
+      <div class="acq-grid">
+        <div class="acq-card">
+          <strong>UCB</strong>
+          <p><span class="zh">直接奖励高预测和高不确定性。k 越大，越敢探索未知区域。</span><span class="en">Rewards high prediction and uncertainty. Larger k explores unknown regions more.</span></p>
+        </div>
+        <div class="acq-card">
+          <strong>EI</strong>
+          <p><span class="zh">关心“比当前最好结果还能提升多少”的期望值，常用于性能最大化。</span><span class="en">Looks at the expected gain over the current best result, common for maximization.</span></p>
+        </div>
+        <div class="acq-card">
+          <strong>PI</strong>
+          <p><span class="zh">关心“超过当前最好结果的概率”，更像是在找成功率高的位置。</span><span class="en">Looks at the probability of beating the current best, favoring likely wins.</span></p>
+        </div>
+        <div class="acq-card">
+          <strong>KG / PES</strong>
+          <p><span class="zh">更重视信息价值：这次实验能让我们对全局最优了解多少。</span><span class="en">Focuses more on information value: how much this experiment teaches about the global optimum.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="workflow">
+        <div>
+          <h2 data-ui="workflowTitle"><span class="zh">材料优化中的真实流程</span><span class="en">A real materials optimization workflow</span></h2>
+          <ul class="bullets">
+            <li><strong><span class="zh">输入：</span><span class="en">Input: </span></strong><span class="zh">候选材料表、已测训练数据、目标性能。</span><span class="en">candidate table, measured training data, target property.</span></li>
+            <li><strong><span class="zh">建模：</span><span class="en">Model: </span></strong><span class="zh">学习变量和性能之间的关系，并保留预测不确定性。</span><span class="en">learn the relation between descriptors and performance while keeping uncertainty.</span></li>
+            <li><strong><span class="zh">推荐：</span><span class="en">Recommend: </span></strong><span class="zh">根据 EI、UCB、PI、KG、PES 等采集函数排序候选。</span><span class="en">rank candidates with EI, UCB, PI, KG, PES, and related acquisition functions.</span></li>
+            <li><strong><span class="zh">迭代：</span><span class="en">Iterate: </span></strong><span class="zh">测量推荐样本，把结果加入训练集，进入下一轮。</span><span class="en">measure suggested candidates, add results to the training set, and continue.</span></li>
+          </ul>
+        </div>
+        <img src="figures/workflow.png" alt="Bgolearn workflow diagram">
+      </div>
+    </section>
+
+    <section id="bgolearn">
+      <div class="section-head">
+        <h2 data-ui="resourcesTitle"><span class="zh">Bgolearn 相关资源</span><span class="en">Bgolearn resources</span></h2>
+        <p>
+          <span class="zh">Bgolearn 是面向材料发现的 Python 贝叶斯全局优化框架，支持回归、分类、主动学习、虚拟筛选和多种采集函数。</span>
+          <span class="en">Bgolearn is a Python Bayesian global optimization framework for materials discovery, supporting regression, classification, active learning, virtual screening, and multiple acquisition functions.</span>
+        </p>
+      </div>
+      <div class="resources">
+        <article class="resource">
+          <div>
+            <h3><span class="zh">安装</span><span class="en">Install</span></h3>
+            <p><code>pip install Bgolearn</code></p>
+          </div>
+          <a href="https://pypi.org/project/bgolearn/">PyPI</a>
+        </article>
+        <article class="resource">
+          <div>
+            <h3><span class="zh">在线手册</span><span class="en">Manual</span></h3>
+            <p><span class="zh">查看接口、示例和使用说明。</span><span class="en">Read APIs, examples, and usage notes.</span></p>
+          </div>
+          <a href="https://bgolearn.netlify.app/">bgolearn.netlify.app</a>
+        </article>
+        <article class="resource">
+          <div>
+            <h3><span class="zh">论文引用</span><span class="en">Paper</span></h3>
+            <p><span class="zh">Bgolearn: a unified Bayesian optimization framework for accelerating materials discovery.</span><span class="en">Bgolearn: a unified Bayesian optimization framework for accelerating materials discovery.</span></p>
+          </div>
+          <a href="https://doi.org/10.1038/s41524-026-02226-3">DOI</a>
+        </article>
+        <article class="resource">
+          <div>
+            <h3><span class="zh">本地界面</span><span class="en">Local UI</span></h3>
+            <p><code>python bgolearn_ui.py</code><br><span class="zh">然后打开 127.0.0.1:8787。</span><span class="en">Then open 127.0.0.1:8787.</span></p>
+          </div>
+          <a href="bgolearn_ui.py"><span class="zh">查看脚本</span><span class="en">View script</span></a>
+        </article>
+        <article class="resource">
+          <div>
+            <h3>TabularLab</h3>
+            <p><span class="zh">轻量级表格机器学习工具包，可作为桌面应用或浏览器应用使用，支持回归、分类、聚类、可视化、预测和结果导出。</span><span class="en">A lightweight toolkit for tabular machine learning. It can be used as a desktop app or opened in a browser, and supports regression, classification, clustering, visualization, prediction, and result export.</span></p>
+          </div>
+          <a href="https://github.com/Bin-Cao/TabularLab">GitHub</a>
+        </article>
+        <article class="resource">
+          <div>
+            <h3>PlotEverything</h3>
+            <p><span class="zh">轻量级科研绘图工作台，可从表格数据创建论文风格图、显示晶体结构、模拟 XRD、排版多面板图并导出最终图片。</span><span class="en">A lightweight scientific figure workspace. It helps users create publication-style figures from spreadsheet data, display crystal structures, simulate XRD patterns, arrange multi-panel figures, and export final images without writing plotting code.</span></p>
+          </div>
+          <a href="https://github.com/Bin-Cao/PlotEverything">GitHub</a>
+        </article>
+      </div>
+      <div class="citation-block">
+        <h3><span class="zh">推荐引用格式</span><span class="en">Recommended citation</span></h3>
+        <p class="muted"><span class="zh">如果 Bgolearn 支持了你的研究，请引用以下论文。</span><span class="en">If Bgolearn supports your research, please cite the paper below.</span></p>
+<pre>@article{Cao2026Bgolearn,
+  author    = {Bin Cao and Jie Xiong and Jiaxuan Ma and Yuan Tian and Yirui Hu and Mengwei He and Longhan Zhang and Jiayu Wang and Jian Hui and Li Liu and Dezhen Xue and Turab Lookman and Jun Wang and Tong-Yi Zhang},
+  title     = {Bgolearn: a unified Bayesian optimization framework for accelerating materials discovery},
+  journal   = {npj Computational Materials},
+  year      = {2026},
+  doi       = {10.1038/s41524-026-02226-3},
+  issn      = {2057-3960},
+  publisher = {Springer Nature},
+  url       = {https://doi.org/10.1038/s41524-026-02226-3}
+}</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      <span class="zh">本页面是面向初学者的可视化教学页，模拟结果用于理解贝叶斯优化思想，不代表真实材料数据库。</span>
+      <span class="en">This beginner page is a visual teaching aid. The simulated results explain Bayesian optimization concepts and do not represent a real materials database.</span>
+    </p>
+    <p>
+      <span class="zh">作者：</span><span class="en">Author: </span>
+      <a href="https://bin-cao.github.io/">Dr. Bin Cao (曹斌)</a>
+      <span> | Bgolearn DOI: </span>
+      <a href="https://doi.org/10.1038/s41524-026-02226-3">10.1038/s41524-026-02226-3</a>
+    </p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <strong id="toastTitle"></strong>
+    <p id="toastText"></p>
+    <button id="toastClose" type="button"><span class="zh">知道了</span><span class="en">Got it</span></button>
+  </div>
+
+  <div class="experiment-overlay" id="experimentOverlay" aria-live="polite">
+    <div class="experiment-modal">
+      <strong id="experimentTitle"></strong>
+      <p id="experimentText"></p>
+      <div class="experiment-track"><div class="experiment-fill" id="experimentFill"></div></div>
+    </div>
+  </div>
+
+  <script>
+    const body = document.body;
+    const languagePicker = document.getElementById("languagePicker");
+    const canvas = document.getElementById("boCanvas");
+    const ctx = canvas.getContext("2d");
+    const fitBtn = document.getElementById("fitBtn");
+    const recommendBtn = document.getElementById("recommendBtn");
+    const experimentBtn = document.getElementById("experimentBtn");
+    const addDataBtn = document.getElementById("addDataBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const scenarioSelect = document.getElementById("scenarioSelect");
+    const acqSelect = document.getElementById("acqSelect");
+    const exploreRange = document.getElementById("exploreRange");
+    const noiseRange = document.getElementById("noiseRange");
+    const exploreValue = document.getElementById("exploreValue");
+    const noiseValue = document.getElementById("noiseValue");
+    const roundsEl = document.getElementById("rounds");
+    const bestScoreEl = document.getElementById("bestScore");
+    const nextXEl = document.getElementById("nextX");
+    const strategyNameEl = document.getElementById("strategyName");
+    const logEl = document.getElementById("log");
+    const candidateGrid = document.getElementById("candidateGrid");
+    const missionTitle = document.getElementById("missionTitle");
+    const missionText = document.getElementById("missionText");
+    const budgetLeft = document.getElementById("budgetLeft");
+    const labLevel = document.getElementById("labLevel");
+    const gameScore = document.getElementById("gameScore");
+    const missionState = document.getElementById("missionState");
+    const badgeExplorer = document.getElementById("badgeExplorer");
+    const badgeBreakthrough = document.getElementById("badgeBreakthrough");
+    const badgeEfficient = document.getElementById("badgeEfficient");
+    const phaseFit = document.getElementById("phaseFit");
+    const phaseRecommend = document.getElementById("phaseRecommend");
+    const phaseExperiment = document.getElementById("phaseExperiment");
+    const phaseAdd = document.getElementById("phaseAdd");
+    const toast = document.getElementById("toast");
+    const toastTitle = document.getElementById("toastTitle");
+    const toastText = document.getElementById("toastText");
+    const toastClose = document.getElementById("toastClose");
+    const experimentOverlay = document.getElementById("experimentOverlay");
+    const experimentTitle = document.getElementById("experimentTitle");
+    const experimentText = document.getElementById("experimentText");
+    const experimentFill = document.getElementById("experimentFill");
+
+    const scenarios = {
+      solder: {
+        title: "Lead-free solder sprint",
+        zh: "任务：在 8 次预算内完成至少 5 轮主动学习，并找到高强韧无铅焊料，目标性能 >= 0.96。",
+        en: "Mission: use 8 budget units, complete at least 5 active-learning rounds, and find a strong lead-free solder. Target property >= 0.96.",
+        ja: "ミッション：8回の予算で少なくとも5回の能動学習を行い、目標性能 >= 0.96 の高強度鉛フリーはんだを見つける。",
+        ko: "미션: 8회의 예산 안에서 최소 5회의 능동학습을 수행하고 목표 성능 >= 0.96 인 고성능 무연 솔더를 찾으세요.",
+        de: "Mission: Nutze 8 Experimente, schließe mindestens 5 Active-Learning-Runden ab und finde ein starkes bleifreies Lot. Zielwert >= 0.96.",
+        target: 0.96,
+        budget: 8,
+        minRounds: 5,
+        seeds: [0.08, 0.24, 0.46, 0.58, 0.94],
+        f: x => 0.43 + 0.16 * Math.sin(11 * x) + 0.13 * Math.cos(25 * x) + 0.42 * Math.exp(-120 * Math.pow(x - 0.705, 2))
+      },
+      catalyst: {
+        title: "Catalyst activity hunt",
+        zh: "任务：筛选催化剂配方，8 次预算内完成至少 5 轮主动学习，目标活性 >= 0.91。这个体系有两个局部高峰。",
+        en: "Mission: screen catalyst recipes, complete at least 5 active-learning rounds within 8 budget units, and reach activity >= 0.91. This system has two local peaks.",
+        ja: "ミッション：8回の予算で触媒配合を探索し、少なくとも5回の能動学習を行い、活性 >= 0.91 を達成する。この系には2つの局所ピークがある。",
+        ko: "미션: 8회의 예산 안에서 촉매 조성을 탐색하고 최소 5회의 능동학습을 수행하여 활성 >= 0.91 을 달성하세요. 이 시스템에는 두 개의 국소 피크가 있습니다.",
+        de: "Mission: Prüfe Katalysator-Rezepturen, schließe in 8 Experimenten mindestens 5 Active-Learning-Runden ab und erreiche Aktivität >= 0.91. Dieses System hat zwei lokale Peaks.",
+        target: 0.91,
+        budget: 8,
+        minRounds: 5,
+        seeds: [0.05, 0.18, 0.39, 0.63, 0.9],
+        f: x => 0.42 + 0.23 * Math.sin(8 * x + 0.6) + 0.22 * Math.exp(-90 * Math.pow(x - 0.32, 2)) + 0.31 * Math.exp(-120 * Math.pow(x - 0.82, 2))
+      },
+      film: {
+        title: "Thin-film process race",
+        zh: "任务：优化薄膜合成窗口，7 次预算内完成至少 4 轮主动学习，目标质量 >= 0.88。过高和过低的工艺变量都会掉分。",
+        en: "Mission: optimize a thin-film process window, complete at least 4 active-learning rounds within 7 budget units, and reach quality >= 0.88. Too low or too high is harmful.",
+        ja: "ミッション：7回の予算で薄膜合成条件を最適化し、少なくとも4回の能動学習を行い、品質 >= 0.88 を達成する。低すぎても高すぎても性能は下がる。",
+        ko: "미션: 7회의 예산 안에서 박막 합성 조건을 최적화하고 최소 4회의 능동학습을 수행하여 품질 >= 0.88 을 달성하세요. 너무 낮거나 높으면 성능이 떨어집니다.",
+        de: "Mission: Optimiere das Dünnschicht-Prozessfenster, schließe in 7 Experimenten mindestens 4 Active-Learning-Runden ab und erreiche Qualität >= 0.88. Zu niedrige oder zu hohe Werte schaden.",
+        target: 0.88,
+        budget: 7,
+        minRounds: 4,
+        seeds: [0.1, 0.3, 0.5, 0.7, 0.92],
+        f: x => 0.38 + 0.44 * Math.exp(-18 * Math.pow(x - 0.58, 2)) + 0.08 * Math.sin(24 * x) - 0.08 * Math.pow(x - 0.58, 2)
+      }
+    };
+
+    const uiText = {
+      navBasics: { en: "Basics", zh: "入门", ja: "入門", ko: "입문", de: "Grundlagen" },
+      navDemo: { en: "Demo", zh: "互动演示", ja: "デモ", ko: "데모", de: "Demo" },
+      navResources: { en: "Resources", zh: "资源", ja: "リソース", ko: "자료", de: "Ressourcen" },
+      heroEyebrow: {
+        en: "A beginner path to Bayesian optimization for materials",
+        zh: "小白入门材料贝叶斯优化",
+        ja: "材料ベイズ最適化の初心者向け入門",
+        ko: "재료 베이지안 최적화 입문",
+        de: "Ein Einstieg in Bayes'sche Optimierung für Materialien"
+      },
+      heroTitle: { en: "Bgolearn Playground", zh: "Bgolearn 乐园", ja: "Bgolearn プレイグラウンド", ko: "Bgolearn 플레이그라운드", de: "Bgolearn Spielwiese" },
+      fitBtn: { en: "1 Fit GP", zh: "1 拟合 GP", ja: "1 GP をフィット", ko: "1 GP 맞추기", de: "1 GP anpassen" },
+      recommendBtn: { en: "2 Recommend", zh: "2 生成推荐", ja: "2 推薦を生成", ko: "2 추천 생성", de: "2 Empfehlung erzeugen" },
+      experimentBtn: { en: "3 Run experiment", zh: "3 执行实验", ja: "3 実験を実行", ko: "3 실험 실행", de: "3 Experiment starten" },
+      addDataBtn: { en: "4 Add data", zh: "4 加入数据", ja: "4 データを追加", ko: "4 데이터 추가", de: "4 Daten hinzufügen" },
+      resetBtn: { en: "Restart mission", zh: "重开任务", ja: "ミッションを再開", ko: "미션 다시 시작", de: "Mission neu starten" },
+      phaseFit: { en: "1 Fit GP", zh: "1 拟合 GP", ja: "1 GP をフィット", ko: "1 GP 맞추기", de: "1 GP anpassen" },
+      phaseRecommend: { en: "2 Recommend", zh: "2 生成推荐", ja: "2 推薦を生成", ko: "2 추천 생성", de: "2 Empfehlung" },
+      phaseExperiment: { en: "3 Experiment", zh: "3 执行实验", ja: "3 実験", ko: "3 실험", de: "3 Experiment" },
+      phaseAdd: { en: "4 Add data", zh: "4 加入数据", ja: "4 データ追加", ko: "4 데이터 추가", de: "4 Daten hinzufügen" },
+      coreIdeasTitle: { en: "Three core ideas", zh: "三个核心概念", ja: "3つの核心概念", ko: "세 가지 핵심 개념", de: "Drei Kernideen" },
+      workflowTitle: { en: "A real materials optimization workflow", zh: "材料优化中的真实流程", ja: "実際の材料最適化ワークフロー", ko: "실제 재료 최적화 워크플로", de: "Ein realer Materialoptimierungs-Workflow" },
+      resourcesTitle: { en: "Bgolearn resources", zh: "Bgolearn 相关资源", ja: "Bgolearn リソース", ko: "Bgolearn 자료", de: "Bgolearn-Ressourcen" },
+      logTitle: { en: "Recommendation log", zh: "推荐日志", ja: "推薦ログ", ko: "추천 로그", de: "Empfehlungsprotokoll" }
+    };
+
+    const staticTranslations = {
+      ja: {
+        "Move from trying everything to choosing the next experiment wisely: train a surrogate model from limited data, then use uncertainty and acquisition functions to recommend high-value material candidates.": "何度も試す研究から、次の実験を賢く選ぶ研究へ。少量データで代理モデルを学習し、不確実性と獲得関数を使って価値の高い材料候補を推薦します。",
+        "Start demo": "デモを開始",
+        "View Bgolearn resources": "Bgolearn リソースを見る",
+        "small measured batch": "少数の測定済み実験",
+        "prediction plus uncertainty": "予測と不確実性",
+        "next candidate": "次の候補",
+        "What is Bayesian optimization doing?": "ベイズ最適化は何をしているのか？",
+        "Materials experiments are often costly, slow, and data-limited. Bayesian optimization turns existing measurements into an uncertainty-aware map, then decides where to explore next.": "材料実験は高コストで時間がかかり、データも少ないことが多いです。ベイズ最適化は既存の測定を不確実性つきの地図に変換し、次に探索すべき場所を決めます。",
+        "Describe materials": "材料を記述する",
+        "Convert composition, process, temperature, and structure descriptors into model-readable variables.": "組成、プロセス、温度、構造記述子をモデルが読める変数に変換します。",
+        "Learn known data": "既知データを学習する",
+        "Use a surrogate model to predict performance and estimate uncertainty at the same time.": "代理モデルで性能を予測し、同時に不確実性も推定します。",
+        "Choose the next experiment": "次の実験を選ぶ",
+        "An acquisition function ranks candidates by strategy: some favor performance gain, while others reduce unknown regions.": "獲得関数は戦略に応じて候補を順位付けします。性能向上を重視するものも、未知領域の削減を重視するものもあります。",
+        "Add results and repeat": "結果を追加して繰り返す",
+        "The new measurement goes back into the table, the model updates, and recommendations become more focused.": "新しい測定結果を表に戻すとモデルが更新され、推薦はより絞り込まれます。",
+        "Materials Quest: find the champion under budget": "材料探索ゲーム：予算内で最良材料を見つける",
+        "You are the product lead of a materials lab. Each click is one lab round: a Gaussian process fits a performance map from measured samples, an acquisition function scores candidates, and you spend one budget unit to measure a material. Your goal is to complete enough active-learning rounds and beat the mission target before the budget runs out.": "あなたは材料研究室のプロダクト責任者です。各クリックは1回の実験ラウンドを表します。ガウス過程が測定済みサンプルから性能マップを学習し、獲得関数が候補を採点し、予算を1つ使って材料を測定します。目標は、予算が尽きる前に十分な能動学習ラウンドを完了し、ミッション目標を超えることです。",
+        "Budget left": "残り予算",
+        "Lab level": "研究室レベル",
+        "R&D score": "研究開発スコア",
+        "Mission state": "ミッション状態",
+        "What fits the curve?": "曲線をフィットするものは？",
+        "This uses Gaussian process regression with an RBF kernel, so nearby materials tend to have similar properties.": "ここでは RBF カーネルのガウス過程回帰を使います。近い材料は似た性能を持つと仮定します。",
+        "How is one round split?": "1ラウンドの流れ",
+        "Fit the GP, generate recommendations, run the experiment, then add the result to training data.": "GP をフィットし、推薦を生成し、実験を実行し、結果を訓練データに追加します。",
+        "How to score higher?": "高得点のコツ",
+        "Explore early, then switch to EI/UCB once a promising region appears.": "序盤は探索し、有望領域が見えたら EI/UCB に切り替えます。",
+        "True performance": "真の性能",
+        "Model prediction": "モデル予測",
+        "Uncertainty": "不確実性",
+        "Acquisition score": "獲得スコア",
+        "Initial data": "初期データ",
+        "Added data": "追加データ",
+        "Pending result": "未追加の結果",
+        "Experiment console": "実験コンソール",
+        "Complete one active-learning round step by step. After recommendations appear, choose a candidate card if you want; the model updates only after you add the result to data.": "能動学習の1ラウンドを段階的に進めます。推薦が出た後、候補カードを選べます。モデルは結果をデータに追加した後でのみ更新されます。",
+        "Material mission": "材料ミッション",
+        "Acquisition strategy": "獲得戦略",
+        "Exploration k": "探索強度 k",
+        "Measurement noise": "測定ノイズ",
+        "Samples measured": "測定済みサンプル",
+        "Best observed score": "現在の最高性能",
+        "Next suggested x": "次の推薦位置 x",
+        "Current strategy": "現在の戦略",
+        "ML loop this round": "本ラウンドの機械学習ループ",
+        "Explorer": "探索者",
+        "Breakthrough": "性能突破",
+        "Efficient": "高効率",
+        "Three core ideas": "3つの核心概念",
+        "At beginner level, Bayesian optimization is model, confidence, and a decision rule.": "入門レベルでは、ベイズ最適化はモデル、信頼度、意思決定ルールの組み合わせです。",
+        "Surrogate model": "代理モデル",
+        "This game uses Gaussian process regression. Its RBF kernel encodes that nearby materials may have similar properties, then recomputes posterior mean and uncertainty after every experiment.": "このゲームではガウス過程回帰を使います。RBF カーネルは近い材料が似た性能を持つことを表し、各実験後に後验平均と不確実性を再計算します。",
+        "The model gives both prediction and confidence. Regions with high uncertainty may hide useful surprises.": "モデルは予測値と信頼度を同時に与えます。不確実性の高い領域には有用な発見が隠れているかもしれません。",
+        "Acquisition function": "獲得関数",
+        "There is not only one acquisition function. It turns prediction, uncertainty, current best value, and strategy preference into a candidate ranking. The top-ranked candidate becomes the next experiment.": "獲得関数は1種類だけではありません。予測、不確実性、現在の最高値、戦略の好みを候補ランキングに変換します。最上位候補が次の実験になります。",
+        "Teaching simplification: UCB = mean + k * uncertainty": "教育用の簡略例：UCB = 平均 + k * 不確実性",
+        "Rewards high prediction and uncertainty. Larger k explores unknown regions more.": "高い予測値と不確実性を評価します。k が大きいほど未知領域を探索します。",
+        "Looks at the expected gain over the current best result, common for maximization.": "現在の最高値からの期待改善量を見ます。最大化でよく使われます。",
+        "Looks at the probability of beating the current best, favoring likely wins.": "現在の最高値を超える確率を見ます。成功しやすい候補を好みます。",
+        "Focuses more on information value: how much this experiment teaches about the global optimum.": "情報価値を重視します。この実験が全体最適についてどれだけ教えてくれるかを見ます。",
+        "A real materials optimization workflow": "実際の材料最適化ワークフロー",
+        "Input:": "入力：",
+        "candidate table, measured training data, target property.": "候補材料表、測定済み訓練データ、目標物性。",
+        "Model:": "モデル：",
+        "learn the relation between descriptors and performance while keeping uncertainty.": "記述子と性能の関係を、不確実性を保ちながら学習します。",
+        "Recommend:": "推薦：",
+        "rank candidates with EI, UCB, PI, KG, PES, and related acquisition functions.": "EI、UCB、PI、KG、PES などの獲得関数で候補を順位付けします。",
+        "Iterate:": "反復：",
+        "measure suggested candidates, add results to the training set, and continue.": "推薦候補を測定し、結果を訓練データに追加して続けます。",
+        "Bgolearn resources": "Bgolearn リソース",
+        "Bgolearn is a Python Bayesian global optimization framework for materials discovery, supporting regression, classification, active learning, virtual screening, and multiple acquisition functions.": "Bgolearn は材料発見向けの Python ベイズ大域最適化フレームワークで、回帰、分類、能動学習、仮想スクリーニング、複数の獲得関数をサポートします。",
+        "Install": "インストール",
+        "Manual": "マニュアル",
+        "Read APIs, examples, and usage notes.": "API、例、使用方法を確認します。",
+        "Paper": "論文",
+        "Bgolearn: a unified Bayesian optimization framework for accelerating materials discovery.": "Bgolearn：材料発見を加速する統一ベイズ最適化フレームワーク。",
+        "Local UI": "ローカル UI",
+        "Then open 127.0.0.1:8787.": "その後 127.0.0.1:8787 を開きます。",
+        "View script": "スクリプトを見る",
+        "A lightweight toolkit for tabular machine learning. It can be used as a desktop app or opened in a browser, and supports regression, classification, clustering, visualization, prediction, and result export.": "表形式機械学習のための軽量ツールキット。デスクトップアプリまたはブラウザで利用でき、回帰、分類、クラスタリング、可視化、予測、結果エクスポートをサポートします。",
+        "A lightweight scientific figure workspace. It helps users create publication-style figures from spreadsheet data, display crystal structures, simulate XRD patterns, arrange multi-panel figures, and export final images without writing plotting code.": "軽量な科学図作成ワークスペース。表データから論文品質の図を作成し、結晶構造表示、XRD パターンシミュレーション、複数パネル図の配置、最終画像のエクスポートをコードなしで行えます。",
+        "Recommended citation": "推奨引用",
+        "If Bgolearn supports your research, please cite the paper below.": "Bgolearn が研究に役立った場合は、以下の論文を引用してください。",
+        "This beginner page is a visual teaching aid. The simulated results explain Bayesian optimization concepts and do not represent a real materials database.": "この初心者向けページは可視化教材です。シミュレーション結果はベイズ最適化の概念説明用であり、実際の材料データベースではありません。",
+        "Author:": "著者：",
+        "Got it": "了解"
+      },
+      ko: {
+        "Move from trying everything to choosing the next experiment wisely: train a surrogate model from limited data, then use uncertainty and acquisition functions to recommend high-value material candidates.": "무작정 많이 시도하는 방식에서 다음 실험을 똑똑하게 고르는 방식으로 바꿉니다. 적은 데이터로 대리 모델을 학습하고, 불확실성과 획득 함수를 이용해 가치 높은 재료 후보를 추천합니다.",
+        "Start demo": "데모 시작",
+        "View Bgolearn resources": "Bgolearn 자료 보기",
+        "small measured batch": "소규모 측정 데이터",
+        "prediction plus uncertainty": "예측과 불확실성",
+        "next candidate": "다음 후보",
+        "What is Bayesian optimization doing?": "베이지안 최적화는 무엇을 하나요?",
+        "Materials experiments are often costly, slow, and data-limited. Bayesian optimization turns existing measurements into an uncertainty-aware map, then decides where to explore next.": "재료 실험은 비용이 크고 느리며 데이터가 적은 경우가 많습니다. 베이지안 최적화는 기존 측정값을 불확실성이 포함된 지도로 바꾸고 다음 탐색 위치를 결정합니다.",
+        "Describe materials": "재료 표현",
+        "Convert composition, process, temperature, and structure descriptors into model-readable variables.": "조성, 공정, 온도, 구조 기술자를 모델이 읽을 수 있는 변수로 변환합니다.",
+        "Learn known data": "기존 데이터 학습",
+        "Use a surrogate model to predict performance and estimate uncertainty at the same time.": "대리 모델로 성능을 예측하고 동시에 불확실성을 추정합니다.",
+        "Choose the next experiment": "다음 실험 선택",
+        "An acquisition function ranks candidates by strategy: some favor performance gain, while others reduce unknown regions.": "획득 함수는 전략에 따라 후보를 순위화합니다. 어떤 것은 성능 향상을, 어떤 것은 미지 영역 감소를 중시합니다.",
+        "Add results and repeat": "결과 추가 후 반복",
+        "The new measurement goes back into the table, the model updates, and recommendations become more focused.": "새 측정값을 표에 넣으면 모델이 업데이트되고 추천이 더 정교해집니다.",
+        "Materials Quest: find the champion under budget": "재료 탐색 게임: 예산 안에서 최고 후보 찾기",
+        "You are the product lead of a materials lab. Each click is one lab round: a Gaussian process fits a performance map from measured samples, an acquisition function scores candidates, and you spend one budget unit to measure a material. Your goal is to complete enough active-learning rounds and beat the mission target before the budget runs out.": "당신은 재료 연구실의 제품 책임자입니다. 한 번의 클릭은 한 번의 실험 라운드입니다. 가우스 과정이 측정 샘플로 성능 지도를 학습하고, 획득 함수가 후보를 평가하며, 예산 1회를 써서 재료를 측정합니다. 목표는 예산이 끝나기 전에 충분한 능동학습 라운드를 완료하고 목표를 넘는 것입니다.",
+        "Budget left": "남은 예산",
+        "Lab level": "연구실 레벨",
+        "R&D score": "R&D 점수",
+        "Mission state": "미션 상태",
+        "What fits the curve?": "곡선은 무엇으로 맞추나요?",
+        "This uses Gaussian process regression with an RBF kernel, so nearby materials tend to have similar properties.": "여기서는 RBF 커널을 사용하는 가우스 과정 회귀를 씁니다. 가까운 재료는 비슷한 성능을 가진다고 봅니다.",
+        "How is one round split?": "한 라운드는 어떻게 나뉘나요?",
+        "Fit the GP, generate recommendations, run the experiment, then add the result to training data.": "GP를 맞추고, 추천을 만들고, 실험을 실행한 뒤 결과를 학습 데이터에 추가합니다.",
+        "How to score higher?": "점수를 높이는 방법",
+        "Explore early, then switch to EI/UCB once a promising region appears.": "초반에는 탐색하고, 유망 영역이 보이면 EI/UCB로 전환하세요.",
+        "True performance": "실제 성능",
+        "Model prediction": "모델 예측",
+        "Uncertainty": "불확실성",
+        "Acquisition score": "획득 점수",
+        "Initial data": "초기 데이터",
+        "Added data": "추가 데이터",
+        "Pending result": "추가 전 결과",
+        "Experiment console": "실험 콘솔",
+        "Complete one active-learning round step by step. After recommendations appear, choose a candidate card if you want; the model updates only after you add the result to data.": "능동학습 한 라운드를 단계별로 진행합니다. 추천이 나타난 뒤 후보 카드를 선택할 수 있으며, 결과를 데이터에 추가한 후에만 모델이 업데이트됩니다.",
+        "Material mission": "재료 미션",
+        "Acquisition strategy": "획득 전략",
+        "Exploration k": "탐색 강도 k",
+        "Measurement noise": "측정 노이즈",
+        "Samples measured": "측정 샘플",
+        "Best observed score": "현재 최고 성능",
+        "Next suggested x": "다음 추천 x",
+        "Current strategy": "현재 전략",
+        "ML loop this round": "이번 라운드 ML 루프",
+        "Explorer": "탐험가",
+        "Breakthrough": "성능 돌파",
+        "Efficient": "고효율",
+        "Three core ideas": "세 가지 핵심 개념",
+        "At beginner level, Bayesian optimization is model, confidence, and a decision rule.": "입문 수준에서 베이지안 최적화는 모델, 신뢰도, 의사결정 규칙의 조합입니다.",
+        "Surrogate model": "대리 모델",
+        "This game uses Gaussian process regression. Its RBF kernel encodes that nearby materials may have similar properties, then recomputes posterior mean and uncertainty after every experiment.": "이 게임은 가우스 과정 회귀를 사용합니다. RBF 커널은 가까운 재료가 비슷한 성능을 가질 수 있음을 표현하며, 매 실험 후 사후 평균과 불확실성을 다시 계산합니다.",
+        "The model gives both prediction and confidence. Regions with high uncertainty may hide useful surprises.": "모델은 예측값과 신뢰도를 함께 제공합니다. 불확실성이 큰 영역에는 유용한 발견이 숨어 있을 수 있습니다.",
+        "Acquisition function": "획득 함수",
+        "There is not only one acquisition function. It turns prediction, uncertainty, current best value, and strategy preference into a candidate ranking. The top-ranked candidate becomes the next experiment.": "획득 함수는 하나만 있는 것이 아닙니다. 예측, 불확실성, 현재 최고값, 전략 선호를 후보 순위로 바꿉니다. 최상위 후보가 다음 실험이 됩니다.",
+        "Teaching simplification: UCB = mean + k * uncertainty": "교육용 단순화: UCB = 평균 + k * 불확실성",
+        "Rewards high prediction and uncertainty. Larger k explores unknown regions more.": "높은 예측값과 불확실성에 보상을 줍니다. k가 클수록 미지 영역을 더 탐색합니다.",
+        "Looks at the expected gain over the current best result, common for maximization.": "현재 최고 결과 대비 기대 향상량을 봅니다. 최대화 문제에서 자주 사용됩니다.",
+        "Looks at the probability of beating the current best, favoring likely wins.": "현재 최고값을 넘을 확률을 봅니다. 성공 가능성이 높은 후보를 선호합니다.",
+        "Focuses more on information value: how much this experiment teaches about the global optimum.": "정보 가치를 더 중시합니다. 이 실험이 전역 최적에 대해 얼마나 알려주는지를 봅니다.",
+        "A real materials optimization workflow": "실제 재료 최적화 워크플로",
+        "Input:": "입력:",
+        "candidate table, measured training data, target property.": "후보 재료표, 측정된 학습 데이터, 목표 물성.",
+        "Model:": "모델:",
+        "learn the relation between descriptors and performance while keeping uncertainty.": "불확실성을 유지하면서 기술자와 성능의 관계를 학습합니다.",
+        "Recommend:": "추천:",
+        "rank candidates with EI, UCB, PI, KG, PES, and related acquisition functions.": "EI, UCB, PI, KG, PES 등의 획득 함수로 후보를 순위화합니다.",
+        "Iterate:": "반복:",
+        "measure suggested candidates, add results to the training set, and continue.": "추천 후보를 측정하고 결과를 학습 데이터에 추가한 뒤 계속합니다.",
+        "Bgolearn resources": "Bgolearn 자료",
+        "Bgolearn is a Python Bayesian global optimization framework for materials discovery, supporting regression, classification, active learning, virtual screening, and multiple acquisition functions.": "Bgolearn은 재료 발견을 위한 Python 베이지안 전역 최적화 프레임워크로, 회귀, 분류, 능동학습, 가상 스크리닝, 다양한 획득 함수를 지원합니다.",
+        "Install": "설치",
+        "Manual": "매뉴얼",
+        "Read APIs, examples, and usage notes.": "API, 예제, 사용 설명을 확인하세요.",
+        "Paper": "논문",
+        "Bgolearn: a unified Bayesian optimization framework for accelerating materials discovery.": "Bgolearn: 재료 발견을 가속하는 통합 베이지안 최적화 프레임워크.",
+        "Local UI": "로컬 UI",
+        "Then open 127.0.0.1:8787.": "그 다음 127.0.0.1:8787 을 여세요.",
+        "View script": "스크립트 보기",
+        "A lightweight toolkit for tabular machine learning. It can be used as a desktop app or opened in a browser, and supports regression, classification, clustering, visualization, prediction, and result export.": "표 형식 머신러닝을 위한 가벼운 도구입니다. 데스크톱 앱 또는 브라우저에서 사용할 수 있으며 회귀, 분류, 클러스터링, 시각화, 예측, 결과 내보내기를 지원합니다.",
+        "A lightweight scientific figure workspace. It helps users create publication-style figures from spreadsheet data, display crystal structures, simulate XRD patterns, arrange multi-panel figures, and export final images without writing plotting code.": "가벼운 과학 그림 작업 공간입니다. 스프레드시트 데이터로 논문 스타일 그림을 만들고, 결정 구조 표시, XRD 패턴 시뮬레이션, 다중 패널 배치, 최종 이미지 내보내기를 코드 없이 수행할 수 있습니다.",
+        "Recommended citation": "권장 인용",
+        "If Bgolearn supports your research, please cite the paper below.": "Bgolearn이 연구에 도움이 되었다면 아래 논문을 인용해 주세요.",
+        "This beginner page is a visual teaching aid. The simulated results explain Bayesian optimization concepts and do not represent a real materials database.": "이 입문 페이지는 시각적 교육 자료입니다. 시뮬레이션 결과는 베이지안 최적화 개념 설명용이며 실제 재료 데이터베이스가 아닙니다.",
+        "Author:": "저자:",
+        "Got it": "확인"
+      },
+      de: {
+        "Move from trying everything to choosing the next experiment wisely: train a surrogate model from limited data, then use uncertainty and acquisition functions to recommend high-value material candidates.": "Wechsle vom Ausprobieren vieler Varianten zum gezielten Auswählen des nächsten Experiments: Trainiere ein Ersatzmodell mit wenigen Daten und nutze Unsicherheit sowie Akquisitionsfunktionen, um wertvolle Materialkandidaten zu empfehlen.",
+        "Start demo": "Demo starten",
+        "View Bgolearn resources": "Bgolearn-Ressourcen ansehen",
+        "small measured batch": "kleiner Messdatensatz",
+        "prediction plus uncertainty": "Vorhersage und Unsicherheit",
+        "next candidate": "nächster Kandidat",
+        "What is Bayesian optimization doing?": "Was macht Bayes'sche Optimierung?",
+        "Materials experiments are often costly, slow, and data-limited. Bayesian optimization turns existing measurements into an uncertainty-aware map, then decides where to explore next.": "Materialexperimente sind oft teuer, langsam und datenarm. Bayes'sche Optimierung verwandelt vorhandene Messungen in eine Karte mit Unsicherheit und entscheidet, wo als Nächstes gesucht wird.",
+        "Describe materials": "Materialien beschreiben",
+        "Convert composition, process, temperature, and structure descriptors into model-readable variables.": "Zusammensetzung, Prozess, Temperatur und Strukturmerkmale werden in modelllesbare Variablen umgewandelt.",
+        "Learn known data": "Bekannte Daten lernen",
+        "Use a surrogate model to predict performance and estimate uncertainty at the same time.": "Ein Ersatzmodell sagt die Leistung voraus und schätzt gleichzeitig die Unsicherheit.",
+        "Choose the next experiment": "Nächstes Experiment wählen",
+        "An acquisition function ranks candidates by strategy: some favor performance gain, while others reduce unknown regions.": "Eine Akquisitionsfunktion ordnet Kandidaten je nach Strategie: manche bevorzugen Leistungsgewinn, andere reduzieren unbekannte Bereiche.",
+        "Add results and repeat": "Ergebnisse hinzufügen und wiederholen",
+        "The new measurement goes back into the table, the model updates, and recommendations become more focused.": "Die neue Messung wird der Tabelle hinzugefügt, das Modell aktualisiert sich und Empfehlungen werden gezielter.",
+        "Materials Quest: find the champion under budget": "Materialsuche: Finde den Champion im Budget",
+        "You are the product lead of a materials lab. Each click is one lab round: a Gaussian process fits a performance map from measured samples, an acquisition function scores candidates, and you spend one budget unit to measure a material. Your goal is to complete enough active-learning rounds and beat the mission target before the budget runs out.": "Du leitest ein Materiallabor. Jeder Klick ist eine Laborrunde: Ein Gaußprozess passt eine Leistungskarte aus Messdaten an, eine Akquisitionsfunktion bewertet Kandidaten, und eine Budgeteinheit wird für eine Messung genutzt. Ziel ist es, genug Active-Learning-Runden abzuschließen und den Zielwert vor Budgetende zu übertreffen.",
+        "Budget left": "Restbudget",
+        "Lab level": "Laborstufe",
+        "R&D score": "F&E-Punkte",
+        "Mission state": "Missionsstatus",
+        "What fits the curve?": "Was passt die Kurve an?",
+        "This uses Gaussian process regression with an RBF kernel, so nearby materials tend to have similar properties.": "Hier wird Gaußprozess-Regression mit RBF-Kernel verwendet; nahe Materialien haben daher tendenziell ähnliche Eigenschaften.",
+        "How is one round split?": "Wie ist eine Runde aufgeteilt?",
+        "Fit the GP, generate recommendations, run the experiment, then add the result to training data.": "GP anpassen, Empfehlungen erzeugen, Experiment ausführen und Ergebnis zu den Trainingsdaten hinzufügen.",
+        "How to score higher?": "Wie erzielt man mehr Punkte?",
+        "Explore early, then switch to EI/UCB once a promising region appears.": "Erkunde früh und wechsle zu EI/UCB, sobald eine vielversprechende Region sichtbar wird.",
+        "True performance": "Wahre Leistung",
+        "Model prediction": "Modellvorhersage",
+        "Uncertainty": "Unsicherheit",
+        "Acquisition score": "Akquisitionswert",
+        "Initial data": "Startdaten",
+        "Added data": "Hinzugefügte Daten",
+        "Pending result": "Noch nicht hinzugefügt",
+        "Experiment console": "Experimentkonsole",
+        "Complete one active-learning round step by step. After recommendations appear, choose a candidate card if you want; the model updates only after you add the result to data.": "Führe eine Active-Learning-Runde Schritt für Schritt aus. Nach den Empfehlungen kannst du eine Kandidatenkarte wählen; das Modell aktualisiert sich erst nach dem Hinzufügen des Ergebnisses.",
+        "Material mission": "Materialmission",
+        "Acquisition strategy": "Akquisitionsstrategie",
+        "Exploration k": "Exploration k",
+        "Measurement noise": "Messrauschen",
+        "Samples measured": "Gemessene Proben",
+        "Best observed score": "Bester Messwert",
+        "Next suggested x": "Nächstes x",
+        "Current strategy": "Aktuelle Strategie",
+        "ML loop this round": "ML-Schleife dieser Runde",
+        "Explorer": "Entdecker",
+        "Breakthrough": "Durchbruch",
+        "Efficient": "Effizient",
+        "Three core ideas": "Drei Kernideen",
+        "At beginner level, Bayesian optimization is model, confidence, and a decision rule.": "Für den Einstieg besteht Bayes'sche Optimierung aus Modell, Vertrauen und Entscheidungsregel.",
+        "Surrogate model": "Ersatzmodell",
+        "This game uses Gaussian process regression. Its RBF kernel encodes that nearby materials may have similar properties, then recomputes posterior mean and uncertainty after every experiment.": "Dieses Spiel nutzt Gaußprozess-Regression. Der RBF-Kernel beschreibt, dass nahe Materialien ähnliche Eigenschaften haben können, und berechnet nach jedem Experiment Mittelwert und Unsicherheit neu.",
+        "The model gives both prediction and confidence. Regions with high uncertainty may hide useful surprises.": "Das Modell liefert Vorhersage und Vertrauen. Bereiche hoher Unsicherheit können interessante Überraschungen enthalten.",
+        "Acquisition function": "Akquisitionsfunktion",
+        "There is not only one acquisition function. It turns prediction, uncertainty, current best value, and strategy preference into a candidate ranking. The top-ranked candidate becomes the next experiment.": "Es gibt nicht nur eine Akquisitionsfunktion. Sie wandelt Vorhersage, Unsicherheit, aktuellen Bestwert und Strategie in eine Rangliste um. Der beste Kandidat wird zum nächsten Experiment.",
+        "Teaching simplification: UCB = mean + k * uncertainty": "Vereinfachtes Lehrbeispiel: UCB = Mittelwert + k * Unsicherheit",
+        "Rewards high prediction and uncertainty. Larger k explores unknown regions more.": "Belohnt hohe Vorhersage und Unsicherheit. Größeres k erkundet unbekannte Bereiche stärker.",
+        "Looks at the expected gain over the current best result, common for maximization.": "Betrachtet den erwarteten Gewinn gegenüber dem aktuellen Bestwert; häufig bei Maximierung.",
+        "Looks at the probability of beating the current best, favoring likely wins.": "Betrachtet die Wahrscheinlichkeit, den aktuellen Bestwert zu übertreffen.",
+        "Focuses more on information value: how much this experiment teaches about the global optimum.": "Fokussiert den Informationswert: wie viel dieses Experiment über das globale Optimum lehrt.",
+        "A real materials optimization workflow": "Ein realer Materialoptimierungs-Workflow",
+        "Input:": "Eingabe:",
+        "candidate table, measured training data, target property.": "Kandidatentabelle, gemessene Trainingsdaten, Zielgröße.",
+        "Model:": "Modell:",
+        "learn the relation between descriptors and performance while keeping uncertainty.": "Lerne die Beziehung zwischen Deskriptoren und Leistung unter Beibehaltung der Unsicherheit.",
+        "Recommend:": "Empfehlung:",
+        "rank candidates with EI, UCB, PI, KG, PES, and related acquisition functions.": "Ordne Kandidaten mit EI, UCB, PI, KG, PES und verwandten Akquisitionsfunktionen.",
+        "Iterate:": "Iteration:",
+        "measure suggested candidates, add results to the training set, and continue.": "Empfohlene Kandidaten messen, Ergebnisse zum Trainingssatz hinzufügen und fortfahren.",
+        "Bgolearn resources": "Bgolearn-Ressourcen",
+        "Bgolearn is a Python Bayesian global optimization framework for materials discovery, supporting regression, classification, active learning, virtual screening, and multiple acquisition functions.": "Bgolearn ist ein Python-Framework für Bayes'sche globale Optimierung in der Materialentdeckung und unterstützt Regression, Klassifikation, Active Learning, virtuelles Screening und mehrere Akquisitionsfunktionen.",
+        "Install": "Installation",
+        "Manual": "Handbuch",
+        "Read APIs, examples, and usage notes.": "APIs, Beispiele und Nutzungshinweise lesen.",
+        "Paper": "Publikation",
+        "Bgolearn: a unified Bayesian optimization framework for accelerating materials discovery.": "Bgolearn: ein einheitliches Framework für Bayes'sche Optimierung zur Beschleunigung der Materialentdeckung.",
+        "Local UI": "Lokale Oberfläche",
+        "Then open 127.0.0.1:8787.": "Dann 127.0.0.1:8787 öffnen.",
+        "View script": "Skript ansehen",
+        "A lightweight toolkit for tabular machine learning. It can be used as a desktop app or opened in a browser, and supports regression, classification, clustering, visualization, prediction, and result export.": "Ein leichtgewichtiges Toolkit für maschinelles Lernen mit Tabellendaten. Es kann als Desktop-App oder im Browser genutzt werden und unterstützt Regression, Klassifikation, Clustering, Visualisierung, Vorhersage und Ergebnisexport.",
+        "A lightweight scientific figure workspace. It helps users create publication-style figures from spreadsheet data, display crystal structures, simulate XRD patterns, arrange multi-panel figures, and export final images without writing plotting code.": "Ein leichtgewichtiger Arbeitsbereich für wissenschaftliche Abbildungen. Er hilft, publikationsreife Abbildungen aus Tabellen zu erstellen, Kristallstrukturen anzuzeigen, XRD-Muster zu simulieren, Mehrfachpanels anzuordnen und fertige Bilder ohne Plot-Code zu exportieren.",
+        "Recommended citation": "Empfohlene Zitierung",
+        "If Bgolearn supports your research, please cite the paper below.": "Wenn Bgolearn deine Forschung unterstützt, zitiere bitte die folgende Publikation.",
+        "This beginner page is a visual teaching aid. The simulated results explain Bayesian optimization concepts and do not represent a real materials database.": "Diese Einsteigerseite ist ein visuelles Lehrmittel. Die simulierten Ergebnisse erklären Bayes'sche Optimierung und sind keine reale Materialdatenbank.",
+        "Author:": "Autor:",
+        "Got it": "Verstanden"
+      }
+    };
+
+    const optionText = {
+      scenario: {
+        solder: { en: "Lead-free solder alloy", zh: "无铅焊料合金", ja: "鉛フリーはんだ合金", ko: "무연 솔더 합금", de: "Bleifreie Lotlegierung" },
+        catalyst: { en: "Catalyst activity", zh: "催化剂活性", ja: "触媒活性", ko: "촉매 활성", de: "Katalysatoraktivität" },
+        film: { en: "Thin-film synthesis", zh: "薄膜合成", ja: "薄膜合成", ko: "박막 합성", de: "Dünnschichtsynthese" }
+      },
+      acquisition: {
+        ucb: { en: "UCB: mean + k * uncertainty", zh: "UCB：均值 + k * 不确定性", ja: "UCB：平均 + k * 不確実性", ko: "UCB: 평균 + k * 불확실성", de: "UCB: Mittelwert + k * Unsicherheit" },
+        ei: { en: "EI: Expected Improvement", zh: "EI：期望提升", ja: "EI：期待改善量", ko: "EI: 기대 개선", de: "EI: Erwartete Verbesserung" },
+        pi: { en: "PI: Probability of Improvement", zh: "PI：提升概率", ja: "PI：改善確率", ko: "PI: 개선 확률", de: "PI: Verbesserungswahrscheinlichkeit" },
+        explore: { en: "Explore: fill blind spots", zh: "探索：补齐未知区域", ja: "探索：未知領域を埋める", ko: "탐색: 미지 영역 보완", de: "Exploration: unbekannte Bereiche füllen" }
+      }
+    };
+
+    let currentLang = "en";
+    let samples = [];
+    let logItems = [];
+    let budget = 10;
+    let gpCache = null;
+    let gamePhase = "fit";
+    let recommendations = [];
+    let selectedCandidate = null;
+    let pendingMeasurement = null;
+    let latestSampleId = null;
+    let sampleIdCounter = 0;
+    let experimentRunning = false;
+
+    function t(zh, en, ja, ko, de) {
+      const pack = { zh, en, ja: ja || en, ko: ko || en, de: de || en };
+      return pack[currentLang] || en;
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.documentElement.lang = {
+        en: "en",
+        zh: "zh-CN",
+        ja: "ja",
+        ko: "ko",
+        de: "de"
+      }[lang] || "en";
+      body.dataset.lang = lang === "zh" ? "zh" : "en";
+      languagePicker.querySelectorAll("[data-lang-option]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.langOption === lang);
+      });
+      document.querySelectorAll("[data-ui]").forEach((el) => {
+        const key = el.dataset.ui;
+        if (uiText[key]) el.textContent = uiText[key][lang] || uiText[key].en;
+      });
+      document.querySelectorAll(".en").forEach((el) => {
+        if (!el.dataset.enText) el.dataset.enText = el.textContent.trim();
+        const source = el.dataset.enText;
+        if (lang === "ja" || lang === "ko" || lang === "de") {
+          el.textContent = staticTranslations[lang][source] || source;
+        } else {
+          el.textContent = source;
+        }
+      });
+      scenarioSelect.querySelectorAll("option").forEach((option) => {
+        option.textContent = optionText.scenario[option.value][lang] || optionText.scenario[option.value].en;
+      });
+      acqSelect.querySelectorAll("option").forEach((option) => {
+        option.textContent = optionText.acquisition[option.value][lang] || optionText.acquisition[option.value].en;
+      });
+    }
+
+    function showToast(title, text, type) {
+      toastTitle.textContent = title;
+      toastText.textContent = text;
+      toast.classList.toggle("success", type === "success");
+      toast.classList.add("show");
+    }
+
+    function runExperimentAnimation(candidate, onDone) {
+      experimentRunning = true;
+      experimentTitle.textContent = t("实验进行中", "Experiment running", "実験中", "실험 진행 중", "Experiment läuft");
+      experimentText.textContent = t(
+        `正在合成并测量候选 x=${candidate.x.toFixed(2)}，请等待实验读数。`,
+        `Synthesizing and measuring candidate x=${candidate.x.toFixed(2)}. Waiting for the lab readout.`,
+        `候補 x=${candidate.x.toFixed(2)} を合成・測定しています。実験値をお待ちください。`,
+        `후보 x=${candidate.x.toFixed(2)} 를 합성하고 측정하는 중입니다. 실험 값을 기다려 주세요.`,
+        `Kandidat x=${candidate.x.toFixed(2)} wird synthetisiert und gemessen. Bitte auf den Messwert warten.`
+      );
+      experimentFill.style.width = "0%";
+      experimentOverlay.classList.add("show");
+      update();
+      let progress = 0;
+      window.clearInterval(runExperimentAnimation.timer);
+      runExperimentAnimation.timer = window.setInterval(() => {
+        progress = Math.min(100, progress + 8 + Math.random() * 12);
+        experimentFill.style.width = `${progress}%`;
+        if (progress >= 100) {
+          window.clearInterval(runExperimentAnimation.timer);
+          window.setTimeout(() => {
+            experimentOverlay.classList.remove("show");
+            experimentRunning = false;
+            onDone();
+          }, 260);
+        }
+      }, 120);
+    }
+
+    function scenario() {
+      return scenarios[scenarioSelect.value];
+    }
+
+    function trueFunction(x) {
+      return Math.max(0, Math.min(1, scenario().f(x)));
+    }
+
+    function seededNoise(x) {
+      return Math.sin(97 * x + samples.length * 1.7 + scenarioSelect.selectedIndex) * Number(noiseRange.value);
+    }
+
+    function kernel(a, b) {
+      const length = 0.16;
+      const signal = 0.32;
+      return signal * signal * Math.exp(-Math.pow(a - b, 2) / (2 * length * length));
+    }
+
+    function cholesky(matrix) {
+      const n = matrix.length;
+      const lower = Array.from({ length: n }, () => Array(n).fill(0));
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j <= i; j++) {
+          let sum = matrix[i][j];
+          for (let k = 0; k < j; k++) sum -= lower[i][k] * lower[j][k];
+          if (i === j) lower[i][j] = Math.sqrt(Math.max(sum, 1e-10));
+          else lower[i][j] = sum / lower[j][j];
+        }
+      }
+      return lower;
+    }
+
+    function solveLower(lower, b) {
+      const y = Array(b.length).fill(0);
+      for (let i = 0; i < b.length; i++) {
+        let sum = b[i];
+        for (let j = 0; j < i; j++) sum -= lower[i][j] * y[j];
+        y[i] = sum / lower[i][i];
+      }
+      return y;
+    }
+
+    function solveUpperFromLower(lower, b) {
+      const x = Array(b.length).fill(0);
+      for (let i = b.length - 1; i >= 0; i--) {
+        let sum = b[i];
+        for (let j = i + 1; j < b.length; j++) sum -= lower[j][i] * x[j];
+        x[i] = sum / lower[i][i];
+      }
+      return x;
+    }
+
+    function fitGP() {
+      const n = samples.length;
+      const meanY = samples.reduce((sum, s) => sum + s.y, 0) / n;
+      const centeredY = samples.map(s => s.y - meanY);
+      const noise = Math.max(0.015, Number(noiseRange.value));
+      const matrix = samples.map((a, i) => samples.map((b, j) => kernel(a.x, b.x) + (i === j ? noise * noise + 1e-6 : 0)));
+      const lower = cholesky(matrix);
+      const alpha = solveUpperFromLower(lower, solveLower(lower, centeredY));
+      gpCache = { lower, alpha, meanY };
+    }
+
+    function predict(x) {
+      if (!gpCache) fitGP();
+      const kStar = samples.map(s => kernel(x, s.x));
+      let mean = gpCache.meanY;
+      for (let i = 0; i < kStar.length; i++) mean += kStar[i] * gpCache.alpha[i];
+      const v = solveLower(gpCache.lower, kStar);
+      let variance = kernel(x, x) + 0.02;
+      for (const value of v) variance -= value * value;
+      const unc = Math.sqrt(Math.max(0.0025, variance));
+      return { mean: Math.max(0, Math.min(1, mean)), unc };
+    }
+
+    function normalPdf(z) {
+      return Math.exp(-0.5 * z * z) / Math.sqrt(2 * Math.PI);
+    }
+
+    function normalCdf(z) {
+      const sign = z < 0 ? -1 : 1;
+      const x = Math.abs(z) / Math.sqrt(2);
+      const a1 = 0.254829592;
+      const a2 = -0.284496736;
+      const a3 = 1.421413741;
+      const a4 = -1.453152027;
+      const a5 = 1.061405429;
+      const p = 0.3275911;
+      const tVal = 1 / (1 + p * x);
+      const erf = 1 - (((((a5 * tVal + a4) * tVal) + a3) * tVal + a2) * tVal + a1) * tVal * Math.exp(-x * x);
+      return 0.5 * (1 + sign * erf);
+    }
+
+    function bestObserved() {
+      return Math.max(...samples.map(s => s.y));
+    }
+
+    function acquisitionScore(x, prediction) {
+      const p = prediction || predict(x);
+      const k = Number(exploreRange.value);
+      const best = bestObserved();
+      const sigma = Math.max(0.02, p.unc);
+      const z = (p.mean - best) / sigma;
+      if (acqSelect.value === "ei") return Math.max(0, (p.mean - best) * normalCdf(z) + sigma * normalPdf(z));
+      if (acqSelect.value === "pi") return normalCdf(z);
+      if (acqSelect.value === "explore") return p.unc + 0.12 * p.mean;
+      return p.mean + k * p.unc;
+    }
+
+    function strategyLabel() {
+      if (acqSelect.value === "ei") return "EI";
+      if (acqSelect.value === "pi") return "PI";
+      if (acqSelect.value === "explore") return "Explore";
+      return "UCB";
+    }
+
+    function evaluateCandidates() {
+      const list = [];
+      for (let i = 0; i <= 80; i++) {
+        const x = i / 80;
+        if (samples.some(s => Math.abs(s.x - x) < 0.012)) continue;
+        const p = predict(x);
+        list.push({ x, mean: p.mean, unc: p.unc, score: acquisitionScore(x, p) });
+      }
+      return list.sort((a, b) => b.score - a.score);
+    }
+
+    function findNext() {
+      return evaluateCandidates()[0] || { x: 0.5, mean: 0, unc: 0, score: 0 };
+    }
+
+    function addSample(x, initial, round) {
+      const y = trueFunction(x) + (initial ? 0 : seededNoise(x));
+      const sample = { id: sampleIdCounter++, x, y: Math.max(0, Math.min(1, y)), initial, round: round || null };
+      samples.push(sample);
+      if (!initial) latestSampleId = sample.id;
+      gpCache = null;
+    }
+
+    function missionComplete() {
+      return bestObserved() >= scenario().target && activeRounds() >= scenario().minRounds;
+    }
+
+    function activeRounds() {
+      return Math.max(0, samples.length - scenario().seeds.length);
+    }
+
+    function targetFoundButNeedsRounds() {
+      return bestObserved() >= scenario().target && activeRounds() < scenario().minRounds;
+    }
+
+    function fitStep() {
+      if (budget <= 0 || missionComplete()) return;
+      gpCache = null;
+      fitGP();
+      recommendations = [];
+      selectedCandidate = null;
+      pendingMeasurement = null;
+      gamePhase = "recommend";
+      logItems.unshift(t(
+        `已用 ${samples.length} 个已测样本拟合高斯过程。蓝线是后验均值，金色带是不确定性。`,
+        `Gaussian process fitted with ${samples.length} measured samples. The blue line is posterior mean, and the gold band is uncertainty.`,
+        `${samples.length} 個の測定済みサンプルでガウス過程をフィットしました。青線は後验平均、金色の帯は不確実性です。`,
+        `${samples.length}개의 측정 샘플로 가우스 과정을 맞췄습니다. 파란 선은 사후 평균, 금색 영역은 불확실성입니다.`,
+        `Gaußprozess mit ${samples.length} gemessenen Proben angepasst. Die blaue Linie ist der Posterior-Mittelwert, das goldene Band die Unsicherheit.`
+      ));
+      update();
+    }
+
+    function recommendStep() {
+      if (gamePhase !== "recommend" || budget <= 0 || missionComplete()) return;
+      recommendations = evaluateCandidates().slice(0, 6);
+      selectedCandidate = recommendations[0] || null;
+      pendingMeasurement = null;
+      gamePhase = "experiment";
+      if (selectedCandidate) {
+        logItems.unshift(t(
+          `采集函数 ${strategyLabel()} 已完成候选排序。当前推荐 x=${selectedCandidate.x.toFixed(2)}，你也可以点击候选卡改选。`,
+          `Acquisition function ${strategyLabel()} ranked the candidates. Current pick is x=${selectedCandidate.x.toFixed(2)}; click a candidate card to choose another.`,
+          `獲得関数 ${strategyLabel()} が候補を順位付けしました。現在の推薦は x=${selectedCandidate.x.toFixed(2)} です。候補カードをクリックして変更できます。`,
+          `획득 함수 ${strategyLabel()} 가 후보 순위를 매겼습니다. 현재 추천은 x=${selectedCandidate.x.toFixed(2)} 입니다. 후보 카드를 클릭해 바꿀 수 있습니다.`,
+          `Die Akquisitionsfunktion ${strategyLabel()} hat die Kandidaten sortiert. Aktuelle Empfehlung: x=${selectedCandidate.x.toFixed(2)}. Du kannst eine Kandidatenkarte wählen.`
+        ));
+      }
+      update();
+    }
+
+    function selectCandidate(candidate) {
+      if (gamePhase !== "experiment" || pendingMeasurement) return;
+      selectedCandidate = candidate;
+      logItems.unshift(t(
+        `已选择候选 x=${candidate.x.toFixed(2)}。下一步执行实验，暂时还不会更新训练集。`,
+        `Selected candidate x=${candidate.x.toFixed(2)}. Next, run the experiment; the training set will not update yet.`,
+        `候補 x=${candidate.x.toFixed(2)} を選択しました。次に実験を実行します。まだ訓練データは更新されません。`,
+        `후보 x=${candidate.x.toFixed(2)} 를 선택했습니다. 다음 단계는 실험 실행입니다. 아직 학습 데이터는 업데이트되지 않습니다.`,
+        `Kandidat x=${candidate.x.toFixed(2)} ausgewählt. Als Nächstes das Experiment starten; der Trainingssatz wird noch nicht aktualisiert.`
+      ));
+      update();
+    }
+
+    function experimentStep() {
+      if (gamePhase !== "experiment" || !selectedCandidate || budget <= 0 || missionComplete() || experimentRunning) return;
+      const candidate = selectedCandidate;
+      runExperimentAnimation(candidate, () => {
+        const experimentRound = activeRounds() + 1;
+        const y = Math.max(0, Math.min(1, trueFunction(candidate.x) + seededNoise(candidate.x)));
+        pendingMeasurement = { ...candidate, y };
+        budget -= 1;
+        gamePhase = "add";
+        const delta = y - candidate.mean;
+        logItems.unshift(t(
+          `第 ${experimentRound} 轮实验读数返回：x=${candidate.x.toFixed(2)}，GP 预测=${candidate.mean.toFixed(2)}，不确定性=${candidate.unc.toFixed(2)}，实测性能=${y.toFixed(2)}，与预测相差 ${delta >= 0 ? "+" : ""}${delta.toFixed(2)}。现在点击“加入数据”，模型才会在下一轮使用它。`,
+          `Round ${experimentRound} lab readout returned: x=${candidate.x.toFixed(2)}, GP prediction=${candidate.mean.toFixed(2)}, uncertainty=${candidate.unc.toFixed(2)}, measured property=${y.toFixed(2)}, difference from prediction ${delta >= 0 ? "+" : ""}${delta.toFixed(2)}. Click Add data so the model can use it next round.`,
+          `第 ${experimentRound} ラウンドの実験値が返りました：x=${candidate.x.toFixed(2)}、GP 予測=${candidate.mean.toFixed(2)}、不確実性=${candidate.unc.toFixed(2)}、実測性能=${y.toFixed(2)}、予測との差=${delta >= 0 ? "+" : ""}${delta.toFixed(2)}。次に「データを追加」をクリックしてください。`,
+          `${experimentRound}라운드 실험값이 반환되었습니다: x=${candidate.x.toFixed(2)}, GP 예측=${candidate.mean.toFixed(2)}, 불확실성=${candidate.unc.toFixed(2)}, 실측 성능=${y.toFixed(2)}, 예측 차이=${delta >= 0 ? "+" : ""}${delta.toFixed(2)}. 다음에 “데이터 추가”를 클릭하세요.`,
+          `Messwert aus Runde ${experimentRound}: x=${candidate.x.toFixed(2)}, GP-Vorhersage=${candidate.mean.toFixed(2)}, Unsicherheit=${candidate.unc.toFixed(2)}, gemessene Leistung=${y.toFixed(2)}, Abweichung=${delta >= 0 ? "+" : ""}${delta.toFixed(2)}. Klicke nun auf „Daten hinzufügen“.`
+        ));
+        showToast(
+          t(`第 ${experimentRound} 轮实验结果`, `Round ${experimentRound} experiment result`, `第 ${experimentRound} ラウンドの実験結果`, `${experimentRound}라운드 실험 결과`, `Experimentergebnis Runde ${experimentRound}`),
+          t(
+            `刚执行的实验：候选 x=${candidate.x.toFixed(2)}。GP 预测 ${candidate.mean.toFixed(2)}，不确定性 ${candidate.unc.toFixed(2)}，实测结果 ${y.toFixed(2)}，预测误差 ${delta >= 0 ? "+" : ""}${delta.toFixed(2)}。橙色点表示结果已测得但尚未加入训练集；下一步点击“4 加入数据”。`,
+            `Just ran experiment ${experimentRound}: candidate x=${candidate.x.toFixed(2)}. GP predicted ${candidate.mean.toFixed(2)}, uncertainty ${candidate.unc.toFixed(2)}, measured result ${y.toFixed(2)}, prediction error ${delta >= 0 ? "+" : ""}${delta.toFixed(2)}. The orange point is measured but not yet added to training data; next click "4 Add data".`,
+            `実行した実験：候補 x=${candidate.x.toFixed(2)}。GP 予測 ${candidate.mean.toFixed(2)}、不確実性 ${candidate.unc.toFixed(2)}、実測結果 ${y.toFixed(2)}、予測誤差 ${delta >= 0 ? "+" : ""}${delta.toFixed(2)}。オレンジ点は測定済みだが未追加の結果です。次に「4 データを追加」をクリックしてください。`,
+            `방금 실행한 실험: 후보 x=${candidate.x.toFixed(2)}. GP 예측 ${candidate.mean.toFixed(2)}, 불확실성 ${candidate.unc.toFixed(2)}, 실측 결과 ${y.toFixed(2)}, 예측 오차 ${delta >= 0 ? "+" : ""}${delta.toFixed(2)}. 주황색 점은 측정되었지만 아직 학습 데이터에 추가되지 않은 결과입니다. 다음에 “4 데이터 추가”를 클릭하세요.`,
+            `Gerade ausgeführtes Experiment: Kandidat x=${candidate.x.toFixed(2)}. GP-Vorhersage ${candidate.mean.toFixed(2)}, Unsicherheit ${candidate.unc.toFixed(2)}, Messwert ${y.toFixed(2)}, Vorhersagefehler ${delta >= 0 ? "+" : ""}${delta.toFixed(2)}. Der orange Punkt ist gemessen, aber noch nicht im Trainingssatz. Klicke als Nächstes auf „4 Daten hinzufügen“.`
+          )
+        );
+        update();
+      });
+    }
+
+    function addDataStep() {
+      if (gamePhase !== "add" || !pendingMeasurement) return;
+      const addedSample = {
+        id: sampleIdCounter++,
+        x: pendingMeasurement.x,
+        y: pendingMeasurement.y,
+        initial: false,
+        round: activeRounds() + 1
+      };
+      samples.push(addedSample);
+      latestSampleId = addedSample.id;
+      gpCache = null;
+      const observed = pendingMeasurement.y;
+      const predicted = pendingMeasurement.mean;
+      const uncertainty = pendingMeasurement.unc;
+      const xValue = pendingMeasurement.x;
+      const gain = Math.max(0, Math.round((observed - 0.45) * 100));
+      pendingMeasurement = null;
+      recommendations = [];
+      selectedCandidate = null;
+      gamePhase = "fit";
+      logItems.unshift(t(
+        `新实验已加入训练集，获得 ${gain} 积分。下一轮从“拟合 GP”开始。`,
+        `New experiment added to the training set, gaining ${gain} points. Start the next round with Fit GP.`,
+        `新しい実験を訓練データに追加しました。${gain} ポイント獲得。次のラウンドは「GP をフィット」から始めます。`,
+        `새 실험을 학습 데이터에 추가했습니다. ${gain}점을 획득했습니다. 다음 라운드는 “GP 맞추기”부터 시작하세요.`,
+        `Neues Experiment zum Trainingssatz hinzugefügt, ${gain} Punkte erhalten. Starte die nächste Runde mit „GP anpassen“.`
+      ));
+      if (missionComplete()) {
+        logItems.unshift(t("任务成功：你完成了足够轮次的主动学习，并在预算内发现了达标材料。", "Mission success: you completed enough active-learning rounds and found a target-beating material within budget.", "ミッション成功：十分な能動学習ラウンドを完了し、予算内で目標達成材料を見つけました。", "미션 성공: 충분한 능동학습 라운드를 완료하고 예산 안에서 목표를 넘는 재료를 찾았습니다.", "Mission erfolgreich: Du hast genug Active-Learning-Runden abgeschlossen und im Budget ein Zielmaterial gefunden."));
+        showToast(
+          t("恭喜，任务成功！", "Congratulations, mission complete!", "おめでとうございます。ミッション成功！", "축하합니다, 미션 성공!", "Glückwunsch, Mission abgeschlossen!"),
+          t(
+            `你完成了 ${activeRounds()} 轮主动学习，并找到达标材料。目标 >= ${scenario().target.toFixed(2)}，最终最佳性能 ${bestObserved().toFixed(2)}，剩余预算 ${budget}。可以点击“重开任务”换一个策略或材料任务再次挑战。`,
+            `You completed ${activeRounds()} active-learning rounds and found a target-beating material. Target >= ${scenario().target.toFixed(2)}, final best property ${bestObserved().toFixed(2)}, budget left ${budget}. Click "Restart mission" to try another strategy or material mission.`,
+            `${activeRounds()} 回の能動学習を完了し、目標達成材料を見つけました。目標 >= ${scenario().target.toFixed(2)}、最終最高性能 ${bestObserved().toFixed(2)}、残り予算 ${budget}。「ミッションを再開」をクリックして別の戦略や材料ミッションに挑戦できます。`,
+            `${activeRounds()}회의 능동학습을 완료하고 목표를 넘는 재료를 찾았습니다. 목표 >= ${scenario().target.toFixed(2)}, 최종 최고 성능 ${bestObserved().toFixed(2)}, 남은 예산 ${budget}. “미션 다시 시작”을 클릭해 다른 전략이나 재료 미션에 도전할 수 있습니다.`,
+            `Du hast ${activeRounds()} Active-Learning-Runden abgeschlossen und ein Zielmaterial gefunden. Ziel >= ${scenario().target.toFixed(2)}, beste Endleistung ${bestObserved().toFixed(2)}, Restbudget ${budget}. Klicke auf „Mission neu starten“, um eine andere Strategie oder Mission zu versuchen.`
+          ),
+          "success"
+        );
+      } else if (targetFoundButNeedsRounds()) {
+        logItems.unshift(t(
+          `已发现达标材料，但还需要完成 ${scenario().minRounds - activeRounds()} 轮主动学习验证，才算任务成功。`,
+          `Target found, but ${scenario().minRounds - activeRounds()} more active-learning round(s) are required before mission success.`,
+          `目標達成材料は見つかりましたが、成功にはあと ${scenario().minRounds - activeRounds()} 回の能動学習ラウンドが必要です。`,
+          `목표 재료를 찾았지만 미션 성공까지 능동학습 ${scenario().minRounds - activeRounds()}회가 더 필요합니다.`,
+          `Zielmaterial gefunden, aber für den Missionserfolg sind noch ${scenario().minRounds - activeRounds()} Active-Learning-Runde(n) nötig.`
+        ));
+        showToast(
+          t("发现达标材料", "Target found", "目標材料を発見", "목표 재료 발견", "Zielmaterial gefunden"),
+          t(
+            `目标 >= ${scenario().target.toFixed(2)}；x=${xValue.toFixed(2)} 实测 ${observed.toFixed(2)}，当前最佳 ${bestObserved().toFixed(2)}。还需要 ${scenario().minRounds - activeRounds()} 轮主动学习验证。下一步点击“1 拟合 GP”继续。`,
+            `Target >= ${scenario().target.toFixed(2)}; x=${xValue.toFixed(2)} measured ${observed.toFixed(2)}, current best ${bestObserved().toFixed(2)}. ${scenario().minRounds - activeRounds()} more active-learning round(s) are required. Next, click "1 Fit GP".`,
+            `目標 >= ${scenario().target.toFixed(2)}；x=${xValue.toFixed(2)} の実測は ${observed.toFixed(2)}、現在の最高性能は ${bestObserved().toFixed(2)}。あと ${scenario().minRounds - activeRounds()} 回の能動学習が必要です。次に「1 GP をフィット」をクリックしてください。`,
+            `목표 >= ${scenario().target.toFixed(2)}; x=${xValue.toFixed(2)} 실측 ${observed.toFixed(2)}, 현재 최고 ${bestObserved().toFixed(2)}. 능동학습 ${scenario().minRounds - activeRounds()}회가 더 필요합니다. 다음에 “1 GP 맞추기”를 클릭하세요.`,
+            `Ziel >= ${scenario().target.toFixed(2)}; x=${xValue.toFixed(2)} gemessen ${observed.toFixed(2)}, aktueller Bestwert ${bestObserved().toFixed(2)}. Noch ${scenario().minRounds - activeRounds()} Active-Learning-Runde(n) nötig. Klicke als Nächstes auf „1 GP anpassen“.`
+          )
+        );
+      } else if (budget === 0) {
+        logItems.unshift(t("预算用完：可以重开任务，或换采集函数再挑战。", "Budget spent: restart the mission or try another acquisition strategy.", "予算を使い切りました。ミッションを再開するか、別の獲得関数で再挑戦できます。", "예산을 모두 사용했습니다. 미션을 다시 시작하거나 다른 획득 함수로 도전하세요.", "Budget verbraucht: Starte die Mission neu oder versuche eine andere Akquisitionsfunktion."));
+        showToast(
+          t("预算用完", "Budget spent", "予算終了", "예산 소진", "Budget verbraucht"),
+          t(
+            `目标 >= ${scenario().target.toFixed(2)}；当前最佳 ${bestObserved().toFixed(2)}；已完成 ${activeRounds()}/${scenario().minRounds} 轮。本轮加入 x=${xValue.toFixed(2)}，实测 ${observed.toFixed(2)}。建议点击“重开任务”再挑战。`,
+            `Target >= ${scenario().target.toFixed(2)}; current best ${bestObserved().toFixed(2)}; rounds ${activeRounds()}/${scenario().minRounds}. Added x=${xValue.toFixed(2)}, measured ${observed.toFixed(2)}. Click "Restart mission" to try again.`,
+            `目標 >= ${scenario().target.toFixed(2)}；現在の最高性能 ${bestObserved().toFixed(2)}；ラウンド ${activeRounds()}/${scenario().minRounds}。x=${xValue.toFixed(2)} を追加し、実測は ${observed.toFixed(2)} でした。「ミッションを再開」で再挑戦してください。`,
+            `목표 >= ${scenario().target.toFixed(2)}; 현재 최고 ${bestObserved().toFixed(2)}; 라운드 ${activeRounds()}/${scenario().minRounds}. x=${xValue.toFixed(2)} 추가, 실측 ${observed.toFixed(2)}. “미션 다시 시작”을 눌러 다시 도전하세요.`,
+            `Ziel >= ${scenario().target.toFixed(2)}; aktueller Bestwert ${bestObserved().toFixed(2)}; Runden ${activeRounds()}/${scenario().minRounds}. x=${xValue.toFixed(2)} hinzugefügt, Messwert ${observed.toFixed(2)}. Klicke auf „Mission neu starten“.`
+          )
+        );
+      } else {
+        showToast(
+          t("本轮已加入数据", "Data added for this round", "本ラウンドのデータを追加しました", "이번 라운드 데이터 추가 완료", "Daten dieser Runde hinzugefügt"),
+          t(
+            `目标 >= ${scenario().target.toFixed(2)}；当前最佳 ${bestObserved().toFixed(2)}；已完成 ${activeRounds()}/${scenario().minRounds} 轮；剩余预算 ${budget}。本轮 x=${xValue.toFixed(2)}：GP 预测 ${predicted.toFixed(2)}，实测 ${observed.toFixed(2)}。下一步请点击“1 拟合 GP”，开始下一轮尝试。`,
+            `Target >= ${scenario().target.toFixed(2)}; current best ${bestObserved().toFixed(2)}; rounds ${activeRounds()}/${scenario().minRounds}; budget left ${budget}. This round x=${xValue.toFixed(2)}: GP predicted ${predicted.toFixed(2)}, measured ${observed.toFixed(2)}. Next, click "1 Fit GP" to start another round.`,
+            `目標 >= ${scenario().target.toFixed(2)}；現在の最高性能 ${bestObserved().toFixed(2)}；完了 ${activeRounds()}/${scenario().minRounds} ラウンド；残り予算 ${budget}。本ラウンド x=${xValue.toFixed(2)}：GP 予測 ${predicted.toFixed(2)}、実測 ${observed.toFixed(2)}。次に「1 GP をフィット」をクリックして次のラウンドを開始してください。`,
+            `목표 >= ${scenario().target.toFixed(2)}; 현재 최고 ${bestObserved().toFixed(2)}; 완료 ${activeRounds()}/${scenario().minRounds} 라운드; 남은 예산 ${budget}. 이번 라운드 x=${xValue.toFixed(2)}: GP 예측 ${predicted.toFixed(2)}, 실측 ${observed.toFixed(2)}. 다음에 “1 GP 맞추기”를 클릭해 다음 라운드를 시작하세요.`,
+            `Ziel >= ${scenario().target.toFixed(2)}; aktueller Bestwert ${bestObserved().toFixed(2)}; Runden ${activeRounds()}/${scenario().minRounds}; Restbudget ${budget}. Diese Runde x=${xValue.toFixed(2)}: GP-Vorhersage ${predicted.toFixed(2)}, Messwert ${observed.toFixed(2)}. Klicke als Nächstes auf „1 GP anpassen“.`
+          )
+        );
+      }
+      update();
+    }
+
+    function reset() {
+      samples = [];
+      logItems = [];
+      budget = scenario().budget;
+      gpCache = null;
+      gamePhase = "fit";
+      recommendations = [];
+      selectedCandidate = null;
+      pendingMeasurement = null;
+      latestSampleId = null;
+      sampleIdCounter = 0;
+      scenario().seeds.forEach(x => addSample(x, true));
+      logItems.push(t("任务开始：已有 5 个先导实验。先点击“拟合 GP”，让模型读取已有数据。", "Mission started: 5 pilot experiments are available. Click Fit GP first so the model reads the data.", "ミッション開始：5個の先行実験があります。まず「GP をフィット」をクリックしてモデルにデータを読ませてください。", "미션 시작: 5개의 선행 실험이 있습니다. 먼저 “GP 맞추기”를 클릭해 모델이 데이터를 읽게 하세요.", "Mission gestartet: 5 Pilotexperimente sind vorhanden. Klicke zuerst auf „GP anpassen“, damit das Modell die Daten liest."));
+      update();
+    }
+
+    function xToPx(x) {
+      return 58 + x * (canvas.width - 92);
+    }
+
+    function yToPx(y) {
+      return canvas.height - 54 - y * (canvas.height - 100);
+    }
+
+    function drawLine(points, color, width) {
+      ctx.beginPath();
+      points.forEach((p, i) => {
+        const px = xToPx(p.x);
+        const py = yToPx(p.y);
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      ctx.stroke();
+    }
+
+    function roundedRectPath(x, y, width, height, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = "#d7e2ea";
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 5; i++) {
+        const y = yToPx(i / 5);
+        ctx.beginPath();
+        ctx.moveTo(58, y);
+        ctx.lineTo(canvas.width - 34, y);
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = "rgba(200, 70, 48, .36)";
+      ctx.setLineDash([4, 6]);
+      ctx.beginPath();
+      ctx.moveTo(58, yToPx(scenario().target));
+      ctx.lineTo(canvas.width - 34, yToPx(scenario().target));
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = "#5d6b78";
+      ctx.font = "18px system-ui, sans-serif";
+      ctx.fillText(t("材料设计变量 x", "Material design variable x", "材料設計変数 x", "재료 설계 변수 x", "Material-Designvariable x"), canvas.width / 2 - 78, canvas.height - 16);
+      ctx.save();
+      ctx.translate(20, canvas.height / 2 + 70);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText(t("目标性能", "Target property", "目標物性", "목표 물성", "Zielgröße"), 0, 0);
+      ctx.restore();
+
+      const truePts = [];
+      for (let i = 0; i <= 240; i++) {
+        const x = i / 240;
+        truePts.push({ x, y: trueFunction(x) });
+      }
+      drawLine(truePts, "#1f8a70", 4);
+
+      if (gpCache) {
+        const meanPts = [];
+        const acqPtsRaw = [];
+        const upper = [];
+        const lower = [];
+        for (let i = 0; i <= 240; i++) {
+          const x = i / 240;
+          const p = predict(x);
+          meanPts.push({ x, y: p.mean });
+          acqPtsRaw.push({ x, y: acquisitionScore(x, p) });
+          upper.push({ x, y: Math.min(1, p.mean + 1.96 * p.unc) });
+          lower.push({ x, y: Math.max(0, p.mean - 1.96 * p.unc) });
+        }
+        const minAcq = Math.min(...acqPtsRaw.map(p => p.y));
+        const maxAcq = Math.max(...acqPtsRaw.map(p => p.y));
+        const acqPts = acqPtsRaw.map(p => ({
+          x: p.x,
+          y: maxAcq === minAcq ? 0.08 : 0.08 + 0.25 * ((p.y - minAcq) / (maxAcq - minAcq))
+        }));
+
+        ctx.beginPath();
+        upper.forEach((p, i) => {
+          if (i === 0) ctx.moveTo(xToPx(p.x), yToPx(p.y));
+          else ctx.lineTo(xToPx(p.x), yToPx(p.y));
+        });
+        lower.slice().reverse().forEach(p => ctx.lineTo(xToPx(p.x), yToPx(p.y)));
+        ctx.closePath();
+        ctx.fillStyle = "rgba(216, 156, 40, .18)";
+        ctx.fill();
+
+        drawLine(meanPts, "#276fbf", 3);
+        drawLine(acqPts, "#6f58c9", 2);
+
+        if (selectedCandidate || recommendations[0]) {
+          const next = selectedCandidate || recommendations[0];
+          ctx.setLineDash([8, 8]);
+          ctx.strokeStyle = "#c84630";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(xToPx(next.x), 44);
+          ctx.lineTo(xToPx(next.x), canvas.height - 54);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = "#c84630";
+          ctx.font = "16px system-ui, sans-serif";
+          ctx.fillText(t("GP 建议", "GP pick", "GP 推薦", "GP 추천", "GP-Empfehlung"), Math.min(canvas.width - 118, xToPx(next.x) + 8), 62);
+        }
+      } else {
+        ctx.fillStyle = "#5d6b78";
+        ctx.font = "18px system-ui, sans-serif";
+        ctx.fillText(t("点击 1 拟合 GP，生成模型曲线", "Click 1 Fit GP to create the model curve", "「1 GP をフィット」をクリックしてモデル曲線を作成", "“1 GP 맞추기”를 클릭해 모델 곡선을 만드세요", "Klicke auf „1 GP anpassen“, um die Modellkurve zu erzeugen"), 82, 76);
+      }
+
+      for (const s of samples) {
+        ctx.beginPath();
+        ctx.arc(xToPx(s.x), yToPx(s.y), 8, 0, Math.PI * 2);
+        ctx.fillStyle = s.initial ? "#8a96a3" : "#00a6d6";
+        ctx.fill();
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = s.id === latestSampleId ? 4 : 2;
+        ctx.stroke();
+        if (!s.initial) {
+          const labelX = Math.min(canvas.width - 112, xToPx(s.x) + 10);
+          const labelY = Math.max(34, yToPx(s.y) - 10);
+          ctx.fillStyle = "rgba(255, 255, 255, .92)";
+          ctx.strokeStyle = "rgba(0, 166, 214, .75)";
+          ctx.lineWidth = 1;
+          roundedRectPath(labelX - 4, labelY - 17, 92, 22, 5);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#17202a";
+          ctx.font = "13px system-ui, sans-serif";
+          ctx.fillText(`#${s.round}  y=${s.y.toFixed(2)}`, labelX, labelY);
+        }
+      }
+
+      if (pendingMeasurement) {
+        ctx.beginPath();
+        ctx.arc(xToPx(pendingMeasurement.x), yToPx(pendingMeasurement.y), 10, 0, Math.PI * 2);
+        ctx.fillStyle = "#ef7d22";
+        ctx.fill();
+        ctx.strokeStyle = "#17202a";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+    }
+
+    function renderCandidates() {
+      const top = recommendations;
+      if (!top.length) {
+        candidateGrid.innerHTML = `
+          <div class="candidate-card">
+            <strong>${t("等待推荐", "Waiting for recommendations", "推薦待ち", "추천 대기", "Warten auf Empfehlungen")}</strong>
+            <span>${t("先点击“拟合 GP”，再点击“生成推荐”。", "Click Fit GP first, then Recommend.", "まず「GP をフィット」、次に「推薦を生成」をクリックしてください。", "먼저 “GP 맞추기”, 그 다음 “추천 생성”을 클릭하세요.", "Klicke zuerst auf „GP anpassen“, dann auf „Empfehlung erzeugen“.")}</span>
+            <div class="bar"><i style="width:12%"></i></div>
+          </div>
+        `;
+        return;
+      }
+      candidateGrid.innerHTML = top.map((c, i) => `
+        <button class="candidate-card ${i === 0 ? "recommended" : ""} ${selectedCandidate && Math.abs(selectedCandidate.x - c.x) < 1e-9 ? "selected" : ""}" type="button" data-x="${c.x}">
+          <strong>${selectedCandidate && Math.abs(selectedCandidate.x - c.x) < 1e-9 ? t("已选择", "Selected", "選択済み", "선택됨", "Ausgewählt") : i === 0 ? t("推荐候选", "Recommended", "推薦候補", "추천 후보", "Empfohlen") : t("备选候选", "Alternative", "代替候補", "대체 후보", "Alternative")} ${i + 1}</strong>
+          <span>x=${c.x.toFixed(2)} | GP=${c.mean.toFixed(2)} | sigma=${c.unc.toFixed(2)}</span>
+          <span>${t("采集分数", "Acquisition", "獲得スコア", "획득 점수", "Akquisitionswert")} ${c.score.toFixed(2)}</span>
+          <div class="bar"><i style="width:${Math.max(6, Math.min(100, c.score * 80))}%"></i></div>
+        </button>
+      `).join("");
+      candidateGrid.querySelectorAll(".candidate-card").forEach((card, i) => {
+        card.addEventListener("click", () => selectCandidate(top[i]));
+      });
+    }
+
+    function updateBadges() {
+      badgeExplorer.classList.toggle("on", samples.length >= 9);
+      badgeBreakthrough.classList.toggle("on", missionComplete());
+      badgeEfficient.classList.toggle("on", missionComplete() && budget >= 4);
+    }
+
+    function updatePhases() {
+      phaseFit.classList.toggle("active", gamePhase === "fit");
+      phaseRecommend.classList.toggle("active", gamePhase === "recommend");
+      phaseExperiment.classList.toggle("active", gamePhase === "experiment");
+      phaseAdd.classList.toggle("active", gamePhase === "add");
+    }
+
+    function update() {
+      if (gamePhase !== "fit" && !gpCache) fitGP();
+      const next = selectedCandidate || recommendations[0] || null;
+      const best = bestObserved();
+      const score = Math.max(0, Math.round(best * 1000 + budget * 25 + Math.max(0, samples.length - 5) * 12));
+      missionTitle.textContent = scenario().title;
+      missionText.textContent = t(scenario().zh, scenario().en, scenario().ja, scenario().ko, scenario().de);
+      exploreValue.textContent = Number(exploreRange.value).toFixed(1);
+      noiseValue.textContent = Number(noiseRange.value).toFixed(2);
+      roundsEl.textContent = samples.length;
+      bestScoreEl.textContent = best.toFixed(2);
+      nextXEl.textContent = next ? next.x.toFixed(2) : "--";
+      strategyNameEl.textContent = strategyLabel();
+      budgetLeft.textContent = budget;
+      labLevel.textContent = `L${Math.min(5, 1 + Math.floor((samples.length - 5) / 2))}`;
+      gameScore.textContent = score;
+      missionState.textContent = missionComplete() ? "WIN" : budget === 0 ? "END" : targetFoundButNeedsRounds() ? "VERIFY" : "RUN";
+      logEl.innerHTML = logItems.map(item => `<div>${item}</div>`).join("");
+      fitBtn.disabled = experimentRunning || gamePhase !== "fit" || budget <= 0 || missionComplete();
+      recommendBtn.disabled = experimentRunning || gamePhase !== "recommend" || budget <= 0 || missionComplete();
+      experimentBtn.disabled = experimentRunning || gamePhase !== "experiment" || !selectedCandidate || budget <= 0 || missionComplete();
+      addDataBtn.disabled = experimentRunning || gamePhase !== "add" || !pendingMeasurement;
+      updateBadges();
+      updatePhases();
+      draw();
+      renderCandidates();
+    }
+
+    languagePicker.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-lang-option]");
+      if (!button) return;
+      setLanguage(button.dataset.langOption);
+      logItems.unshift(t(
+        "语言已切换，游戏状态已保留。",
+        "Language switched; game state is preserved.",
+        "言語を切り替えました。ゲーム状態は保持されています。",
+        "언어가 전환되었습니다. 게임 상태는 유지됩니다.",
+        "Sprache gewechselt; der Spielstand bleibt erhalten."
+      ));
+      update();
+    });
+
+    toastClose.addEventListener("click", () => {
+      toast.classList.remove("show");
+    });
+
+    fitBtn.addEventListener("click", fitStep);
+    recommendBtn.addEventListener("click", recommendStep);
+    experimentBtn.addEventListener("click", experimentStep);
+    addDataBtn.addEventListener("click", addDataStep);
+    resetBtn.addEventListener("click", reset);
+    scenarioSelect.addEventListener("change", reset);
+    acqSelect.addEventListener("change", () => {
+      recommendations = [];
+      selectedCandidate = null;
+      pendingMeasurement = null;
+      if (gamePhase !== "fit") gamePhase = "recommend";
+      logItems.unshift(t(
+        `已切换到 ${strategyLabel()}。请重新生成推荐，观察采集函数如何改变候选排序。`,
+        `Switched to ${strategyLabel()}. Generate recommendations again to see how the acquisition function changes ranking.`
+      ));
+      update();
+    });
+    exploreRange.addEventListener("input", () => {
+      recommendations = [];
+      selectedCandidate = null;
+      pendingMeasurement = null;
+      if (gamePhase !== "fit") gamePhase = "recommend";
+      update();
+    });
+    noiseRange.addEventListener("input", () => {
+      gpCache = null;
+      recommendations = [];
+      selectedCandidate = null;
+      pendingMeasurement = null;
+      gamePhase = "fit";
+      update();
+    });
+    setLanguage("en");
+    reset();
+  </script>
+</body>
+</html>
