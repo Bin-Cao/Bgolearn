@@ -43,6 +43,7 @@ Das Framework bündelt Surrogatmodellierung, Unsicherheitsbewertung, Akquisition
 | --- | --- |
 | Paper | [npj Computational Materials](https://doi.org/10.1038/s41524-026-02226-3) |
 | Handbuch | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
+| Playground | [Interaktives Spiel zur Bayes'schen Optimierung](https://bin-cao.github.io/Bgolearn/) |
 | Video-Tutorial | [Bilibili](https://www.bilibili.com/video/BV1LTtLeaEZp) |
 | Konferenzbericht | [CMC 2025](https://cmc2025.scimeeting.cn/cn/web/xue-shu-xin/27167?abstract_id=3726842) |
 | Multi-Objective-Modul | [MultiBgolearn](https://github.com/Bin-Cao/MultiBgolearn) |
