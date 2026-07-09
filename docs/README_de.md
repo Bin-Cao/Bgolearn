@@ -49,6 +49,40 @@ Das Framework bündelt Surrogatmodellierung, Unsicherheitsbewertung, Akquisition
 | Offizielle GUI | [BgoFace](https://github.com/Bgolearn/BgoFace) |
 | Beispielcode und Daten | [CodeDemo](https://github.com/Bgolearn/CodeDemo) |
 
+## Repräsentative Anwendungen
+
+Bgolearn wurde bereits in mehreren Studien aus Materialwissenschaft und Ingenieurwesen eingesetzt. Die folgende Liste zeigt eine repräsentative Auswahl:
+
+### 2026
+
+| Publikation | Anwendung |
+| --- | --- |
+| Surfaces and Interfaces | [Photochemische Synthese von WS2-Dünnfilmen](https://www.sciencedirect.com/science/article/pii/S2468023026013799) |
+| JPhys Materials | [Design von refraktären TaNbMoVW-High-Entropy-Legierungen](https://iopscience.iop.org/article/10.1088/2515-7639/ae44d1/meta) |
+| Chemical Science | [Optimierung von On-Surface-Reaktionen](https://pubs.rsc.org/sc/article/17/22/11114/1231470/A-dual-mode-large-language-model-assistant-for-on) |
+| Springer Nature | [Buchkapitel: Bayesian Global Optimization](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1) |
+| Journal of Materials Informatics | [Optimierung von SciBERT-Hyperparametern](https://www.oaepublish.com/articles/jmi.2025.78) |
+| Science Bulletin | [Entdeckung ultra-beständiger und hochaktiver Katalysatoren](https://www.sciencedirect.com/science/article/pii/S2095927325012678) |
+| Aggregate | [Entdeckung von G-Quadruplex Deep-Eutectic-Materialien mit zirkular polarisierter Lumineszenz](https://onlinelibrary.wiley.com/doi/pdf/10.1002/agt2.70307) |
+| Materials Science in Semiconductor Processing | [Substitutionell Hf-dotiertes p-Typ-MoS2 durch Pulslasersynthese](https://www.sciencedirect.com/science/article/pii/S1369800126005263) |
+
+### 2025
+
+| Publikation | Anwendung |
+| --- | --- |
+| Nano Letters | [Self-driving Laboratory unter UHV-Bedingungen](https://pubs.acs.org/doi/pdf/10.1021/acs.nanolett.5c02445?casa_token=DycwWKxkjjQAAAAA:_qVVZ56VuzbHDnLmJ_-8mUtHatu9S8rOXE78HHGjmNhADLlr7qr-4rPWsAuIOVide29eEy6gOfvzC3do) |
+| Small | [ML-entwickeltes Nanozym-System für Anti-Tumor-Therapie](https://onlinelibrary.wiley.com/doi/10.1002/smll.202408750?utm_source=chatgpt.com) |
+| Computational Materials Science | [Optimierung von Mg-Ca-Zn-Legierungen](https://www.sciencedirect.com/science/article/pii/S0927025625000084) |
+| Measurement | [Optimierung von Schaummitteln im EPB-Schildvortrieb](https://www.sciencedirect.com/science/article/pii/S0263224124013940) |
+| Intelligent Computing | [Metasurface-Design durch Bayesian Learning](https://spj.science.org/doi/pdf/10.34133/icomputing.0135) |
+
+### 2024
+
+| Publikation | Anwendung |
+| --- | --- |
+| Materials & Design | [Bleifreie Lotlegierungen durch Active Learning](https://www.sciencedirect.com/science/article/pii/S0264127524002946) |
+| npj Computational Materials | [MLMD-Plattform mit Bgolearn-Backend](https://www.nature.com/articles/s41524-024-01243-4) |
+
 ## Installation
 
 Installation über PyPI:

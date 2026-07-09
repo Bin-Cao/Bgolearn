@@ -49,6 +49,40 @@ The framework brings surrogate modeling, uncertainty-aware acquisition, active l
 | Official GUI | [BgoFace](https://github.com/Bgolearn/BgoFace) |
 | Example code and data | [CodeDemo](https://github.com/Bgolearn/CodeDemo) |
 
+## Representative Applications
+
+Bgolearn has supported a growing set of materials science and engineering studies. The following papers are a representative subset:
+
+### 2026
+
+| Venue | Application |
+| --- | --- |
+| Surfaces and Interfaces | [Photochemical synthesis of WS2 thin films](https://www.sciencedirect.com/science/article/pii/S2468023026013799) |
+| JPhys Materials | [Design of TaNbMoVW refractory high-entropy alloys](https://iopscience.iop.org/article/10.1088/2515-7639/ae44d1/meta) |
+| Chemical Science | [Optimizing on-surface reactions](https://pubs.rsc.org/sc/article/17/22/11114/1231470/A-dual-mode-large-language-model-assistant-for-on) |
+| Springer Nature | [Book chapter: Bayesian Global Optimization](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1) |
+| Journal of Materials Informatics | [Optimizing SciBERT hyperparameters](https://www.oaepublish.com/articles/jmi.2025.78) |
+| Science Bulletin | [Discovering ultra-durable and highly active catalysts](https://www.sciencedirect.com/science/article/pii/S2095927325012678) |
+| Aggregate | [Discovering G-quadruplex deep-eutectic circularly polarized luminescence materials](https://onlinelibrary.wiley.com/doi/pdf/10.1002/agt2.70307) |
+| Materials Science in Semiconductor Processing | [Substitutional Hf-doped p-type MoS2 via pulsed-laser synthesis](https://www.sciencedirect.com/science/article/pii/S1369800126005263) |
+
+### 2025
+
+| Venue | Application |
+| --- | --- |
+| Nano Letters | [Self-driving laboratory under UHV](https://pubs.acs.org/doi/pdf/10.1021/acs.nanolett.5c02445?casa_token=DycwWKxkjjQAAAAA:_qVVZ56VuzbHDnLmJ_-8mUtHatu9S8rOXE78HHGjmNhADLlr7qr-4rPWsAuIOVide29eEy6gOfvzC3do) |
+| Small | [ML-engineered nanozyme system for anti-tumor therapy](https://onlinelibrary.wiley.com/doi/10.1002/smll.202408750?utm_source=chatgpt.com) |
+| Computational Materials Science | [Mg-Ca-Zn alloy optimization](https://www.sciencedirect.com/science/article/pii/S0927025625000084) |
+| Measurement | [Foaming agent optimization in EPB shield construction](https://www.sciencedirect.com/science/article/pii/S0263224124013940) |
+| Intelligent Computing | [Metasurface design via Bayesian learning](https://spj.science.org/doi/pdf/10.34133/icomputing.0135) |
+
+### 2024
+
+| Venue | Application |
+| --- | --- |
+| Materials & Design | [Lead-free solder alloys via active learning](https://www.sciencedirect.com/science/article/pii/S0264127524002946) |
+| npj Computational Materials | [MLMD platform with Bgolearn backend](https://www.nature.com/articles/s41524-024-01243-4) |
+
 ## Installation
 
 Install from PyPI:

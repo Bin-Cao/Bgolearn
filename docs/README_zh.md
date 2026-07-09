@@ -49,6 +49,40 @@ Bgolearn 将代理模型、不确定性评估、采集函数、主动学习与�
 | 官方图形界面 | [BgoFace](https://github.com/Bgolearn/BgoFace) |
 | 示例代码与数据 | [CodeDemo](https://github.com/Bgolearn/CodeDemo) |
 
+## 代表性应用
+
+Bgolearn 已支持多项材料科学与工程研究。以下列出部分代表性论文：
+
+### 2026
+
+| 期刊/出版平台 | 应用方向 |
+| --- | --- |
+| Surfaces and Interfaces | [WS2 薄膜的光化学合成](https://www.sciencedirect.com/science/article/pii/S2468023026013799) |
+| JPhys Materials | [TaNbMoVW 难熔高熵合金设计](https://iopscience.iop.org/article/10.1088/2515-7639/ae44d1/meta) |
+| Chemical Science | [表面反应优化](https://pubs.rsc.org/sc/article/17/22/11114/1231470/A-dual-mode-large-language-model-assistant-for-on) |
+| Springer Nature | [书籍章节：贝叶斯全局优化](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1) |
+| Journal of Materials Informatics | [SciBERT 超参数优化](https://www.oaepublish.com/articles/jmi.2025.78) |
+| Science Bulletin | [超耐久高活性催化剂发现](https://www.sciencedirect.com/science/article/pii/S2095927325012678) |
+| Aggregate | [G-四链体低共熔圆偏振发光材料发现](https://onlinelibrary.wiley.com/doi/pdf/10.1002/agt2.70307) |
+| Materials Science in Semiconductor Processing | [脉冲激光合成取代型 Hf 掺杂 p 型 MoS2](https://www.sciencedirect.com/science/article/pii/S1369800126005263) |
+
+### 2025
+
+| 期刊/出版平台 | 应用方向 |
+| --- | --- |
+| Nano Letters | [超高真空自驱动实验室](https://pubs.acs.org/doi/pdf/10.1021/acs.nanolett.5c02445?casa_token=DycwWKxkjjQAAAAA:_qVVZ56VuzbHDnLmJ_-8mUtHatu9S8rOXE78HHGjmNhADLlr7qr-4rPWsAuIOVide29eEy6gOfvzC3do) |
+| Small | [用于抗肿瘤治疗的机器学习工程化纳米酶系统](https://onlinelibrary.wiley.com/doi/10.1002/smll.202408750?utm_source=chatgpt.com) |
+| Computational Materials Science | [Mg-Ca-Zn 合金优化](https://www.sciencedirect.com/science/article/pii/S0927025625000084) |
+| Measurement | [EPB 盾构施工中的发泡剂优化](https://www.sciencedirect.com/science/article/pii/S0263224124013940) |
+| Intelligent Computing | [基于贝叶斯学习的超表面设计](https://spj.science.org/doi/pdf/10.34133/icomputing.0135) |
+
+### 2024
+
+| 期刊/出版平台 | 应用方向 |
+| --- | --- |
+| Materials & Design | [基于主动学习的无铅焊料合金设计](https://www.sciencedirect.com/science/article/pii/S0264127524002946) |
+| npj Computational Materials | [以 Bgolearn 为后端的 MLMD 平台](https://www.nature.com/articles/s41524-024-01243-4) |
+
 ## 安装
 
 通过 PyPI 安装：

@@ -49,6 +49,40 @@
 | 공식 GUI | [BgoFace](https://github.com/Bgolearn/BgoFace) |
 | 예제 코드와 데이터 | [CodeDemo](https://github.com/Bgolearn/CodeDemo) |
 
+## 대표 응용 사례
+
+Bgolearn은 소재 과학 및 공학 분야의 여러 연구에 활용되고 있습니다. 아래는 대표 논문의 일부입니다:
+
+### 2026
+
+| 저널/출판처 | 응용 분야 |
+| --- | --- |
+| Surfaces and Interfaces | [WS2 박막의 광화학 합성](https://www.sciencedirect.com/science/article/pii/S2468023026013799) |
+| JPhys Materials | [TaNbMoVW 내화 고엔트로피 합금 설계](https://iopscience.iop.org/article/10.1088/2515-7639/ae44d1/meta) |
+| Chemical Science | [표면 반응 최적화](https://pubs.rsc.org/sc/article/17/22/11114/1231470/A-dual-mode-large-language-model-assistant-for-on) |
+| Springer Nature | [도서 장: Bayesian Global Optimization](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1) |
+| Journal of Materials Informatics | [SciBERT 하이퍼파라미터 최적화](https://www.oaepublish.com/articles/jmi.2025.78) |
+| Science Bulletin | [초고내구성 고활성 촉매 발견](https://www.sciencedirect.com/science/article/pii/S2095927325012678) |
+| Aggregate | [G-quadruplex deep-eutectic 원형 편광 발광 소재 발견](https://onlinelibrary.wiley.com/doi/pdf/10.1002/agt2.70307) |
+| Materials Science in Semiconductor Processing | [펄스 레이저 합성을 통한 치환형 Hf 도핑 p형 MoS2](https://www.sciencedirect.com/science/article/pii/S1369800126005263) |
+
+### 2025
+
+| 저널/출판처 | 응용 분야 |
+| --- | --- |
+| Nano Letters | [초고진공 환경의 자율 실험실](https://pubs.acs.org/doi/pdf/10.1021/acs.nanolett.5c02445?casa_token=DycwWKxkjjQAAAAA:_qVVZ56VuzbHDnLmJ_-8mUtHatu9S8rOXE78HHGjmNhADLlr7qr-4rPWsAuIOVide29eEy6gOfvzC3do) |
+| Small | [항종양 치료를 위한 ML 기반 나노자임 시스템](https://onlinelibrary.wiley.com/doi/10.1002/smll.202408750?utm_source=chatgpt.com) |
+| Computational Materials Science | [Mg-Ca-Zn 합금 최적화](https://www.sciencedirect.com/science/article/pii/S0927025625000084) |
+| Measurement | [EPB 쉴드 시공의 발포제 최적화](https://www.sciencedirect.com/science/article/pii/S0263224124013940) |
+| Intelligent Computing | [베이지안 학습 기반 메타표면 설계](https://spj.science.org/doi/pdf/10.34133/icomputing.0135) |
+
+### 2024
+
+| 저널/출판처 | 응용 분야 |
+| --- | --- |
+| Materials & Design | [능동 학습 기반 무연 솔더 합금 설계](https://www.sciencedirect.com/science/article/pii/S0264127524002946) |
+| npj Computational Materials | [Bgolearn 백엔드를 사용한 MLMD 플랫폼](https://www.nature.com/articles/s41524-024-01243-4) |
+
 ## 설치
 
 PyPI에서 설치합니다:

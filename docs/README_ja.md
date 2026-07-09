@@ -49,6 +49,40 @@
 | 公式 GUI | [BgoFace](https://github.com/Bgolearn/BgoFace) |
 | サンプルコードとデータ | [CodeDemo](https://github.com/Bgolearn/CodeDemo) |
 
+## 代表的な応用例
+
+Bgolearn は、材料科学および工学分野のさまざまな研究で活用されています。以下は代表的な論文の一部です：
+
+### 2026
+
+| 掲載誌・出版元 | 応用内容 |
+| --- | --- |
+| Surfaces and Interfaces | [WS2 薄膜の光化学合成](https://www.sciencedirect.com/science/article/pii/S2468023026013799) |
+| JPhys Materials | [TaNbMoVW 耐火高エントロピー合金の設計](https://iopscience.iop.org/article/10.1088/2515-7639/ae44d1/meta) |
+| Chemical Science | [表面反応の最適化](https://pubs.rsc.org/sc/article/17/22/11114/1231470/A-dual-mode-large-language-model-assistant-for-on) |
+| Springer Nature | [書籍章：Bayesian Global Optimization](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1) |
+| Journal of Materials Informatics | [SciBERT ハイパーパラメータの最適化](https://www.oaepublish.com/articles/jmi.2025.78) |
+| Science Bulletin | [超高耐久・高活性触媒の発見](https://www.sciencedirect.com/science/article/pii/S2095927325012678) |
+| Aggregate | [G-quadruplex 深共晶円偏光発光材料の発見](https://onlinelibrary.wiley.com/doi/pdf/10.1002/agt2.70307) |
+| Materials Science in Semiconductor Processing | [パルスレーザー合成による置換型 Hf ドープ p 型 MoS2](https://www.sciencedirect.com/science/article/pii/S1369800126005263) |
+
+### 2025
+
+| 掲載誌・出版元 | 応用内容 |
+| --- | --- |
+| Nano Letters | [超高真空下の自律実験室](https://pubs.acs.org/doi/pdf/10.1021/acs.nanolett.5c02445?casa_token=DycwWKxkjjQAAAAA:_qVVZ56VuzbHDnLmJ_-8mUtHatu9S8rOXE78HHGjmNhADLlr7qr-4rPWsAuIOVide29eEy6gOfvzC3do) |
+| Small | [抗腫瘍治療に向けた機械学習設計ナノザイムシステム](https://onlinelibrary.wiley.com/doi/10.1002/smll.202408750?utm_source=chatgpt.com) |
+| Computational Materials Science | [Mg-Ca-Zn 合金の最適化](https://www.sciencedirect.com/science/article/pii/S0927025625000084) |
+| Measurement | [EPB シールド工法における発泡剤最適化](https://www.sciencedirect.com/science/article/pii/S0263224124013940) |
+| Intelligent Computing | [ベイズ学習によるメタサーフェス設計](https://spj.science.org/doi/pdf/10.34133/icomputing.0135) |
+
+### 2024
+
+| 掲載誌・出版元 | 応用内容 |
+| --- | --- |
+| Materials & Design | [アクティブラーニングによる鉛フリーはんだ合金設計](https://www.sciencedirect.com/science/article/pii/S0264127524002946) |
+| npj Computational Materials | [Bgolearn バックエンドを用いた MLMD プラットフォーム](https://www.nature.com/articles/s41524-024-01243-4) |
+
 ## インストール
 
 PyPI からインストールします：
