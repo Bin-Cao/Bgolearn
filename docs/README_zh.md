@@ -28,6 +28,10 @@
 
 ---
 
+## 重点介绍
+
+[**Bayesian Global Optimization**](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1) 是中国科学院院士张统一教授所著 Springer 图书 *An Introduction to Materials Informatics* 的第 1 章。本章中的主动学习示例与结果均依赖 **Bgolearn** 实现。
+
 ## 项目概览
 
 **Bgolearn** 是一个面向科研场景的 Python 框架，聚焦 **贝叶斯全局优化（Bayesian Global Optimization, BGO）**。它服务于数据驱动的材料发现、实验设计与虚拟筛选，尤其适合实验代价较高、样本规模有限、需要可解释推荐依据的研究流程。
@@ -47,6 +51,7 @@ Bgolearn 将代理模型、不确定性评估、采集函数、主动学习与�
 | 资源 | 链接 |
 | --- | --- |
 | 论文 | [npj Computational Materials](https://doi.org/10.1038/s41524-026-02226-3) |
+| 书籍章节 | [Bayesian Global Optimization](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1) |
 | 手册 | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
 | 视频教程 | [Bilibili](https://www.bilibili.com/video/BV1LTtLeaEZp) |
 | 会议报告 | [CMC 2025](https://cmc2025.scimeeting.cn/cn/web/xue-shu-xin/27167?abstract_id=3726842) |

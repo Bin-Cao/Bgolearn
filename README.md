@@ -28,6 +28,10 @@
 
 ---
 
+## Featured Introduction
+
+[**Bayesian Global Optimization**](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1) is Chapter 1 of the Springer book *An Introduction to Materials Informatics* by Prof. Tong-Yi Zhang, Academician of the Chinese Academy of Sciences. The active-learning examples and results in this chapter are implemented with and depend on **Bgolearn**.
+
 ## Overview
 
 **Bgolearn** is a research-oriented Python framework for **Bayesian Global Optimization (BGO)**. It is designed for data-driven materials discovery, experimental design, and virtual screening, where each new measurement can be costly and every recommendation should be traceable.
@@ -47,6 +51,7 @@ The framework brings surrogate modeling, uncertainty-aware acquisition, active l
 | Resource | Link |
 | --- | --- |
 | Paper | [npj Computational Materials](https://doi.org/10.1038/s41524-026-02226-3) |
+| Book chapter | [Bayesian Global Optimization](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1) |
 | Manual | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
 | Video tutorial | [Bilibili](https://www.bilibili.com/video/BV1LTtLeaEZp) |
 | Conference report | [CMC 2025](https://cmc2025.scimeeting.cn/cn/web/xue-shu-xin/27167?abstract_id=3726842) |

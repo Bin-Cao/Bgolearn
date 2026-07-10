@@ -28,6 +28,10 @@
 
 ---
 
+## 주요 소개
+
+[**Bayesian Global Optimization**](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1)는 중국과학원 원사인 Tong-Yi Zhang 교수의 Springer 도서 *An Introduction to Materials Informatics* 제1장입니다. 이 장의 능동 학습 예제와 결과는 **Bgolearn**으로 구현되며 Bgolearn에 의존합니다.
+
 ## 개요
 
 **Bgolearn**은 **Bayesian Global Optimization (BGO)** 을 위한 연구 중심 Python 프레임워크입니다. 데이터 기반 소재 발견, 실험 설계, 가상 스크리닝을 위해 설계되었으며, 측정 비용이 높고 제한된 데이터에서 다음 후보를 신중하게 선택해야 하는 연구 환경에 적합합니다.
@@ -47,6 +51,7 @@
 | 리소스 | 링크 |
 | --- | --- |
 | 논문 | [npj Computational Materials](https://doi.org/10.1038/s41524-026-02226-3) |
+| 도서 장 | [Bayesian Global Optimization](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1) |
 | 매뉴얼 | [bgolearn.netlify.app](https://bgolearn.netlify.app/) |
 | 동영상 튜토리얼 | [Bilibili](https://www.bilibili.com/video/BV1LTtLeaEZp) |
 | 학회 발표 | [CMC 2025](https://cmc2025.scimeeting.cn/cn/web/xue-shu-xin/27167?abstract_id=3726842) |

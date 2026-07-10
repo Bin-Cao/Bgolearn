@@ -11,6 +11,10 @@ Documentation: https://bgolearn.netlify.app/
 
 Repository: https://github.com/Bin-Cao/Bgolearn
 
+## Featured Introduction
+
+[Bayesian Global Optimization](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1) is Chapter 1 of the Springer book *An Introduction to Materials Informatics* by Prof. Tong-Yi Zhang, Academician of the Chinese Academy of Sciences. The active-learning examples and results in this chapter are implemented with and depend on Bgolearn.
+
 ## Features
 
 - Bayesian global optimization for materials design and discovery.
@@ -128,6 +132,11 @@ If Bgolearn supports your research, please cite:
 Cao B. et al., "Bgolearn: A Unified Bayesian Optimization Framework for
 Accelerating Materials Discovery", npj Computational Materials.
 https://doi.org/10.1038/s41524-026-02226-3
+
+Related introduction: Tong-Yi Zhang, "Bayesian Global Optimization", Chapter 1
+of *An Introduction to Materials Informatics*. The chapter's active-learning
+examples and results depend on Bgolearn.
+https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1
 
 ## Support
 
