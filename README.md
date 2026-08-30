@@ -28,6 +28,25 @@
 
 ---
 
+## 📺 Media Coverage
+
+### Featured on Dragon TV · Shanghai Media Group (SMG)
+
+Our work was featured on **Dragon TV (东方卫视)**, highlighting its research and applications.
+
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/ea83c704-e9b4-4cd2-be7d-1cfc6a1dcfac"
+    alt="Featured on Dragon TV"
+    width="85%"
+  />
+</p>
+
+<p align="center">
+  <sub>Featured on Dragon TV (东方卫视), Shanghai Media Group (SMG).</sub>
+</p>
+---
+
 ## Featured Introduction
 
 [**Bayesian Global Optimization**](https://link.springer.com/chapter/10.1007/978-981-95-6091-2_1) is Chapter 1 of the Springer book *An Introduction to Materials Informatics* by Prof. Tong-Yi Zhang, Academician of the Chinese Academy of Sciences. The active-learning examples and results in this chapter are implemented with and depend on **Bgolearn**.
