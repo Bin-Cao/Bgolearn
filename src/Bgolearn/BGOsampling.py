@@ -765,9 +765,7 @@ def Classifier_selection(Classifier):
     elif Classifier == "LogisticRegression":
         from sklearn.linear_model import LogisticRegression
 
-        model = LogisticRegression(
-            random_state=0, class_weight="balanced", multi_class="multinomial"
-        )
+        model = LogisticRegression(random_state=0, class_weight="balanced")
     elif Classifier == "NaiveBayes":
         from sklearn.naive_bayes import GaussianNB
 
